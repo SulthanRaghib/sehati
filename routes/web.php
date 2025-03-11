@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GurubkController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SiswaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,4 +20,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::middleware(['auth', 'role:siswa'])->group(function () {
+    Route::get('/home', [SiswaController::class, 'home'])->name('siswa.home');
+});
+
+Route::middleware(['auth', 'role:gurubk'])->group(function () {
+    Route::get('/gurubk/dashboard', [GurubkController::class, 'dashboard'])->name('gurubk.dashboard');
+});
+
+require __DIR__ . '/auth.php';
