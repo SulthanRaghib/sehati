@@ -27,4 +27,8 @@ Route::middleware(['auth', 'role:gurubk'])->group(function () {
     Route::get('/gurubk/dashboard', [GurubkController::class, 'dashboard'])->name('dashboard.index');
 });
 
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('dashboard.index');
+});
+
 require __DIR__ . '/auth.php';
