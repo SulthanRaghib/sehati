@@ -8,6 +8,8 @@ class GurubkController extends Controller
 {
     public function dashboard()
     {
-        return view('gurubk.dashboard');
+        $title = 'Dashboard Guru BK';
+
+        return view('dashboard.index', compact('title'));
     }
 }

@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class SiswaController extends Controller
+class HomeController extends Controller
 {
-    public function home()
+    public function index()
     {
-        $title = 'Dashboard Siswa';
+        $title = 'Homepage | Siswa';
 
         return view('home', compact('title'));
     }

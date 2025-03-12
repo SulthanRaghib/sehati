@@ -28,12 +28,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $route = 'dashboard';
+        $route = 'home';
 
         if (Auth::user()->role === 'siswa') {
             $route = 'siswa.home';
         } elseif (Auth::user()->role === 'gurubk') {
-            $route = 'gurubk.dashboard';
+            $route = 'dashboard.index';
+        } elseif (Auth::user()->role === 'admin') {
+            $route = 'dashboard.index';
         }
 
         return redirect()->route($route);
