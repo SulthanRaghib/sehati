@@ -14,4 +14,4 @@
 <!-- inject:css -->
 <link rel="stylesheet" href="{{ url('backend/assets/css/style.css') }}">
 <!-- endinject -->
-<link rel="shortcut icon" href="{{ url('backend/assets/images/favicon.png') }}" />
+<link rel="shortcut icon" href="{{ url('mine/img/logo_tanpa_text_png.png') }}" />

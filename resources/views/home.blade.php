@@ -9,8 +9,8 @@
     <meta name="keywords" content="" />
 
     <!-- Favicons -->
-    <link href="{{ url('assets/img/favicon.png') }}" rel="icon" />
-    <link href="{{ url('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon" />
+    <link href="{{ url('mine/img/logo_tanpa_text_png.png') }}" rel="icon" />
+    <link href="{{ url('mine/img/logo_tanpa_text_png.png') }}" rel="apple-touch-icon" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
@@ -36,8 +36,8 @@
             class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
             <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
-                <!-- <img src="{{ url('assets/img/logo.png') }}" alt=""> -->
-                <h1 class="sitename">iLanding</h1>
+                <img src="{{ url('mine/img/logo_tanpa_text_png.png') }}" alt="">
+                <h1 class="sitename">Sehati</h1>
             </a>
 
             <nav id="navmenu" class="navmenu">
