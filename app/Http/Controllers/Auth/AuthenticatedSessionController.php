@@ -32,9 +32,7 @@ class AuthenticatedSessionController extends Controller
 
         if (Auth::user()->role === 'siswa') {
             $route = 'siswa.home';
-        } elseif (Auth::user()->role === 'gurubk') {
-            $route = 'dashboard.index';
-        } elseif (Auth::user()->role === 'admin') {
+        } elseif (Auth::user()->role === 'gurubk' || Auth::user()->role === 'admin') {
             $route = 'dashboard.index';
         }
 

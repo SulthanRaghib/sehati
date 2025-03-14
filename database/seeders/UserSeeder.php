@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Guru;
+use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,25 +16,38 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $gurubk = User::create([
+        $guruBk = Guru::where('nama', 'Ida Ayu Putu')->first();
+        $kepalaSekolah = Guru::where('nama', 'Joko')->first();
+        $siswa = Siswa::where('nama', 'Syamil')->first();
+
+        // User untuk Guru BK
+        User::create([
             'name' => 'Guru BK',
             'email' => 'gurubk@gmail.com',
             'password' => Hash::make('123456'),
             'role' => 'gurubk',
+            'userable_id' => $guruBk->id,
+            'userable_type' => Guru::class,
         ]);
 
-        $siswa = User::create([
+        // User untuk Siswa
+        User::create([
             'name' => 'Siswa',
             'email' => 'siswa@gmail.com',
             'password' => Hash::make('123456'),
             'role' => 'siswa',
+            'userable_id' => $siswa->id,
+            'userable_type' => Siswa::class,
         ]);
 
-        $admin = User::create([
+        // User untuk Kepala Sekolah (Admin)
+        User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('123456'),
-            'role' => 'admin',
+            'role' => 'admin', // Admin tetap bagian dari guru
+            'userable_id' => $kepalaSekolah->id,
+            'userable_type' => Guru::class,
         ]);
     }
 }
