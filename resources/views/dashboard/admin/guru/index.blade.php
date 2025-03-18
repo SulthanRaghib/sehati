@@ -1,5 +1,15 @@
 @extends('dashboard')
 @section('content')
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '{{ session('success') }}',
+            })
+        </script>
+    @endif
+
     <div class="main-content container-fluid">
         <div class="page-title">
             <div class="row">
@@ -51,11 +61,39 @@
                                         <a href="{{ route('admin.guru.edit', $guru->id) }}"
                                             class="btn btn-sm btn-warning">Edit</a>
                                         <form action="{{ route('admin.guru.destroy', $guru->id) }}" method="post"
-                                            class="d-inline">
+                                            class="d-inline form-delete">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Are you sure?')">Delete</button>
+                                            <button type="button" class="btn btn-sm btn-danger btn-delete">Delete</button>
+
+                                            <script>
+                                                // Seleksi semua tombol hapus
+                                                document.querySelectorAll('.btn-delete').forEach(button => {
+                                                    button.addEventListener('click', function(e) {
+                                                        e.preventDefault(); // Mencegah form langsung terkirim
+
+                                                        // Ambil form terdekat dari tombol
+                                                        const form = this.closest('.form-delete');
+
+                                                        // Tampilkan SweetAlert
+                                                        Swal.fire({
+                                                            title: 'Apakah Anda yakin?',
+                                                            text: "Pesan ini akan dihapus secara permanen!",
+                                                            icon: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#d33',
+                                                            cancelButtonColor: '#3085d6',
+                                                            confirmButtonText: 'Ya, Hapus!',
+                                                            cancelButtonText: 'Batal'
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                // Submit form jika dikonfirmasi
+                                                                form.submit();
+                                                            }
+                                                        });
+                                                    });
+                                                });
+                                            </script>
                                         </form>
                                     </td>
                                 </tr>

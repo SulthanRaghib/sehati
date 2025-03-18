@@ -40,8 +40,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/admin/users/{id}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
 
     Route::get('/admin/guru', [AdminController::class, 'guru'])->name('admin.guru');
-    Route::get('/admin/guru/{id}', [AdminController::class, 'showGuru'])->name('admin.guru.show');
     Route::get('/admin/guru/create', [AdminController::class, 'createGuru'])->name('admin.guru.create');
+    Route::get('/admin/guru/{id}', [AdminController::class, 'showGuru'])->name('admin.guru.show');
     Route::post('/admin/guru', [AdminController::class, 'storeGuru'])->name('admin.guru.store');
     Route::get('/admin/guru/{id}/edit', [AdminController::class, 'editGuru'])->name('admin.guru.edit');
     Route::patch('/admin/guru/{id}', [AdminController::class, 'updateGuru'])->name('admin.guru.update');

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agama;
 use App\Models\Guru;
+use App\Models\PendidikanTerakhir;
 use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,7 +27,7 @@ class AdminController extends Controller
         return view('dashboard.index', compact('title', 'user', 'guru'));
     }
 
-    // USERS
+    // USERS =================================================================================
     public function users()
     {
         $title = 'Data Pengguna';
@@ -101,11 +103,11 @@ class AdminController extends Controller
         return redirect()->route('admin.users')->with('success', 'Pengguna berhasil dihapus');
     }
 
-    // GURU
+    // GURU =================================================================================
     public function guru()
     {
         $title = 'Data Guru';
-        $guru = Guru::all();
+        $guru = Guru::orderBy('created_at', 'desc')->get();
 
         return view('dashboard.admin.guru.index', compact('title', 'guru'));
     }
@@ -121,24 +123,30 @@ class AdminController extends Controller
     public function createGuru()
     {
         $title = 'Tambah Guru';
+        $agama = Agama::all();
+        $pendidikan_terakhir = PendidikanTerakhir::all();
 
-        return view('dashboard.admin.guru.create', compact('title'));
+        return view('dashboard.admin.guru.create', compact('title', 'agama', 'pendidikan_terakhir'));
     }
 
     public function storeGuru(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
+        $validatedData = $request->validate([
+            'nip' => 'required|numeric|unique:gurus,nip',
+            'nama' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required|date|before:today',
+            'jenis_kelamin' => 'required|in:L,P',
+            'agama_id' => 'required',
+            'alamat' => 'required',
+            'pendidikan_terakhir_id' => 'required',
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role' => 'guru',
-        ]);
+        $validatedData['nama'] = ucwords(strtolower($validatedData['nama']));
+        $validatedData['tempat_lahir'] = ucwords(strtolower($validatedData['tempat_lahir']));
+        $validatedData['alamat'] = ucwords(strtolower($validatedData['alamat']));
+
+        Guru::create($validatedData);
 
         return redirect()->route('admin.guru')->with('success', 'Guru berhasil ditambahkan');
     }
@@ -146,7 +154,7 @@ class AdminController extends Controller
     public function editGuru($id)
     {
         $title = 'Edit Guru';
-        $guru = User::findOrFail($id);
+        $guru = Guru::findOrFail($id);
 
         return view('dashboard.admin.guru.edit', compact('title', 'guru'));
     }
@@ -158,7 +166,7 @@ class AdminController extends Controller
             'email' => 'required|email|unique:users,email,' . $id,
         ]);
 
-        $guru = User::findOrFail($id);
+        $guru = Guru::findOrFail($id);
 
         $guru->update([
             'name' => $request->name,
@@ -170,7 +178,7 @@ class AdminController extends Controller
 
     public function destroyGuru($id)
     {
-        $guru = User::findOrFail($id);
+        $guru = Guru::findOrFail($id);
         $guru->delete();
 
         return redirect()->route('admin.guru')->with('success', 'Guru berhasil dihapus');
