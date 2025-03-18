@@ -28,15 +28,17 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $route = 'home';
+        $role = Auth::user()->role;
 
-        if (Auth::user()->role === 'siswa') {
-            $route = 'siswa.home';
-        } elseif (Auth::user()->role === 'gurubk' || Auth::user()->role === 'admin') {
-            $route = 'dashboard.index';
+        if ($role == 'admin') {
+            return redirect()->route('admin.dashboard');
+        } elseif ($role == 'gurubk') {
+            return redirect()->route('guru.dashboard');
+        } elseif ($role == 'siswa') {
+            return redirect()->route('siswa.home');
         }
 
-        return redirect()->route($route);
+        return redirect()->intended('/');
     }
 
     /**

@@ -1,17 +1,19 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\GurubkController;
+use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/testing/dashboard', [HomeController::class, 'testingDashboard'])->name('testing.dashboard');
+Route::get('/testing/user', [HomeController::class, 'testingUser'])->name('testing.user');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -24,11 +26,26 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:gurubk'])->group(function () {
-    Route::get('/gurubk/dashboard', [GurubkController::class, 'dashboard'])->name('dashboard.index');
+    Route::get('/guru/dashboard', [GuruController::class, 'dashboard'])->name('guru.dashboard');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('dashboard.index');
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/admin/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
+    Route::post('/admin/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
+    Route::get('/admin/users/{id}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
+    Route::patch('/admin/users/{id}', [AdminController::class, 'updateUser'])->name('admin.users.update');
+    Route::delete('/admin/users/{id}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
+
+    Route::get('/admin/guru', [AdminController::class, 'guru'])->name('admin.guru');
+    Route::get('/admin/guru/{id}', [AdminController::class, 'showGuru'])->name('admin.guru.show');
+    Route::get('/admin/guru/create', [AdminController::class, 'createGuru'])->name('admin.guru.create');
+    Route::post('/admin/guru', [AdminController::class, 'storeGuru'])->name('admin.guru.store');
+    Route::get('/admin/guru/{id}/edit', [AdminController::class, 'editGuru'])->name('admin.guru.edit');
+    Route::patch('/admin/guru/{id}', [AdminController::class, 'updateGuru'])->name('admin.guru.update');
+    Route::delete('/admin/guru/{id}', [AdminController::class, 'destroyGuru'])->name('admin.guru.destroy');
 });
 
 require __DIR__ . '/auth.php';
