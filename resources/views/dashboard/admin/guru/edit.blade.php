@@ -26,7 +26,26 @@
                 <div class="card-header  pb-0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="card-title">Edit Guru</h4>
-                        <a href="{{ route('admin.guru') }}" class="btn btn-outline-primary">Kembali</a>
+                        <a href="{{ route('admin.guru') }}" class="btn btn-outline-warning" id="cancel">Batal</a>
+                        <script>
+                            document.getElementById('cancel').addEventListener('click', function(e) {
+                                e.preventDefault();
+                                Swal.fire({
+                                    title: 'Apakah Anda Yakin ? ',
+                                    text: "Anda akan kehilangan data yang sudah diinput!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#FDAC41',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Ya, Lanjutkan!',
+                                    cancelButtonText: 'Batal'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location = this.href;
+                                    }
+                                })
+                            });
+                        </script>
                     </div>
                 </div>
                 <div class="card-content">
@@ -87,7 +106,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-4">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="jenis_kelamin">Jenis Kelamin</label>
                                                         <select
@@ -103,7 +122,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-4">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="agama_id">Agama</label>
                                                         <select class="form-control @error('agama_id') is-invalid @enderror"
@@ -117,7 +136,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-4">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="pendidikan_terakhir_id">Pendidikan Terakhir</label>
                                                         <select
@@ -132,14 +151,13 @@
                                                         </select>
                                                     </div>
                                                 </div>
-
-                                                <div class="form-group">
-                                                    <label for="alamat">Alamat</label>
-                                                    <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" placeholder="Alamat">{{ $guru->alamat }}</textarea>
-                                                    @error('alamat')
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="alamat">Alamat</label>
+                                                <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" placeholder="Alamat">{{ $guru->alamat }}</textarea>
+                                                @error('alamat')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
 
                                             <div class="col-12 d-flex justify-content-end">

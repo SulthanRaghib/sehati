@@ -26,7 +26,26 @@
                 <div class="card-header  pb-0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="card-title">Edit User</h4>
-                        <a href="{{ route('admin.users') }}" class="btn btn-outline-primary">Kembali</a>
+                        <a href="{{ route('admin.users') }}" class="btn btn-outline-warning" id="cancel">Batal</a>
+                        <script>
+                            document.getElementById('cancel').addEventListener('click', function(e) {
+                                e.preventDefault();
+                                Swal.fire({
+                                    title: 'Apakah Anda Yakin ? ',
+                                    text: "Anda akan kehilangan data yang sudah diinput!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#FDAC41',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Ya, Lanjutkan!',
+                                    cancelButtonText: 'Batal'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location = this.href;
+                                    }
+                                })
+                            });
+                        </script>
                     </div>
                 </div>
                 <div class="card-content">

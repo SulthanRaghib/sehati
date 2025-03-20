@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Agama;
 use App\Models\Guru;
+use App\Models\Kelas;
+use App\Models\Pekerjaan;
 use App\Models\PendidikanTerakhir;
 use App\Models\Siswa;
 use App\Models\User;
@@ -52,9 +54,30 @@ class AdminController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
-            'role' => 'required|in:admin,guru,siswa',
-            'userable_id' => 'required|integer',
-            'userable_type' => 'required|string',
+            'role' => [
+                'required',
+                Rule::in(['admin', 'gurubk', 'siswa']),
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->userable_type === 'App\Models\Guru' && !in_array($value, ['admin', 'gurubk'])) {
+                        $fail('Role harus Admin atau Guru BK jika tipe data user adalah Guru.');
+                    }
+                    if ($request->userable_type === 'App\Models\Siswa' && $value !== 'siswa') {
+                        $fail('Role harus Siswa jika tipe data user adalah Siswa.');
+                    }
+                }
+            ],
+            'userable_id' => [
+                'required',
+                'integer',
+                Rule::unique('users')->where(function ($query) use ($request) {
+                    return $query->where('userable_id', $request->userable_id)
+                        ->where('userable_type', $request->userable_type);
+                }),
+            ],
+            'userable_type' => [
+                'required',
+                Rule::in(['App\Models\Guru', 'App\Models\Siswa']),
+            ],
         ]);
 
         User::create([
@@ -240,27 +263,59 @@ class AdminController extends Controller
     {
         $title = 'Tambah Siswa';
         $agama = Agama::all();
+        $kelas = Kelas::all();
+        $pekerjaan = Pekerjaan::all();
 
-        return view('dashboard.admin.siswa.create', compact('title', 'agama'));
+        return view('dashboard.admin.siswa.create', compact('title', 'agama', 'kelas', 'pekerjaan'));
     }
 
     public function storeSiswa(Request $request)
     {
-        $validatedData = $request->validate([
-            'nis' => 'required|numeric|unique:siswas,nis',
+        $validate = $request->validate([
+            'nisn' => 'required|numeric|unique:siswas,nisn',
             'nama' => 'required',
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required|date|before:today',
             'jenis_kelamin' => 'required|in:L,P',
             'agama_id' => 'required',
+            'kelas_id' => 'required',
             'alamat' => 'required',
+            // ayah
+            'nik_ayah' => 'required|numeric|unique:siswas,nik_ayah',
+            'nama_ayah' => 'required',
+            'tempat_lahir_ayah' => 'required',
+            'tanggal_lahir_ayah' => 'required|date|before:today',
+            'pekerjaan_ayah_id' => 'required',
+            // ibu
+            'nik_ibu' => 'required|numeric|unique:siswas,nik_ibu',
+            'nama_ibu' => 'required',
+            'tempat_lahir_ibu' => 'required',
+            'tanggal_lahir_ibu' => 'required|date|before:today',
+            'pekerjaan_ibu_id' => 'required',
         ]);
 
-        $validatedData['nama'] = ucwords(strtolower($validatedData['nama']));
-        $validatedData['tempat_lahir'] = ucwords(strtolower($validatedData['tempat_lahir']));
-        $validatedData['alamat'] = ucwords(strtolower($validatedData['alamat']));
-
-        Siswa::create($validatedData);
+        Siswa::create([
+            'nisn' => $request->nisn,
+            'nama' => ucwords(strtolower($request->nama)),
+            'tempat_lahir' => ucwords(strtolower($request->tempat_lahir)),
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'agama_id' => $request->agama_id,
+            'kelas_id' => $request->kelas_id,
+            'alamat' => ucwords(strtolower($request->alamat)),
+            // ayah
+            'nik_ayah' => $request->nik_ayah,
+            'nama_ayah' => ucwords(strtolower($request->nama_ayah)),
+            'tempat_lahir_ayah' => ucwords(strtolower($request->tempat_lahir_ayah)),
+            'tanggal_lahir_ayah' => $request->tanggal_lahir_ayah,
+            'pekerjaan_ayah_id' => $request->pekerjaan_ayah_id,
+            // ibu
+            'nik_ibu' => $request->nik_ibu,
+            'nama_ibu' => ucwords(strtolower($request->nama_ibu)),
+            'tempat_lahir_ibu' => ucwords(strtolower($request->tempat_lahir_ibu)),
+            'tanggal_lahir_ibu' => $request->tanggal_lahir_ibu,
+            'pekerjaan_ibu_id' => $request->pekerjaan_ibu_id,
+        ]);
 
         return redirect()->route('admin.siswa')->with('success', 'Siswa berhasil ditambahkan');
     }
@@ -270,32 +325,60 @@ class AdminController extends Controller
         $title = 'Edit Siswa';
         $siswa = Siswa::findOrFail($id);
         $agama = Agama::all();
+        $kelas = Kelas::all();
+        $pekerjaan = Pekerjaan::all();
 
-        return view('dashboard.admin.siswa.edit', compact('title', 'siswa', 'agama'));
+        return view('dashboard.admin.siswa.edit', compact('title', 'siswa', 'agama', 'kelas', 'pekerjaan'));
     }
 
     public function updateSiswa(Request $request, $id)
     {
         $request->validate([
-            'nis' => 'required|numeric|unique:siswas,nis,' . $id,
+            'nisn' => 'required|numeric|unique:siswas,nisn,' . $id,
             'nama' => 'required',
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required|date|before:today',
             'jenis_kelamin' => 'required|in:L,P',
             'agama_id' => 'required',
+            'kelas_id' => 'required',
             'alamat' => 'required',
+            // ayah
+            'nik_ayah' => 'required|numeric',
+            'nama_ayah' => 'required',
+            'tempat_lahir_ayah' => 'required',
+            'tanggal_lahir_ayah' => 'required|date|before:today',
+            'pekerjaan_ayah_id' => 'required',
+            // ibu
+            'nik_ibu' => 'required|numeric',
+            'nama_ibu' => 'required',
+            'tempat_lahir_ibu' => 'required',
+            'tanggal_lahir_ibu' => 'required|date|before:today',
+            'pekerjaan_ibu_id' => 'required',
         ]);
 
         $siswa = Siswa::findOrFail($id);
 
         $siswa->update([
-            'nis' => $request->nis,
+            'nisn' => $request->nisn,
             'nama' => ucwords(strtolower($request->nama)),
             'tempat_lahir' => ucwords(strtolower($request->tempat_lahir)),
             'tanggal_lahir' => $request->tanggal_lahir,
             'jenis_kelamin' => $request->jenis_kelamin,
             'agama_id' => $request->agama_id,
+            'kelas_id' => $request->kelas_id,
             'alamat' => ucwords(strtolower($request->alamat)),
+            // ayah
+            'nik_ayah' => $request->nik_ayah,
+            'nama_ayah' => ucwords(strtolower($request->nama_ayah)),
+            'tempat_lahir_ayah' => ucwords(strtolower($request->tempat_lahir_ayah)),
+            'tanggal_lahir_ayah' => $request->tanggal_lahir_ayah,
+            'pekerjaan_ayah_id' => $request->pekerjaan_ayah_id,
+            // ibu
+            'nik_ibu' => $request->nik_ibu,
+            'nama_ibu' => ucwords(strtolower($request->nama_ibu)),
+            'tempat_lahir_ibu' => ucwords(strtolower($request->tempat_lahir_ibu)),
+            'tanggal_lahir_ibu' => $request->tanggal_lahir_ibu,
+            'pekerjaan_ibu_id' => $request->pekerjaan_ibu_id,
         ]);
 
         return redirect()->route('admin.siswa')->with('success', 'Siswa berhasil diperbarui');

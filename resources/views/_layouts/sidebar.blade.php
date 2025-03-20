@@ -29,13 +29,21 @@
                         <span>Data Master</span>
                     </a>
 
-                    <ul class="submenu {{ Route::is('admin.users') || Route::is('admin.guru') ? 'active' : '' }}">
+                    @php
+                        $activeDataMaster =
+                            Route::is('admin.users') || Route::is('admin.guru') || Route::is('admin.siswa');
+                    @endphp
+
+                    <ul class="submenu {{ $activeDataMaster ? 'active' : '' }}">
                         <li>
                             <a href="{{ route('admin.users') }}">Users</a>
                         </li>
 
                         <li>
                             <a href="{{ route('admin.guru') }}">Guru</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.siswa') }}">Siswa</a>
                         </li>
 
                     </ul>
