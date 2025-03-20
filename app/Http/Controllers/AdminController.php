@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -72,25 +73,45 @@ class AdminController extends Controller
     {
         $title = 'Edit Pengguna';
         $user = User::findOrFail($id);
+        $guru = Guru::all();
+        $siswa = Siswa::all();
 
-        return view('dashboard.admin.users.edit', compact('title', 'user'));
+        return view('dashboard.admin.users.edit', compact('title', 'user', 'guru', 'siswa'));
     }
 
     public function updateUser(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'role' => 'required',
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($id),
+            ],
+            'role' => 'required|string',
+            'userable_type' => [
+                'required',
+                Rule::in(['App\Models\Guru', 'App\Models\Siswa']),
+            ],
+            'userable_id' => [
+                'required',
+                Rule::unique('users', 'userable_id')->where(function ($query) use ($request) {
+                    if ($request->filled('userable_type')) {
+                        $query->where('userable_type', $request->userable_type);
+                    }
+                })->ignore($id),
+            ],
         ]);
 
         $user = User::findOrFail($id);
 
-        $user->update([
+        $user->fill([
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
-        ]);
+            'userable_id' => $request->userable_id,
+            'userable_type' => $request->userable_type,
+        ])->save();
 
         return redirect()->route('admin.users')->with('success', 'Pengguna berhasil diperbarui');
     }
@@ -196,5 +217,95 @@ class AdminController extends Controller
         $guru->delete();
 
         return redirect()->route('admin.guru')->with('success', 'Guru berhasil dihapus');
+    }
+
+    // SISWA =================================================================================
+    public function siswa()
+    {
+        $title = 'Data Siswa';
+        $siswa = Siswa::orderBy('created_at', 'desc')->get();
+
+        return view('dashboard.admin.siswa.index', compact('title', 'siswa'));
+    }
+
+    public function showSiswa($id)
+    {
+        $title = 'Detail Siswa';
+        $siswa = Siswa::findOrFail($id);
+
+        return view('dashboard.admin.siswa.show', compact('title', 'siswa'));
+    }
+
+    public function createSiswa()
+    {
+        $title = 'Tambah Siswa';
+        $agama = Agama::all();
+
+        return view('dashboard.admin.siswa.create', compact('title', 'agama'));
+    }
+
+    public function storeSiswa(Request $request)
+    {
+        $validatedData = $request->validate([
+            'nis' => 'required|numeric|unique:siswas,nis',
+            'nama' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required|date|before:today',
+            'jenis_kelamin' => 'required|in:L,P',
+            'agama_id' => 'required',
+            'alamat' => 'required',
+        ]);
+
+        $validatedData['nama'] = ucwords(strtolower($validatedData['nama']));
+        $validatedData['tempat_lahir'] = ucwords(strtolower($validatedData['tempat_lahir']));
+        $validatedData['alamat'] = ucwords(strtolower($validatedData['alamat']));
+
+        Siswa::create($validatedData);
+
+        return redirect()->route('admin.siswa')->with('success', 'Siswa berhasil ditambahkan');
+    }
+
+    public function editSiswa($id)
+    {
+        $title = 'Edit Siswa';
+        $siswa = Siswa::findOrFail($id);
+        $agama = Agama::all();
+
+        return view('dashboard.admin.siswa.edit', compact('title', 'siswa', 'agama'));
+    }
+
+    public function updateSiswa(Request $request, $id)
+    {
+        $request->validate([
+            'nis' => 'required|numeric|unique:siswas,nis,' . $id,
+            'nama' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required|date|before:today',
+            'jenis_kelamin' => 'required|in:L,P',
+            'agama_id' => 'required',
+            'alamat' => 'required',
+        ]);
+
+        $siswa = Siswa::findOrFail($id);
+
+        $siswa->update([
+            'nis' => $request->nis,
+            'nama' => ucwords(strtolower($request->nama)),
+            'tempat_lahir' => ucwords(strtolower($request->tempat_lahir)),
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'agama_id' => $request->agama_id,
+            'alamat' => ucwords(strtolower($request->alamat)),
+        ]);
+
+        return redirect()->route('admin.siswa')->with('success', 'Siswa berhasil diperbarui');
+    }
+
+    public function destroySiswa($id)
+    {
+        $siswa = Siswa::findOrFail($id);
+        $siswa->delete();
+
+        return redirect()->route('admin.siswa')->with('success', 'Siswa berhasil dihapus');
     }
 }

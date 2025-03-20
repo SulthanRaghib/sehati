@@ -46,6 +46,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/guru/{id}/edit', [AdminController::class, 'editGuru'])->name('admin.guru.edit');
     Route::put('/admin/guru/{id}', [AdminController::class, 'updateGuru'])->name('admin.guru.update');
     Route::delete('/admin/guru/{id}', [AdminController::class, 'destroyGuru'])->name('admin.guru.destroy');
+
+    Route::get('/admin/siswa', [AdminController::class, 'siswa'])->name('admin.siswa');
+    Route::get('/admin/siswa/create', [AdminController::class, 'createSiswa'])->name('admin.siswa.create');
+    Route::get('/admin/siswa/{id}', [AdminController::class, 'showSiswa'])->name('admin.siswa.show');
+    Route::post('/admin/siswa', [AdminController::class, 'storeSiswa'])->name('admin.siswa.store');
+    Route::get('/admin/siswa/{id}/edit', [AdminController::class, 'editSiswa'])->name('admin.siswa.edit');
+    Route::put('/admin/siswa/{id}', [AdminController::class, 'updateSiswa'])->name('admin.siswa.update');
+    Route::delete('/admin/siswa/{id}', [AdminController::class, 'destroySiswa'])->name('admin.siswa.destroy');
 });
 
 require __DIR__ . '/auth.php';
