@@ -36,7 +36,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
     Route::post('/admin/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
     Route::get('/admin/users/{id}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
-    Route::patch('/admin/users/{id}', [AdminController::class, 'updateUser'])->name('admin.users.update');
+    Route::put('/admin/users/{id}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/admin/users/{id}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
 
     Route::get('/admin/guru', [AdminController::class, 'guru'])->name('admin.guru');
@@ -44,7 +44,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/guru/{id}', [AdminController::class, 'showGuru'])->name('admin.guru.show');
     Route::post('/admin/guru', [AdminController::class, 'storeGuru'])->name('admin.guru.store');
     Route::get('/admin/guru/{id}/edit', [AdminController::class, 'editGuru'])->name('admin.guru.edit');
-    Route::patch('/admin/guru/{id}', [AdminController::class, 'updateGuru'])->name('admin.guru.update');
+    Route::put('/admin/guru/{id}', [AdminController::class, 'updateGuru'])->name('admin.guru.update');
     Route::delete('/admin/guru/{id}', [AdminController::class, 'destroyGuru'])->name('admin.guru.destroy');
 });
 

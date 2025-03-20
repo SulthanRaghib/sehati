@@ -155,22 +155,36 @@ class AdminController extends Controller
     {
         $title = 'Edit Guru';
         $guru = Guru::findOrFail($id);
+        $agama = Agama::all();
+        $pendidikan_terakhir = PendidikanTerakhir::all();
 
-        return view('dashboard.admin.guru.edit', compact('title', 'guru'));
+        return view('dashboard.admin.guru.edit', compact('title', 'guru', 'agama', 'pendidikan_terakhir'));
     }
 
     public function updateGuru(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'nip' => 'required|numeric|unique:gurus,nip,' . $id,
+            'nama' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required|date|before:today',
+            'jenis_kelamin' => 'required|in:L,P',
+            'agama_id' => 'required',
+            'alamat' => 'required',
+            'pendidikan_terakhir_id' => 'required',
         ]);
 
         $guru = Guru::findOrFail($id);
 
         $guru->update([
-            'name' => $request->name,
-            'email' => $request->email,
+            'nip' => $request->nip,
+            'nama' => ucwords(strtolower($request->nama)),
+            'tempat_lahir' => ucwords(strtolower($request->tempat_lahir)),
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'agama_id' => $request->agama_id,
+            'alamat' => ucwords(strtolower($request->alamat)),
+            'pendidikan_terakhir_id' => $request->pendidikan_terakhir_id,
         ]);
 
         return redirect()->route('admin.guru')->with('success', 'Guru berhasil diperbarui');
