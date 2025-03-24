@@ -14,9 +14,9 @@ class KelasSeeder extends Seeder
     public function run(): void
     {
         DB::table('kelas')->insert([
-            ['tingkat' => 'X'],
-            ['tingkat' => 'XI'],
-            ['tingkat' => 'XII'],
+            ['tingkat' => '10'],
+            ['tingkat' => '11'],
+            ['tingkat' => '12'],
         ]);
     }
 }

@@ -23,6 +23,24 @@
                 @endif
 
                 <li class="sidebar-title">All Data</li>
+                <li class="sidebar-item {{ Route::is('admin.guru') ? 'active' : '' }}">
+                    <a href="{{ route('admin.guru') }}" class="sidebar-link">
+                        <i data-feather="user" width="20"></i>
+                        <span>Guru</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ Route::is('admin.siswa') ? 'active' : '' }}">
+                    <a href="{{ route('admin.siswa') }}" class="sidebar-link">
+                        <i data-feather="user" width="20"></i>
+                        <span>Siswa</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ Route::is('admin.users') ? 'active' : '' }}">
+                    <a href="{{ route('admin.users') }}" class="sidebar-link">
+                        <i data-feather="user" width="20"></i>
+                        <span>User</span>
+                    </a>
+                </li>
                 <li class="sidebar-item has-sub {{ Route::is('admin.*') || Route::is('guru.*') ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
                         <i data-feather="layers" width="20"></i>
@@ -31,21 +49,25 @@
 
                     @php
                         $activeDataMaster =
-                            Route::is('admin.users') || Route::is('admin.guru') || Route::is('admin.siswa');
+                            Route::is('admin.agama') ||
+                            Route::is('admin.kelas') ||
+                            Route::is('admin.pendidikanTerakhir') ||
+                            Route::is('admin.pekerjaan');
                     @endphp
 
                     <ul class="submenu {{ $activeDataMaster ? 'active' : '' }}">
                         <li>
-                            <a href="{{ route('admin.users') }}">Users</a>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('admin.guru') }}">Guru</a>
+                            <a href="{{ route('admin.kelas') }}">Kelas</a>
                         </li>
                         <li>
-                            <a href="{{ route('admin.siswa') }}">Siswa</a>
+                            <a href="{{ route('admin.agama') }}">Agama</a>
                         </li>
-
+                        <li>
+                            <a href="{{ route('admin.pekerjaan') }}">Pekerjaan</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.pendidikanTerakhir') }}">Pendidikan Terakhir</a>
+                        </li>
                     </ul>
                 </li>
             </ul>

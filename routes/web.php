@@ -1,8 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AgamaController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KelasController;
+use App\Http\Controllers\PekerjaanController;
+use App\Http\Controllers\PendidikanTerakhirController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +58,35 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/siswa/{id}/edit', [AdminController::class, 'editSiswa'])->name('admin.siswa.edit');
     Route::put('/admin/siswa/{id}', [AdminController::class, 'updateSiswa'])->name('admin.siswa.update');
     Route::delete('/admin/siswa/{id}', [AdminController::class, 'destroySiswa'])->name('admin.siswa.destroy');
+
+    // Data Master
+    Route::get('/admin/agama', [AgamaController::class, 'index'])->name('admin.agama');
+    Route::get('/admin/agama/create', [AgamaController::class, 'create'])->name('admin.agama.create');
+    Route::post('/admin/agama', [AgamaController::class, 'store'])->name('admin.agama.store');
+    Route::get('/admin/agama/{id}/edit', [AgamaController::class, 'edit'])->name('admin.agama.edit');
+    Route::put('/admin/agama/{id}', [AgamaController::class, 'update'])->name('admin.agama.update');
+    Route::delete('/admin/agama/{id}', [AgamaController::class, 'destroy'])->name('admin.agama.destroy');
+
+    Route::get('/admin/kelas', [KelasController::class, 'index'])->name('admin.kelas');
+    Route::get('/admin/kelas/create', [KelasController::class, 'create'])->name('admin.kelas.create');
+    Route::post('/admin/kelas', [KelasController::class, 'store'])->name('admin.kelas.store');
+    Route::get('/admin/kelas/{id}/edit', [KelasController::class, 'edit'])->name('admin.kelas.edit');
+    Route::put('/admin/kelas/{id}', [KelasController::class, 'update'])->name('admin.kelas.update');
+    Route::delete('/admin/kelas/{id}', [KelasController::class, 'destroy'])->name('admin.kelas.destroy');
+
+    Route::get('/admin/pendidikan-terakhir', [PendidikanTerakhirController::class, 'index'])->name('admin.pendidikanTerakhir');
+    Route::get('/admin/pendidikan-terakhir/create', [PendidikanTerakhirController::class, 'create'])->name('admin.pendidikanTerakhir.create');
+    Route::post('/admin/pendidikan-terakhir', [PendidikanTerakhirController::class, 'store'])->name('admin.pendidikanTerakhir.store');
+    Route::get('/admin/pendidikan-terakhir/{id}/edit', [PendidikanTerakhirController::class, 'edit'])->name('admin.pendidikanTerakhir.edit');
+    Route::put('/admin/pendidikan-terakhir/{id}', [PendidikanTerakhirController::class, 'update'])->name('admin.pendidikanTerakhir.update');
+    Route::delete('/admin/pendidikan-terakhir/{id}', [PendidikanTerakhirController::class, 'destroy'])->name('admin.pendidikanTerakhir.destroy');
+
+    Route::get('/admin/pekerjaan', [PekerjaanController::class, 'index'])->name('admin.pekerjaan');
+    Route::get('/admin/pekerjaan/create', [PekerjaanController::class, 'create'])->name('admin.pekerjaan.create');
+    Route::post('/admin/pekerjaan', [PekerjaanController::class, 'store'])->name('admin.pekerjaan.store');
+    Route::get('/admin/pekerjaan/{id}/edit', [PekerjaanController::class, 'edit'])->name('admin.pekerjaan.edit');
+    Route::put('/admin/pekerjaan/{id}', [PekerjaanController::class, 'update'])->name('admin.pekerjaan.update');
+    Route::delete('/admin/pekerjaan/{id}', [PekerjaanController::class, 'destroy'])->name('admin.pekerjaan.destroy');
 });
 
 require __DIR__ . '/auth.php';

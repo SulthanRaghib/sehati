@@ -51,9 +51,9 @@
                                         </tr>
                                         @php
                                             $tingkat = $siswa->kelas->tingkat;
-                                            if ($tingkat == 'X') {
+                                            if ($tingkat == '10') {
                                                 $kelas = 'Sepuluh';
-                                            } elseif ($tingkat == 'XI') {
+                                            } elseif ($tingkat == '11') {
                                                 $kelas = 'Sebelas';
                                             } else {
                                                 $kelas = 'Dua Belas';

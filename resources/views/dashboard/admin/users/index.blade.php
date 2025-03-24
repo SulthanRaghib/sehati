@@ -43,6 +43,7 @@
                     <table class="table table-striped" id="table1">
                         <thead>
                             <tr>
+                                <th class="col-1">No</th>
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>Role</th>
@@ -53,6 +54,7 @@
                         <tbody>
                             @foreach ($user as $u)
                                 <tr>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $u->name }}</td>
                                     <td>{{ $u->email }}</td>
                                     <td>{{ ucfirst($u->role) }}</td>

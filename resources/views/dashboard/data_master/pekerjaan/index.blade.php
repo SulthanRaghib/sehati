@@ -14,7 +14,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Data Siswa</h3>
+                    <h3>Data Pekerjaan</h3>
 
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
@@ -35,8 +35,10 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <p class="text-subtitle text-muted">Manage Data Siswa</p>
-                        <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary">Add Siswa</a>
+                        <p class="text-subtitle text-muted">Manage Data Pekerjaan</p>
+                        <a href="{{ route('admin.pekerjaan.create') }}" class="btn btn-primary">
+                            Add Pekerjaan
+                        </a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -44,25 +46,19 @@
                         <thead>
                             <tr>
                                 <th class="col-1">No</th>
-                                <th>NISN</th>
-                                <th>Nama</th>
-                                <th>Alamat</th>
+                                <th>Nama Pekerjaan</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($siswa as $s)
+                            @foreach ($pekerjaan as $a)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $s->nisn }}</td>
-                                    <td>{{ $s->nama }}</td>
-                                    <td>{{ $s->alamat }}</td>
+                                    <td>{{ $a->nama }}</td>
                                     <td>
-                                        <a href="{{ route('admin.siswa.show', $s->id) }}"
-                                            class="btn btn-sm btn-info">Detail</a>
-                                        <a href="{{ route('admin.siswa.edit', $s->id) }}"
+                                        <a href="{{ route('admin.pekerjaan.edit', $a->id) }}"
                                             class="btn btn-sm btn-warning">Edit</a>
-                                        <form action="{{ route('admin.siswa.destroy', $s->id) }}" method="post"
+                                        <form action="{{ route('admin.pekerjaan.destroy', $a->id) }}" method="POST"
                                             class="d-inline form-delete">
                                             @csrf
                                             @method('delete')

@@ -43,6 +43,7 @@
                     <table class="table table-striped" id="table1">
                         <thead>
                             <tr>
+                                <th class="col-1">No</th>
                                 <th>NIP</th>
                                 <th>Nama</th>
                                 <th>Alamat</th>
@@ -52,6 +53,7 @@
                         <tbody>
                             @foreach ($guru as $guru)
                                 <tr>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $guru->nip }}</td>
                                     <td>{{ $guru->nama }}</td>
                                     <td>{{ $guru->alamat }}</td>
