@@ -22,30 +22,33 @@ class UserSeeder extends Seeder
 
         // User untuk Guru BK
         User::create([
-            'name' => 'Guru BK',
+            'name' => $guruBk->nama,
             'email' => 'gurubk@gmail.com',
             'password' => Hash::make('123456'),
             'role' => 'gurubk',
+            'added_by_role' => 'admin',
             'userable_id' => $guruBk->id,
             'userable_type' => Guru::class,
         ]);
 
         // User untuk Siswa
         User::create([
-            'name' => 'Siswa',
+            'name' => $siswa->nama,
             'email' => 'siswa@gmail.com',
             'password' => Hash::make('123456'),
             'role' => 'siswa',
+            'added_by_role' => 'gurubk',
             'userable_id' => $siswa->id,
             'userable_type' => Siswa::class,
         ]);
 
         // User untuk Kepala Sekolah (Admin)
         User::create([
-            'name' => 'Admin',
+            'name' => $kepalaSekolah->nama,
             'email' => 'admin@gmail.com',
             'password' => Hash::make('123456'),
             'role' => 'admin', // Admin tetap bagian dari guru
+            'added_by_role' => 'admin',
             'userable_id' => $kepalaSekolah->id,
             'userable_type' => Guru::class,
         ]);

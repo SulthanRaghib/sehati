@@ -18,7 +18,7 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        $title = 'Dashboard Admin';
+        $title = 'Dashboard';
         $user = Auth::user();
 
         if ($user->userable_type == 'App\Models\Guru') {
@@ -34,7 +34,19 @@ class AdminController extends Controller
     public function users()
     {
         $title = 'Data Pengguna';
-        $user = User::all();
+        $u = Auth::user();
+
+        if ($u->role === 'admin') {
+            $user = User::all(); // Admin melihat semua user
+        } elseif ($u->role === 'gurubk') {
+            // Guru BK hanya melihat user yang dibuat oleh sesama Guru BK
+            $user = User::where('added_by_role', 'gurubk')
+                ->orWhere(function ($query) {
+                    $query->where('added_by_role', 'admin')
+                        ->where('userable_type', 'App\\Models\\Siswa'); // Pastikan hanya siswa
+                })
+                ->get();
+        }
 
         return view('dashboard.admin.users.index', compact('title', 'user'));
     }
@@ -142,7 +154,7 @@ class AdminController extends Controller
     public function destroyUser($id)
     {
         $user = User::findOrFail($id);
-        $user->delete();
+        $user->forceDelete();
 
         return redirect()->route('admin.users')->with('success', 'Pengguna berhasil dihapus');
     }
@@ -169,13 +181,15 @@ class AdminController extends Controller
         $title = 'Tambah Guru';
         $agama = Agama::all();
         $pendidikan_terakhir = PendidikanTerakhir::all();
+        $guru = Guru::all();
+        $siswa = Siswa::all();
 
-        return view('dashboard.admin.guru.create', compact('title', 'agama', 'pendidikan_terakhir'));
+        return view('dashboard.admin.guru.create', compact('title', 'agama', 'pendidikan_terakhir', 'guru', 'siswa'));
     }
 
     public function storeGuru(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'nip' => 'required|numeric|unique:gurus,nip',
             'nama' => 'required',
             'tempat_lahir' => 'required',
@@ -184,13 +198,31 @@ class AdminController extends Controller
             'agama_id' => 'required',
             'alamat' => 'required',
             'pendidikan_terakhir_id' => 'required',
+
+            // user
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+            'role' => 'required|in:admin,gurubk',
         ]);
 
-        $validatedData['nama'] = ucwords(strtolower($validatedData['nama']));
-        $validatedData['tempat_lahir'] = ucwords(strtolower($validatedData['tempat_lahir']));
-        $validatedData['alamat'] = ucwords(strtolower($validatedData['alamat']));
+        $guru = Guru::create([
+            'nip' => $request->nip,
+            'nama' => ucwords(strtolower($request->nama)),
+            'tempat_lahir' => ucwords(strtolower($request->tempat_lahir)),
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'agama_id' => $request->agama_id,
+            'alamat' => ucwords(strtolower($request->alamat)),
+            'pendidikan_terakhir_id' => $request->pendidikan_terakhir_id,
+        ]);
 
-        Guru::create($validatedData);
+        $guru->user()->create([
+            'name' => ucwords(strtolower($request->nama)),
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+            'added_by_role' => Auth::user()->role,
+        ]);
 
         return redirect()->route('admin.guru')->with('success', 'Guru berhasil ditambahkan');
     }
@@ -237,7 +269,8 @@ class AdminController extends Controller
     public function destroyGuru($id)
     {
         $guru = Guru::findOrFail($id);
-        $guru->delete();
+
+        $guru->forceDelete();
 
         return redirect()->route('admin.guru')->with('success', 'Guru berhasil dihapus');
     }
@@ -271,7 +304,7 @@ class AdminController extends Controller
 
     public function storeSiswa(Request $request)
     {
-        $validate = $request->validate([
+        $request->validate([
             'nisn' => 'required|numeric|unique:siswas,nisn',
             'nama' => 'required',
             'tempat_lahir' => 'required',
@@ -292,9 +325,12 @@ class AdminController extends Controller
             'tempat_lahir_ibu' => 'required',
             'tanggal_lahir_ibu' => 'required|date|before:today',
             'pekerjaan_ibu_id' => 'required',
+            // user
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
         ]);
 
-        Siswa::create([
+        $siswa = Siswa::create([
             'nisn' => $request->nisn,
             'nama' => ucwords(strtolower($request->nama)),
             'tempat_lahir' => ucwords(strtolower($request->tempat_lahir)),
@@ -315,6 +351,14 @@ class AdminController extends Controller
             'tempat_lahir_ibu' => ucwords(strtolower($request->tempat_lahir_ibu)),
             'tanggal_lahir_ibu' => $request->tanggal_lahir_ibu,
             'pekerjaan_ibu_id' => $request->pekerjaan_ibu_id,
+        ]);
+
+        $siswa->user()->create([
+            'name' => ucwords(strtolower($request->nama)),
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'siswa',
+            'added_by_role' => Auth::user()->role,
         ]);
 
         return redirect()->route('admin.siswa')->with('success', 'Siswa berhasil ditambahkan');
@@ -387,7 +431,7 @@ class AdminController extends Controller
     public function destroySiswa($id)
     {
         $siswa = Siswa::findOrFail($id);
-        $siswa->delete();
+        $siswa->forceDelete();
 
         return redirect()->route('admin.siswa')->with('success', 'Siswa berhasil dihapus');
     }

@@ -66,33 +66,64 @@
                                             class="d-inline form-delete">
                                             @csrf
                                             @method('delete')
-                                            <button type="button" class="btn btn-sm btn-danger btn-delete">Delete</button>
+                                            <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                                data-role="{{ $guru->user->role ?? '' }}">Delete</button>
 
                                             <script>
-                                                // Seleksi semua tombol hapus
                                                 document.querySelectorAll('.btn-delete').forEach(button => {
                                                     button.addEventListener('click', function(e) {
-                                                        e.preventDefault(); // Mencegah form langsung terkirim
+                                                        e.preventDefault();
 
-                                                        // Ambil form terdekat dari tombol
                                                         const form = this.closest('.form-delete');
+                                                        const role = this.dataset.role; // Ambil role dari tombol
 
-                                                        // Tampilkan SweetAlert
-                                                        Swal.fire({
-                                                            title: 'Apakah Anda yakin?',
-                                                            text: "Pesan ini akan dihapus secara permanen!",
-                                                            icon: 'warning',
-                                                            showCancelButton: true,
-                                                            confirmButtonColor: '#d33',
-                                                            cancelButtonColor: '#3085d6',
-                                                            confirmButtonText: 'Ya, Hapus!',
-                                                            cancelButtonText: 'Batal'
-                                                        }).then((result) => {
-                                                            if (result.isConfirmed) {
-                                                                // Submit form jika dikonfirmasi
-                                                                form.submit();
-                                                            }
-                                                        });
+                                                        if (role === "admin") {
+                                                            // Konfirmasi pertama jika user adalah admin
+                                                            Swal.fire({
+                                                                title: 'Perhatian!',
+                                                                text: "Guru ini memiliki role admin. Anda yakin ingin menghapusnya?",
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#d33',
+                                                                cancelButtonColor: '#3085d6',
+                                                                confirmButtonText: 'Ya, lanjutkan!',
+                                                                cancelButtonText: 'Batal'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    // Jika user tetap ingin menghapus, munculkan konfirmasi kedua
+                                                                    Swal.fire({
+                                                                        title: 'Konfirmasi Akhir',
+                                                                        text: "Data akan dihapus secara permanen! Anda benar-benar yakin?",
+                                                                        icon: 'error',
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor: '#d33',
+                                                                        cancelButtonColor: '#3085d6',
+                                                                        confirmButtonText: 'Ya, hapus!',
+                                                                        cancelButtonText: 'Batal'
+                                                                    }).then((finalResult) => {
+                                                                        if (finalResult.isConfirmed) {
+                                                                            form.submit();
+                                                                        }
+                                                                    });
+                                                                }
+                                                            });
+                                                        } else {
+                                                            // Jika bukan admin, langsung konfirmasi biasa
+                                                            Swal.fire({
+                                                                title: 'Apakah Anda yakin?',
+                                                                text: "Data Guru ini akan dihapus secara permanen!",
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#d33',
+                                                                cancelButtonColor: '#3085d6',
+                                                                confirmButtonText: 'Ya, hapus!',
+                                                                cancelButtonText: 'Batal'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    form.submit();
+                                                                }
+                                                            });
+                                                        }
                                                     });
                                                 });
                                             </script>

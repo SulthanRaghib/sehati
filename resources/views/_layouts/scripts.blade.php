@@ -32,3 +32,18 @@
         });
     });
 </script>
+
+{{-- Password Hide Show --}}
+<script>
+    // toggle password
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+    togglePassword.addEventListener('click', function(e) {
+        // toggle icon eye
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = `<i data-feather="${type === 'password' ? 'eye-off' : 'eye'}"></i>`;
+        // jalankan kembali feather icons
+        feather.replace();
+    });
+</script>

@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Siswa extends Model
 {
+    use HasFactory;
+
     protected $table = 'siswas';
     protected $fillable = [
         'nisn',
@@ -27,6 +30,21 @@ class Siswa extends Model
         'tanggal_lahir_ibu',
         'pekerjaan_ibu_id',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($siswa) {
+            // Hapus user yang terkait dengan siswa ini
+            $siswa->user()->forceDelete();
+        });
+
+        static::deleted(function ($siswa) {
+            // Pastikan siswa benar-benar dihapus dari database
+            $siswa->forceDelete();
+        });
+    }
 
     public function agama()
     {

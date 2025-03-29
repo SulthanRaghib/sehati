@@ -126,7 +126,7 @@
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
 
-                                                <input type="text" name="userable_type" id="userable_type">
+                                                <input type="hidden" name="userable_type" id="userable_type">
                                             </div>
                                         </div>
 

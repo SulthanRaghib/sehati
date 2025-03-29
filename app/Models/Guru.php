@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Guru extends Model
 {
+    use HasFactory;
+
     protected $table = 'gurus';
     protected $fillable = [
         'nip',
@@ -17,6 +20,21 @@ class Guru extends Model
         'agama_id',
         'pendidikan_terakhir_id',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($guru) {
+            // Hapus user yang terkait dengan guru ini
+            $guru->user()->forceDelete();
+        });
+
+        static::deleted(function ($guru) {
+            // Pastikan guru benar-benar dihapus dari database
+            $guru->forceDelete();
+        });
+    }
 
     public function agama()
     {

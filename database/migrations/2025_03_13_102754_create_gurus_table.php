@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('alamat');
             $table->foreignId('agama_id')->constrained('agamas');
             $table->foreignId('pendidikan_terakhir_id')->constrained('pendidikan_terakhirs');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

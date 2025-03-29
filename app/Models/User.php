@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'added_by_role',
         'userable_id',
         'userable_type',
         'role',
@@ -55,5 +56,27 @@ class User extends Authenticatable
     public function userable()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+            // Jika user punya relasi ke siswa/guru, hapus juga data siswa/guru terkait
+            if ($user->userable) {
+                $user->userable->forceDelete();
+            }
+        });
+
+        static::deleted(function ($user) {
+            // Pastikan user benar-benar dihapus dari database
+            $user->forceDelete();
+        });
     }
 }

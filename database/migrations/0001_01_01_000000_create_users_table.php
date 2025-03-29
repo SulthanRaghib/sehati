@@ -18,6 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->morphs('userable');
+            $table->enum('added_by_role', ['admin', 'gurubk'])->nullable();
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });
