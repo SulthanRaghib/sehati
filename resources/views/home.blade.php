@@ -8,90 +8,12 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
 
-    <!-- Favicons -->
-    <link href="{{ url('mine/img/logo_tanpa_text_png.png') }}" rel="icon" />
-    <link href="{{ url('mine/img/logo_tanpa_text_png.png') }}" rel="apple-touch-icon" />
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet" />
-
-    <!-- Vendor CSS Files -->
-    <link href="{{ url('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ url('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
-    <link href="{{ url('assets/vendor/aos/aos.css') }}" rel="stylesheet" />
-    <link href="{{ url('assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet" />
-    <link href="{{ url('assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet" />
-
-    <!-- Main CSS File -->
-    <link href="{{ url('assets/css/main.css') }}" rel="stylesheet" />
+    @include('_layouts_fe.styles')
 </head>
 
 <body class="index-page">
-    <header id="header" class="header d-flex align-items-center fixed-top">
-        <div
-            class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-            <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-                <!-- Uncomment the line below if you also wish to use an image logo -->
-                <img src="{{ url('mine/img/logo_tanpa_text_png.png') }}" alt="">
-                <h1 class="sitename">Sehati</h1>
-            </a>
 
-            <nav id="navmenu" class="navmenu">
-                <ul>
-                    <li><a href="#hero" class="active">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
-                    <li class="dropdown">
-                        <a href="#"><span>Dropdown</span>
-                            <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                        <ul>
-                            <li><a href="#">Dropdown 1</a></li>
-                            <li class="dropdown">
-                                <a href="#"><span>Deep Dropdown</span>
-                                    <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                                <ul>
-                                    <li><a href="#">Deep Dropdown 1</a></li>
-                                    <li><a href="#">Deep Dropdown 2</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Dropdown 2</a></li>
-                            <li><a href="#">Dropdown 3</a></li>
-                            <li><a href="#">Dropdown 4</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-            </nav>
-
-            @if (Auth::check())
-                <nav id="navmenu" class="navmenu">
-                    <ul>
-                        <li class="dropdown">
-                            <a href="#"><span>{{ Auth::user()->name }}</span>
-                                <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                            <ul>
-                                <li>
-                                    <form action="{{ route('logout') }}" method="post">
-                                        @csrf
-                                        <button type="submit" class="btn btn-link">Logout</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            @else
-                <a class="btn-getstarted" href="{{ route('login') }}">Login</a>
-            @endif
-        </div>
-    </header>
+    @include('_layouts_fe.header')
 
     <main class="main">
         <!-- Hero Section -->
@@ -100,58 +22,36 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
-                            <div class="company-badge mb-4">
+                            {{-- <div class="company-badge mb-4">
                                 <i class="bi bi-gear-fill me-2"></i>
                                 Working for your success
-                            </div>
+                            </div> --}}
 
                             <h1 class="mb-4">
-                                Maecenas Vitae <br />
-                                Consectetur Led <br />
-                                <span class="accent-text">Vestibulum Ante</span>
+                                SEHATI, <br />
+                                <span class="accent-text">Sehat Mental dan Hati</span>
                             </h1>
 
                             <p class="mb-4 mb-md-5">
-                                Nullam quis ante. Etiam sit amet orci eget eros faucibus
-                                tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec
-                                sodales sagittis magna.
+                                Merasa cemas, stres, atau butuh tempat bercerita? Jangan ragu untuk mencari bantuan!
+                                Bimbingan konseling hadir untuk mendukung kesehatan mental dan emosionalmu. Yuk, mulai
+                                langkah pertama menuju versi terbaik dari dirimu! 💙
                             </p>
 
                             <div class="hero-buttons">
-                                <a href="#about" class="btn btn-primary me-0 me-sm-2 mx-1">Get Started</a>
-                                <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8"
+                                <a href="#about" class="btn btn-primary me-0 me-sm-2 mx-1">Mulai Konseling</a>
+                                {{-- <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8"
                                     class="btn btn-link mt-2 mt-sm-0 glightbox">
                                     <i class="bi bi-play-circle me-1"></i>
                                     Play Video
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
                     </div>
 
                     <div class="col-lg-6">
                         <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
-                            <img src="{{ url('assets/img/illustration-1.webp') }}" alt="Hero Image"
-                                class="img-fluid" />
-
-                            <div class="customers-badge">
-                                <div class="customer-avatars">
-                                    <img src="{{ url('assets/img/avatar-1.webp') }}" alt="Customer 1"
-                                        class="avatar" />
-                                    <img src="{{ url('assets/img/avatar-2.webp') }}" alt="Customer 2"
-                                        class="avatar" />
-                                    <img src="{{ url('assets/img/avatar-3.webp') }}" alt="Customer 3"
-                                        class="avatar" />
-                                    <img src="{{ url('assets/img/avatar-4.webp') }}" alt="Customer 4"
-                                        class="avatar" />
-                                    <img src="{{ url('assets/img/avatar-5.webp') }}" alt="Customer 5"
-                                        class="avatar" />
-                                    <span class="avatar more">12+</span>
-                                </div>
-                                <p class="mb-0 mt-2">
-                                    12,000+ lorem ipsum dolor sit amet consectetur adipiscing
-                                    elit
-                                </p>
-                            </div>
+                            <img src="{{ url('mine/img/hero.png') }}" alt="Hero Image" class="img-fluid" />
                         </div>
                     </div>
                 </div>
@@ -1415,105 +1315,13 @@
         <!-- /Contact Section -->
     </main>
 
-    <footer id="footer" class="footer">
-        <div class="container footer-top">
-            <div class="row gy-4">
-                <div class="col-lg-4 col-md-6 footer-about">
-                    <a href="index.html" class="logo d-flex align-items-center">
-                        <span class="sitename">iLanding</span>
-                    </a>
-                    <div class="footer-contact pt-3">
-                        <p>A108 Adam Street</p>
-                        <p>New York, NY 535022</p>
-                        <p class="mt-3">
-                            <strong>Phone:</strong> <span>+1 5589 55488 55</span>
-                        </p>
-                        <p><strong>Email:</strong> <span>info@example.com</span></p>
-                    </div>
-                    <div class="social-links d-flex mt-4">
-                        <a href=""><i class="bi bi-twitter-x"></i></a>
-                        <a href=""><i class="bi bi-facebook"></i></a>
-                        <a href=""><i class="bi bi-instagram"></i></a>
-                        <a href=""><i class="bi bi-linkedin"></i></a>
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Useful Links</h4>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About us</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Terms of service</a></li>
-                        <li><a href="#">Privacy policy</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Our Services</h4>
-                    <ul>
-                        <li><a href="#">Web Design</a></li>
-                        <li><a href="#">Web Development</a></li>
-                        <li><a href="#">Product Management</a></li>
-                        <li><a href="#">Marketing</a></li>
-                        <li><a href="#">Graphic Design</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Hic solutasetp</h4>
-                    <ul>
-                        <li><a href="#">Molestiae accusamus iure</a></li>
-                        <li><a href="#">Excepturi dignissimos</a></li>
-                        <li><a href="#">Suscipit distinctio</a></li>
-                        <li><a href="#">Dilecta</a></li>
-                        <li><a href="#">Sit quas consectetur</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Nobis illum</h4>
-                    <ul>
-                        <li><a href="#">Ipsam</a></li>
-                        <li><a href="#">Laudantium dolorum</a></li>
-                        <li><a href="#">Dinera</a></li>
-                        <li><a href="#">Trodelas</a></li>
-                        <li><a href="#">Flexo</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container copyright text-center mt-4">
-            <p>
-                © <span>Copyright</span>
-                <strong class="px-1 sitename">iLanding</strong>
-                <span>All Rights Reserved</span>
-            </p>
-            <div class="credits">
-                <!-- All the links in the footer should remain intact. -->
-                <!-- You can delete the links only if you've purchased the pro version. -->
-                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-            </div>
-        </div>
-    </footer>
+    @include('_layouts_fe.footer')
 
     <!-- Scroll Top -->
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
 
-    <!-- Vendor JS Files -->
-    <script src="{{ url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url('assets/vendor/php-email-form/validate.js') }}"></script>
-    <script src="{{ url('assets/vendor/aos/aos.js') }}"></script>
-    <script src="{{ url('assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
-    <script src="{{ url('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
-    <script src="{{ url('assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
-
-    <!-- Main JS File -->
-    <script src="{{ url('assets/js/main.js') }}"></script>
+    @include('_layouts_fe.scripts')
 </body>
 
 </html>
