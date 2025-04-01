@@ -96,7 +96,7 @@
                                                                         // Jika user tetap ingin menghapus, munculkan konfirmasi kedua
                                                                         Swal.fire({
                                                                             title: 'Konfirmasi Akhir',
-                                                                            text: "Data akan dihapus secara permanen! Anda benar-benar yakin?",
+                                                                            text: "Data User akan dihapus secara permanen! Anda benar-benar yakin?",
                                                                             icon: 'error',
                                                                             showCancelButton: true,
                                                                             confirmButtonColor: '#d33',

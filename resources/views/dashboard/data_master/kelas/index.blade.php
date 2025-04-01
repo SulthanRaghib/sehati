@@ -85,7 +85,7 @@
                                                         // Tampilkan SweetAlert
                                                         Swal.fire({
                                                             title: 'Apakah Anda yakin?',
-                                                            text: "Pesan ini akan dihapus secara permanen!",
+                                                            text: "Data Kelas ini akan dihapus secara permanen!",
                                                             icon: 'warning',
                                                             showCancelButton: true,
                                                             confirmButtonColor: '#d33',
