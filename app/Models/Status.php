@@ -8,4 +8,9 @@ class Status extends Model
 {
     protected $table = 'statuses';
     protected $fillable = ['nama'];
+
+    public function konseling()
+    {
+        return $this->hasMany(Konseling::class);
+    }
 }

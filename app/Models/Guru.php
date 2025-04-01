@@ -50,4 +50,9 @@ class Guru extends Model
     {
         return $this->morphOne(User::class, 'userable');
     }
+
+    public function jawaban()
+    {
+        return $this->hasMany(Jawaban::class);
+    }
 }

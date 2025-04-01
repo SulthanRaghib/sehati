@@ -5,6 +5,7 @@ use App\Http\Controllers\AgamaController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\KonselingController;
 use App\Http\Controllers\PekerjaanController;
 use App\Http\Controllers\PendidikanTerakhirController;
 use App\Http\Controllers\ProfileController;
@@ -81,6 +82,8 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::get('/pekerjaan/{id}/edit', [PekerjaanController::class, 'edit'])->name('admin.pekerjaan.edit');
     Route::put('/pekerjaan/{id}', [PekerjaanController::class, 'update'])->name('admin.pekerjaan.update');
     Route::delete('/pekerjaan/{id}', [PekerjaanController::class, 'destroy'])->name('admin.pekerjaan.destroy');
+
+    Route::get('/konseling', [KonselingController::class, 'adminIndex'])->name('admin.konseling');
 });
 
 require __DIR__ . '/auth.php';

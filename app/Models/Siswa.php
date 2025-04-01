@@ -70,4 +70,14 @@ class Siswa extends Model
     {
         return $this->morphOne(User::class, 'userable');
     }
+
+    public function konseling()
+    {
+        return $this->hasMany(Konseling::class);
+    }
+
+    public function rating()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }

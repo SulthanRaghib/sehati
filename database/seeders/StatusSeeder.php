@@ -14,9 +14,9 @@ class StatusSeeder extends Seeder
     public function run(): void
     {
         DB::table('statuses')->insert([
-            ['nama' => 'Proses'],
-            ['nama' => 'Selesai'],
-            ['nama' => 'Dibatalkan'],
+            ['nama' => 'Menunggu'],
+            ['nama' => 'Dijawab'],
+            ['nama' => 'Selesai']
         ]);
     }
 }
