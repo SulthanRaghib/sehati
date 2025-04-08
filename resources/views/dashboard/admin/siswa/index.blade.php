@@ -46,7 +46,8 @@
                                 <th class="col-1">No</th>
                                 <th>NISN</th>
                                 <th>Nama</th>
-                                <th>Alamat</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Kelas</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -56,8 +57,16 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $s->nisn }}</td>
                                     <td>{{ $s->nama }}</td>
-                                    <td>{{ $s->alamat }}</td>
                                     <td>
+                                        @if ($s->jenis_kelamin == 'L')
+                                            Laki-laki
+                                        @else
+                                            Perempuan
+                                        @endif
+                                    <td>{{ $s->kelas->tingkat }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.siswa.detailKonseling', $s->id) }}"
+                                            class="btn btn-sm btn-primary">Detail Konseling</a>
                                         <a href="{{ route('admin.siswa.show', $s->id) }}"
                                             class="btn btn-sm btn-info">Detail</a>
                                         <a href="{{ route('admin.siswa.edit', $s->id) }}"

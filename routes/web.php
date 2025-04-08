@@ -84,6 +84,12 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::delete('/pekerjaan/{id}', [PekerjaanController::class, 'destroy'])->name('admin.pekerjaan.destroy');
 
     Route::get('/konseling', [KonselingController::class, 'adminIndex'])->name('admin.konseling');
+    Route::post('/konseling/reply', [KonselingController::class, 'adminReply'])->name('admin.konseling.reply');
+    Route::put('/konseling/{id}/update', [KonselingController::class, 'adminUpdate'])->name('admin.konseling.update');
+    Route::get('/konseling/{id}/show', [KonselingController::class, 'adminShow'])->name('admin.konseling.show');
+    Route::delete('/konseling/{id}', [KonselingController::class, 'adminDestroy'])->name('admin.konseling.destroy');
+
+    Route::get('/konseling-siswa/{id}/detail', [KonselingController::class, 'siswaDetail'])->name('admin.siswa.detailKonseling');
 });
 
 require __DIR__ . '/auth.php';

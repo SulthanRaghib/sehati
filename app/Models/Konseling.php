@@ -26,6 +26,6 @@ class Konseling extends Model
 
     public function jawaban()
     {
-        return $this->hasMany(Jawaban::class);
+        return $this->hasOne(Jawaban::class);
     }
 }

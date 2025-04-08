@@ -13,11 +13,6 @@ class JawabanSeeder extends Seeder
      */
     public function run(): void
     {
-        Jawaban::create([
-            'konseling_id' => 1,
-            'guru_id' => 1,
-            'isi_jawaban' => 'Saya sarankan untuk belajar lebih teratur dan tidak panik saat ujian.',
-            'tanggal_jawaban' => now(),
-        ]);
+        //
     }
 }

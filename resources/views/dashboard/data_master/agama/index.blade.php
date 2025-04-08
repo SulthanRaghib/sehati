@@ -74,7 +74,7 @@
                                                         // Tampilkan SweetAlert
                                                         Swal.fire({
                                                             title: 'Apakah Anda yakin?',
-                                                            text: "Data Agaman ini akan dihapus secara permanen!",
+                                                            text: "Data Agama ini akan dihapus secara permanen!",
                                                             icon: 'warning',
                                                             showCancelButton: true,
                                                             confirmButtonColor: '#d33',
