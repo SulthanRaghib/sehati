@@ -44,6 +44,13 @@
                         <span>Siswa</span>
                     </a>
                 </li>
+
+                <li class="sidebar-item {{ Route::is('admin.tahunAkademik') ? 'active' : '' }}">
+                    <a href="{{ route('admin.tahunAkademik') }}" class="sidebar-link">
+                        <i data-feather="calendar" width="20"></i>
+                        <span>Tahun Akademik</span>
+                    </a>
+                </li>
                 @if (Auth::user()->role == 'admin')
                     <li class="sidebar-item has-sub {{ Route::is('admin.*') || Route::is('guru.*') ? 'active' : '' }}">
                         <a href="#" class="sidebar-link">

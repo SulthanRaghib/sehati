@@ -10,6 +10,8 @@ use App\Http\Controllers\PekerjaanController;
 use App\Http\Controllers\PendidikanTerakhirController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\TahunAkademik;
+use App\Http\Controllers\TahunAkademikController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -53,6 +55,13 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::get('/siswa/{id}/edit', [AdminController::class, 'editSiswa'])->name('admin.siswa.edit');
     Route::put('/siswa/{id}', [AdminController::class, 'updateSiswa'])->name('admin.siswa.update');
     Route::delete('/siswa/{id}', [AdminController::class, 'destroySiswa'])->name('admin.siswa.destroy');
+
+    Route::get('/tahun-akademik', [TahunAkademikController::class, 'tahunAkademik'])->name('admin.tahunAkademik');
+    Route::get('/tahun-akademik/create', [TahunAkademikController::class, 'create'])->name('admin.tahunAkademik.create');
+    Route::post('/tahun-akademik', [TahunAkademikController::class, 'store'])->name('admin.tahunAkademik.store');
+    Route::post('/tahun-akademik/set/{id}', [TahunAkademikController::class, 'setTahunAkademik'])->name('admin.setTahunAkademik');
+
+
 
     // Data Master
     Route::get('/agama', [AgamaController::class, 'index'])->name('admin.agama');

@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('tempat_lahir_ibu', 100)->nullable();
             $table->date('tanggal_lahir_ibu')->nullable();
             $table->foreignId('pekerjaan_ibu_id')->constrained('pekerjaans')->nullable();
+            $table->foreignId('tahun_akademik_id')->nullable()->constrained('tahun_akademiks');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -41,6 +42,13 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('siswas');
+        Schema::table('siswas', function (Blueprint $table) {
+            $table->dropForeign(['agama_id']);
+            $table->dropForeign(['kelas_id']);
+            $table->dropForeign(['pekerjaan_ayah_id']);
+            $table->dropForeign(['pekerjaan_ibu_id']);
+            $table->dropForeign(['tahun_akademik_id']);
+            $table->dropColumn('tahun_akademik_id');
+        });
     }
 };

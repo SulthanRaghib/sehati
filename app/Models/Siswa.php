@@ -29,6 +29,7 @@ class Siswa extends Model
         'tempat_lahir_ibu',
         'tanggal_lahir_ibu',
         'pekerjaan_ibu_id',
+        'tahun_akademik_id',
     ];
 
     protected static function boot()
@@ -79,5 +80,10 @@ class Siswa extends Model
     public function rating()
     {
         return $this->hasMany(Rating::class);
+    }
+
+    public function tahunAkademik()
+    {
+        return $this->belongsTo(TahunAkademik::class, 'tahun_akademik_id');
     }
 }

@@ -46,7 +46,14 @@
                             @endif
                             <div class="card-body text-center">
                                 <h5 class="card-title">{{ $siswa->nama }}</h5>
-                                <p class="card-text">NISN : {{ $siswa->nisn }}</p>
+                                <p class="card-text mb-0">NISN : {{ $siswa->nisn }}</p>
+                                @if ($siswa->tahunAkademik == null)
+                                    <p class="card-text">Tahun Akademik: -
+                                    </p>
+                                @else
+                                    <p class="card-text">Tahun Akademik: {{ $siswa->tahunAkademik->periode }}
+                                        ({{ $siswa->tahunAkademik->semester }})</p>
+                                @endif
                             </div>
                         </div>
                     </div>

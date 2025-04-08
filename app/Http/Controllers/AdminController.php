@@ -8,6 +8,7 @@ use App\Models\Kelas;
 use App\Models\Pekerjaan;
 use App\Models\PendidikanTerakhir;
 use App\Models\Siswa;
+use App\Models\TahunAkademik;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -330,6 +331,11 @@ class AdminController extends Controller
             'password' => 'required|min:6',
         ]);
 
+        $tahunAkademikAktif = TahunAkademik::where('is_active', 1)->first();
+        if (!$tahunAkademikAktif) {
+            return redirect()->back()->with('error', 'Tahun akademik aktif tidak ditemukan');
+        }
+
         $siswa = Siswa::create([
             'nisn' => $request->nisn,
             'nama' => ucwords(strtolower($request->nama)),
@@ -351,6 +357,7 @@ class AdminController extends Controller
             'tempat_lahir_ibu' => ucwords(strtolower($request->tempat_lahir_ibu)),
             'tanggal_lahir_ibu' => $request->tanggal_lahir_ibu,
             'pekerjaan_ibu_id' => $request->pekerjaan_ibu_id,
+            'tahun_akademik_id' => $tahunAkademikAktif->id
         ]);
 
         $siswa->user()->create([
