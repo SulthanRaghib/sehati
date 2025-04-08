@@ -40,73 +40,81 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped" id="table1">
-                        <thead>
-                            <tr>
-                                <th class="col-1">No</th>
-                                <th>Tingkat Kelas</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($kelas as $a)
+                    <div class="table-responsive">
+                        @if ($kelas->count() == 0)
+                            <div class="alert alert-info">
+                                Data Kelas belum ada. Silahkan tambahkan data kelas baru.
+                            </div>
+                        @endif
+                        <table class="table table-striped" id="table1">
+                            <thead>
                                 <tr>
-                                    @php
-                                        if ($a->tingkat == '10') {
-                                            $kelas = '1 SMA';
-                                        } elseif ($a->tingkat == '11') {
-                                            $kelas = '2 SMA';
-                                        } elseif ($a->tingkat == '12') {
-                                            $kelas = '3 SMA';
-                                        } else {
-                                            $kelas = 'Tidak Diketahui';
-                                        }
-                                    @endphp
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $a->tingkat }} ({{ $kelas }})</td>
-                                    <td>
-                                        <a href="{{ route('admin.kelas.edit', $a->id) }}"
-                                            class="btn btn-sm btn-warning">Edit</a>
-                                        <form action="{{ route('admin.kelas.destroy', $a->id) }}" method="POST"
-                                            class="d-inline form-delete">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="button" class="btn btn-sm btn-danger btn-delete">Delete</button>
+                                    <th class="col-1">No</th>
+                                    <th>Tingkat Kelas</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($kelas as $a)
+                                    <tr>
+                                        @php
+                                            if ($a->tingkat == '10') {
+                                                $kelas = '1 SMA';
+                                            } elseif ($a->tingkat == '11') {
+                                                $kelas = '2 SMA';
+                                            } elseif ($a->tingkat == '12') {
+                                                $kelas = '3 SMA';
+                                            } else {
+                                                $kelas = 'Tidak Diketahui';
+                                            }
+                                        @endphp
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $a->tingkat }} ({{ $kelas }})</td>
+                                        <td>
+                                            <a href="{{ route('admin.kelas.edit', $a->id) }}"
+                                                class="btn btn-sm btn-warning">Edit</a>
+                                            <form action="{{ route('admin.kelas.destroy', $a->id) }}" method="POST"
+                                                class="d-inline form-delete">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="button"
+                                                    class="btn btn-sm btn-danger btn-delete">Delete</button>
 
-                                            <script>
-                                                // Seleksi semua tombol hapus
-                                                document.querySelectorAll('.btn-delete').forEach(button => {
-                                                    button.addEventListener('click', function(e) {
-                                                        e.preventDefault(); // Mencegah form langsung terkirim
+                                                <script>
+                                                    // Seleksi semua tombol hapus
+                                                    document.querySelectorAll('.btn-delete').forEach(button => {
+                                                        button.addEventListener('click', function(e) {
+                                                            e.preventDefault(); // Mencegah form langsung terkirim
 
-                                                        // Ambil form terdekat dari tombol
-                                                        const form = this.closest('.form-delete');
+                                                            // Ambil form terdekat dari tombol
+                                                            const form = this.closest('.form-delete');
 
-                                                        // Tampilkan SweetAlert
-                                                        Swal.fire({
-                                                            title: 'Apakah Anda yakin?',
-                                                            text: "Data Kelas ini akan dihapus secara permanen!",
-                                                            icon: 'warning',
-                                                            showCancelButton: true,
-                                                            confirmButtonColor: '#d33',
-                                                            cancelButtonColor: '#3085d6',
-                                                            confirmButtonText: 'Ya, Hapus!',
-                                                            cancelButtonText: 'Batal'
-                                                        }).then((result) => {
-                                                            if (result.isConfirmed) {
-                                                                // Submit form jika dikonfirmasi
-                                                                form.submit();
-                                                            }
+                                                            // Tampilkan SweetAlert
+                                                            Swal.fire({
+                                                                title: 'Apakah Anda yakin?',
+                                                                text: "Data Kelas ini akan dihapus secara permanen!",
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#d33',
+                                                                cancelButtonColor: '#3085d6',
+                                                                confirmButtonText: 'Ya, Hapus!',
+                                                                cancelButtonText: 'Batal'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    // Submit form jika dikonfirmasi
+                                                                    form.submit();
+                                                                }
+                                                            });
                                                         });
                                                     });
-                                                });
-                                            </script>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                                </script>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>

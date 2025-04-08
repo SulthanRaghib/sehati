@@ -40,46 +40,53 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped" id="table1">
-                        <thead>
-                            <tr>
-                                <th class="col-1">No</th>
-                                <th>Periode</th>
-                                <th>Semester</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($tahunAkademik as $a)
+                    <div class="table-responsive">
+                        @if ($tahunAkademik->count() == 0)
+                            <div class="alert alert-info">
+                                Data Tahun Akademik belum ada. Silahkan tambahkan data tahun akademik baru.
+                            </div>
+                        @endif
+                        <table class="table table-striped" id="table1">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $a->periode }}</td>
-                                    <td>{{ $a->semester }}</td>
-                                    <td>
-                                        @if ($a->is_active)
-                                            <span class="badge bg-success">Aktif</span>
-                                        @else
-                                            <span class="badge bg-secondary">Tidak Aktif</span>
-                                        @endif
-                                    </td>
-                                    </td>
-                                    <td>
-                                        @if (!$a->is_active)
-                                            <form action="{{ route('admin.setTahunAkademik', $a->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-primary">
-                                                    Set Aktif
-                                                </button>
-                                            </form>
-                                        @else
-                                            <button class="btn btn-sm btn-success" disabled>Aktif</button>
-                                        @endif
-                                    </td>
+                                    <th class="col-1">No</th>
+                                    <th>Periode</th>
+                                    <th>Semester</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($tahunAkademik as $a)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $a->periode }}</td>
+                                        <td>{{ $a->semester }}</td>
+                                        <td>
+                                            @if ($a->is_active)
+                                                <span class="badge bg-success">Aktif</span>
+                                            @else
+                                                <span class="badge bg-secondary">Tidak Aktif</span>
+                                            @endif
+                                        </td>
+                                        </td>
+                                        <td>
+                                            @if (!$a->is_active)
+                                                <form action="{{ route('admin.setTahunAkademik', $a->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm btn-primary">
+                                                        Set Aktif
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <button class="btn btn-sm btn-success" disabled>Aktif</button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>

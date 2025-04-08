@@ -21,7 +21,7 @@
                     <nav aria-label="breadcrumb" class="breadcrumb-header">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+                                <a href="{{ route('admin.siswa') }}">Siswa</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 {{ $title }}
@@ -36,15 +36,15 @@
             <div class="card">
                 <div class="row m-3">
                     <div class="col-md-3">
-                        <div class="card justify-content-center align-items-center">
+                        <div class="card justify-content-center align-items-center p-3">
                             @if ($siswa->avatar)
-                                <img src="{{ asset('') }}" class="card-img-top w-50 card rounded-circle mb-0 mt-4"
+                                <img src="{{ asset('') }}" class="card-img-top card rounded-circle mb-0 mt-4 w-50"
                                     alt="avatar-siswa">
                             @else
                                 <img src="{{ asset('mine/img/user_default.png') }}"
-                                    class="card-img-top w-50 card rounded-circle mb-0 mt-4" alt="avatar-siswa">
+                                    class="card-img-top card rounded-circle mb-0 mt-4 w-50" alt="avatar-siswa">
                             @endif
-                            <div class="card-body text-center">
+                            <div class="card-body text-center px-0">
                                 <h5 class="card-title">{{ $siswa->nama }}</h5>
                                 <p class="card-text mb-0">NISN : {{ $siswa->nisn }}</p>
                                 @if ($siswa->tahunAkademik == null)

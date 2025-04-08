@@ -42,101 +42,108 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped" id="table1">
-                        <thead>
-                            <tr>
-                                <th class="col-1">No</th>
-                                <th>Pemilik User</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                @if (Auth::user()->role == 'admin')
-                                    <th>Action</th>
-                                @endif
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($user as $u)
+                    <div class="table-responsive">
+                        @if ($user->count() == 0)
+                            <div class="alert alert-info">
+                                Data User belum ada. Silahkan tambahkan data user baru.
+                            </div>
+                        @endif
+                        <table class="table table-striped" id="table1">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $u->userable->nama }}</td>
-                                    <td>{{ $u->email }}</td>
-                                    <td>{{ ucfirst($u->role) }}</td>
+                                    <th class="col-1">No</th>
+                                    <th>Pemilik User</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
                                     @if (Auth::user()->role == 'admin')
-                                        <td>
-                                            <a href="{{ route('admin.users.edit', $u->id) }}"
-                                                class="btn btn-sm btn-warning">Edit</a>
-                                            <form action="{{ route('admin.users.destroy', $u->id) }}" method="post"
-                                                class="d-inline form-delete">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="button" class="btn btn-sm btn-danger btn-delete"
-                                                    data-role="{{ $u->role ?? '' }}">Delete</button>
-
-                                                <script>
-                                                    document.querySelectorAll('.btn-delete').forEach(button => {
-                                                        button.addEventListener('click', function(e) {
-                                                            e.preventDefault();
-
-                                                            const form = this.closest('.form-delete');
-                                                            const role = this.dataset.role; // Ambil role dari tombol
-
-                                                            if (role === "admin") {
-                                                                // Konfirmasi pertama jika user adalah admin
-                                                                Swal.fire({
-                                                                    title: 'Perhatian!',
-                                                                    text: "User ini memiliki role admin. Anda yakin ingin menghapusnya?",
-                                                                    icon: 'warning',
-                                                                    showCancelButton: true,
-                                                                    confirmButtonColor: '#d33',
-                                                                    cancelButtonColor: '#3085d6',
-                                                                    confirmButtonText: 'Ya, lanjutkan!',
-                                                                    cancelButtonText: 'Batal'
-                                                                }).then((result) => {
-                                                                    if (result.isConfirmed) {
-                                                                        // Jika user tetap ingin menghapus, munculkan konfirmasi kedua
-                                                                        Swal.fire({
-                                                                            title: 'Konfirmasi Akhir',
-                                                                            text: "Data User akan dihapus secara permanen! Anda benar-benar yakin?",
-                                                                            icon: 'error',
-                                                                            showCancelButton: true,
-                                                                            confirmButtonColor: '#d33',
-                                                                            cancelButtonColor: '#3085d6',
-                                                                            confirmButtonText: 'Ya, hapus!',
-                                                                            cancelButtonText: 'Batal'
-                                                                        }).then((finalResult) => {
-                                                                            if (finalResult.isConfirmed) {
-                                                                                form.submit();
-                                                                            }
-                                                                        });
-                                                                    }
-                                                                });
-                                                            } else {
-                                                                // Jika bukan admin, langsung konfirmasi biasa
-                                                                Swal.fire({
-                                                                    title: 'Apakah Anda yakin?',
-                                                                    text: "Data User ini akan dihapus secara permanen!",
-                                                                    icon: 'warning',
-                                                                    showCancelButton: true,
-                                                                    confirmButtonColor: '#d33',
-                                                                    cancelButtonColor: '#3085d6',
-                                                                    confirmButtonText: 'Ya, hapus!',
-                                                                    cancelButtonText: 'Batal'
-                                                                }).then((result) => {
-                                                                    if (result.isConfirmed) {
-                                                                        form.submit();
-                                                                    }
-                                                                });
-                                                            }
-                                                        });
-                                                    });
-                                                </script>
-                                            </form>
-                                        </td>
+                                        <th>Action</th>
                                     @endif
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($user as $u)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $u->userable->nama }}</td>
+                                        <td>{{ $u->email }}</td>
+                                        <td>{{ ucfirst($u->role) }}</td>
+                                        @if (Auth::user()->role == 'admin')
+                                            <td>
+                                                <a href="{{ route('admin.users.edit', $u->id) }}"
+                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                <form action="{{ route('admin.users.destroy', $u->id) }}" method="post"
+                                                    class="d-inline form-delete">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                                        data-role="{{ $u->role ?? '' }}">Delete</button>
+
+                                                    <script>
+                                                        document.querySelectorAll('.btn-delete').forEach(button => {
+                                                            button.addEventListener('click', function(e) {
+                                                                e.preventDefault();
+
+                                                                const form = this.closest('.form-delete');
+                                                                const role = this.dataset.role; // Ambil role dari tombol
+
+                                                                if (role === "admin") {
+                                                                    // Konfirmasi pertama jika user adalah admin
+                                                                    Swal.fire({
+                                                                        title: 'Perhatian!',
+                                                                        text: "User ini memiliki role admin. Anda yakin ingin menghapusnya?",
+                                                                        icon: 'warning',
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor: '#d33',
+                                                                        cancelButtonColor: '#3085d6',
+                                                                        confirmButtonText: 'Ya, lanjutkan!',
+                                                                        cancelButtonText: 'Batal'
+                                                                    }).then((result) => {
+                                                                        if (result.isConfirmed) {
+                                                                            // Jika user tetap ingin menghapus, munculkan konfirmasi kedua
+                                                                            Swal.fire({
+                                                                                title: 'Konfirmasi Akhir',
+                                                                                text: "Data User akan dihapus secara permanen! Anda benar-benar yakin?",
+                                                                                icon: 'error',
+                                                                                showCancelButton: true,
+                                                                                confirmButtonColor: '#d33',
+                                                                                cancelButtonColor: '#3085d6',
+                                                                                confirmButtonText: 'Ya, hapus!',
+                                                                                cancelButtonText: 'Batal'
+                                                                            }).then((finalResult) => {
+                                                                                if (finalResult.isConfirmed) {
+                                                                                    form.submit();
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    });
+                                                                } else {
+                                                                    // Jika bukan admin, langsung konfirmasi biasa
+                                                                    Swal.fire({
+                                                                        title: 'Apakah Anda yakin?',
+                                                                        text: "Data User ini akan dihapus secara permanen!",
+                                                                        icon: 'warning',
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor: '#d33',
+                                                                        cancelButtonColor: '#3085d6',
+                                                                        confirmButtonText: 'Ya, hapus!',
+                                                                        cancelButtonText: 'Batal'
+                                                                    }).then((result) => {
+                                                                        if (result.isConfirmed) {
+                                                                            form.submit();
+                                                                        }
+                                                                    });
+                                                                }
+                                                            });
+                                                        });
+                                                    </script>
+                                                </form>
+                                            </td>
+                                        @endif
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>

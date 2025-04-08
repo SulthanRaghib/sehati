@@ -40,77 +40,85 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped" id="table1">
-                        <thead>
-                            <tr>
-                                <th class="col-1">No</th>
-                                <th>NISN</th>
-                                <th>Nama</th>
-                                <th>Jenis Kelamin</th>
-                                <th>Kelas</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($siswa as $s)
+                    <div class="table-responsive">
+                        @if ($siswa->count() == 0)
+                            <div class="alert alert-info">
+                                Data Siswa belum ada. Silahkan tambahkan data siswa baru.
+                            </div>
+                        @endif
+                        <table class="table table-striped" id="table1">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $s->nisn }}</td>
-                                    <td>{{ $s->nama }}</td>
-                                    <td>
-                                        @if ($s->jenis_kelamin == 'L')
-                                            Laki-laki
-                                        @else
-                                            Perempuan
-                                        @endif
-                                    <td>{{ $s->kelas->tingkat }}</td>
-                                    <td>
-                                        <a href="{{ route('admin.siswa.detailKonseling', $s->id) }}"
-                                            class="btn btn-sm btn-primary">Detail Konseling</a>
-                                        <a href="{{ route('admin.siswa.show', $s->id) }}"
-                                            class="btn btn-sm btn-info">Detail</a>
-                                        <a href="{{ route('admin.siswa.edit', $s->id) }}"
-                                            class="btn btn-sm btn-warning">Edit</a>
-                                        <form action="{{ route('admin.siswa.destroy', $s->id) }}" method="post"
-                                            class="d-inline form-delete">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="button" class="btn btn-sm btn-danger btn-delete">Delete</button>
+                                    <th class="col-1">No</th>
+                                    <th>NISN</th>
+                                    <th>Nama</th>
+                                    <th>Jenis Kelamin</th>
+                                    <th>Kelas</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($siswa as $s)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $s->nisn }}</td>
+                                        <td>{{ $s->nama }}</td>
+                                        <td>
+                                            @if ($s->jenis_kelamin == 'L')
+                                                Laki-laki
+                                            @else
+                                                Perempuan
+                                            @endif
+                                        <td>{{ $s->kelas->tingkat }}</td>
+                                        <td>
+                                            <a href="{{ route('admin.siswa.detailKonseling', $s->id) }}"
+                                                class="btn btn-sm btn-primary">Detail Konseling</a>
+                                            <a href="{{ route('admin.siswa.show', $s->id) }}"
+                                                class="btn btn-sm btn-info">Detail</a>
+                                            <a href="{{ route('admin.siswa.edit', $s->id) }}"
+                                                class="btn btn-sm btn-warning">Edit</a>
+                                            <form action="{{ route('admin.siswa.destroy', $s->id) }}" method="post"
+                                                class="d-inline form-delete">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="button"
+                                                    class="btn btn-sm btn-danger btn-delete">Delete</button>
 
-                                            <script>
-                                                // Seleksi semua tombol hapus
-                                                document.querySelectorAll('.btn-delete').forEach(button => {
-                                                    button.addEventListener('click', function(e) {
-                                                        e.preventDefault(); // Mencegah form langsung terkirim
+                                                <script>
+                                                    // Seleksi semua tombol hapus
+                                                    document.querySelectorAll('.btn-delete').forEach(button => {
+                                                        button.addEventListener('click', function(e) {
+                                                            e.preventDefault(); // Mencegah form langsung terkirim
 
-                                                        // Ambil form terdekat dari tombol
-                                                        const form = this.closest('.form-delete');
+                                                            // Ambil form terdekat dari tombol
+                                                            const form = this.closest('.form-delete');
 
-                                                        // Tampilkan SweetAlert
-                                                        Swal.fire({
-                                                            title: 'Apakah Anda yakin?',
-                                                            text: "Data Siswa ini akan dihapus secara permanen!",
-                                                            icon: 'warning',
-                                                            showCancelButton: true,
-                                                            confirmButtonColor: '#d33',
-                                                            cancelButtonColor: '#3085d6',
-                                                            confirmButtonText: 'Ya, Hapus!',
-                                                            cancelButtonText: 'Batal'
-                                                        }).then((result) => {
-                                                            if (result.isConfirmed) {
-                                                                // Submit form jika dikonfirmasi
-                                                                form.submit();
-                                                            }
+                                                            // Tampilkan SweetAlert
+                                                            Swal.fire({
+                                                                title: 'Apakah Anda yakin?',
+                                                                text: "Data Siswa ini akan dihapus secara permanen!",
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#d33',
+                                                                cancelButtonColor: '#3085d6',
+                                                                confirmButtonText: 'Ya, Hapus!',
+                                                                cancelButtonText: 'Batal'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    // Submit form jika dikonfirmasi
+                                                                    form.submit();
+                                                                }
+                                                            });
                                                         });
                                                     });
-                                                });
-                                            </script>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                                </script>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
