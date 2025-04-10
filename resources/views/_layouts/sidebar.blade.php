@@ -22,13 +22,7 @@
                     </a>
                 </li>
 
-                <li class="sidebar-title">All Data</li>
-                <li class="sidebar-item {{ Route::is('admin.users') ? 'active' : '' }}">
-                    <a href="{{ route('admin.users') }}" class="sidebar-link">
-                        <i data-feather="user" width="20"></i>
-                        <span>User</span>
-                    </a>
-                </li>
+                <li class="sidebar-title">Data Sekolah</li>
                 @if (Auth::user()->role == 'admin')
                     <li class="sidebar-item {{ Route::is('admin.guru') ? 'active' : '' }}">
                         <a href="{{ route('admin.guru') }}" class="sidebar-link">
@@ -51,6 +45,15 @@
                         <span>Tahun Akademik</span>
                     </a>
                 </li>
+
+                <li class="sidebar-title">All Data</li>
+                <li class="sidebar-item {{ Route::is('admin.users') ? 'active' : '' }}">
+                    <a href="{{ route('admin.users') }}" class="sidebar-link">
+                        <i data-feather="user" width="20"></i>
+                        <span>User</span>
+                    </a>
+                </li>
+
                 @if (Auth::user()->role == 'admin')
                     <li class="sidebar-item has-sub {{ Route::is('admin.*') || Route::is('guru.*') ? 'active' : '' }}">
                         <a href="#" class="sidebar-link">
