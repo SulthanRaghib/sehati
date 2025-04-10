@@ -38,7 +38,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12 col-md-8">
-                                    <table class="table table-borderless">
+                                    <table class="table table-borderles">
                                         <tr>
                                             <td>Nama</td>
                                             <td>:</td>

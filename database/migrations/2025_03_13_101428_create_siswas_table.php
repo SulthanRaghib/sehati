@@ -32,6 +32,7 @@ return new class extends Migration
             $table->date('tanggal_lahir_ibu')->nullable();
             $table->foreignId('pekerjaan_ibu_id')->constrained('pekerjaans')->nullable();
             $table->foreignId('tahun_akademik_id')->nullable()->constrained('tahun_akademiks');
+            $table->string('tahun_masuk', 4)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -56,7 +56,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="nisn">NISN</label>
                                                     <input type="text"
@@ -68,7 +68,7 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="nama">Nama</label>
                                                     <input type="text"
@@ -80,7 +80,26 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="jenis_kelamin">Jenis Kelamin</label>
+                                                    <select
+                                                        class="form-control @error('jenis_kelamin') is-invalid @enderror"
+                                                        id="jenis_kelamin" name="jenis_kelamin">
+                                                        <option value="">-- Pilih Jenis Kelamin --</option>
+                                                        <option value="L"
+                                                            {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>
+                                                            Laki-laki</option>
+                                                        <option value="P"
+                                                            {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>
+                                                            Perempuan</option>
+                                                    </select>
+                                                    @error('jenis_kelamin')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="kelas">Kelas</label>
                                                     <select class="form-control @error('kelas_id') is-invalid @enderror"
@@ -135,25 +154,6 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="jenis_kelamin">Jenis Kelamin</label>
-                                                    <select
-                                                        class="form-control @error('jenis_kelamin') is-invalid @enderror"
-                                                        id="jenis_kelamin" name="jenis_kelamin">
-                                                        <option value="">-- Pilih Jenis Kelamin --</option>
-                                                        <option value="L"
-                                                            {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>
-                                                            Laki-laki</option>
-                                                        <option value="P"
-                                                            {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>
-                                                            Perempuan</option>
-                                                    </select>
-                                                    @error('jenis_kelamin')
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
                                                     <label for="agama_id">Agama</label>
                                                     <select class="form-control @error('agama_id') is-invalid @enderror"
                                                         id="agama_id" name="agama_id">
@@ -168,6 +168,19 @@
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
                                                 </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="tahun_masuk">Tahun Masuk</label>
+                                                    <input type="text"
+                                                        class="form-control @error('tahun_masuk') is-invalid @enderror"
+                                                        id="tahun_masuk" placeholder="Tahun Masuk Sekolah"
+                                                        name="tahun_masuk" value="{{ old('tahun_masuk') }}">
+                                                    @error('tahun_masuk')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
                                             </div>
                                         </div>
                                         <div class="row">

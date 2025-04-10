@@ -33,6 +33,7 @@ class SiswaSeeder extends Seeder
                 'tempat_lahir_ibu' => 'Jakarta',
                 'tanggal_lahir_ibu' => '1990-01-01',
                 'pekerjaan_ibu_id' => 1,
+                'tahun_masuk' => '2025',
             ]
         ]);
     }

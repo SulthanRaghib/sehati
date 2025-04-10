@@ -30,6 +30,7 @@ class Siswa extends Model
         'tanggal_lahir_ibu',
         'pekerjaan_ibu_id',
         'tahun_akademik_id',
+        'tahun_masuk',
     ];
 
     protected static function boot()

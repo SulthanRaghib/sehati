@@ -72,7 +72,7 @@
                                         <td>{{ $s->kelas->tingkat }}</td>
                                         <td>
                                             <a href="{{ route('admin.siswa.detailKonseling', $s->id) }}"
-                                                class="btn btn-sm btn-primary">Detail Konseling</a>
+                                                class="btn btn-sm btn-primary">Konseling</a>
                                             <a href="{{ route('admin.siswa.show', $s->id) }}"
                                                 class="btn btn-sm btn-info">Detail</a>
                                             <a href="{{ route('admin.siswa.edit', $s->id) }}"

@@ -314,6 +314,7 @@ class AdminController extends Controller
             'agama_id' => 'required',
             'kelas_id' => 'required',
             'alamat' => 'required',
+            'tahun_masuk' => 'required|numeric|digits:4',
             // ayah
             'nik_ayah' => 'required|numeric|unique:siswas,nik_ayah',
             'nama_ayah' => 'required',
@@ -345,6 +346,7 @@ class AdminController extends Controller
             'agama_id' => $request->agama_id,
             'kelas_id' => $request->kelas_id,
             'alamat' => ucwords(strtolower($request->alamat)),
+            'tahun_masuk' => $request->tahun_masuk,
             // ayah
             'nik_ayah' => $request->nik_ayah,
             'nama_ayah' => ucwords(strtolower($request->nama_ayah)),
@@ -393,6 +395,7 @@ class AdminController extends Controller
             'agama_id' => 'required',
             'kelas_id' => 'required',
             'alamat' => 'required',
+            'tahun_masuk' => 'required|numeric|digits:4',
             // ayah
             'nik_ayah' => 'required|numeric',
             'nama_ayah' => 'required',
@@ -418,6 +421,7 @@ class AdminController extends Controller
             'agama_id' => $request->agama_id,
             'kelas_id' => $request->kelas_id,
             'alamat' => ucwords(strtolower($request->alamat)),
+            'tahun_masuk' => $request->tahun_masuk,
             // ayah
             'nik_ayah' => $request->nik_ayah,
             'nama_ayah' => ucwords(strtolower($request->nama_ayah)),

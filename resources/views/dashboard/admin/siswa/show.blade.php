@@ -60,7 +60,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <table class="table table-borderless">
+                                    <table class="table table-borderles">
+                                        <tr>
+                                            <td>Email</td>
+                                            <td>:</td>
+                                            <td>
+                                                <input type="text" class="form-control"
+                                                    value="{{ $siswa->user->email }}" disabled>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td>NISN</td>
                                             <td>:</td>
@@ -114,7 +122,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <h5>Data Ayah</h5>
-                                    <table class="table table-borderless">
+                                    <table class="table table-borderles">
                                         <tr>
                                             <td>NIK</td>
                                             <td>:</td>
@@ -140,7 +148,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <h5>Data Ibu</h5>
-                                    <table class="table table-borderless">
+                                    <table class="table table-borderles">
                                         <tr>
                                             <td>NIK</td>
                                             <td>:</td>
