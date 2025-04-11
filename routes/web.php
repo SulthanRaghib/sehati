@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgamaController;
+use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\ArtikelKategoriController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KelasController;
@@ -33,6 +35,7 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
+    // Data Sekolah
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
     Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
     Route::post('/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
@@ -60,8 +63,6 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::get('/tahun-akademik/create', [TahunAkademikController::class, 'create'])->name('admin.tahunAkademik.create');
     Route::post('/tahun-akademik', [TahunAkademikController::class, 'store'])->name('admin.tahunAkademik.store');
     Route::post('/tahun-akademik/set/{id}', [TahunAkademikController::class, 'setTahunAkademik'])->name('admin.setTahunAkademik');
-
-
 
     // Data Master
     Route::get('/agama', [AgamaController::class, 'index'])->name('admin.agama');
@@ -92,11 +93,21 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::put('/pekerjaan/{id}', [PekerjaanController::class, 'update'])->name('admin.pekerjaan.update');
     Route::delete('/pekerjaan/{id}', [PekerjaanController::class, 'destroy'])->name('admin.pekerjaan.destroy');
 
+    Route::get('/artikel-kategori', [ArtikelKategoriController::class, 'index'])->name('admin.artikelKategori');
+    Route::get('/artikel-kategori/create', [ArtikelKategoriController::class, 'create'])->name('admin.artikelKategori.create');
+    Route::post('/artikel-kategori', [ArtikelKategoriController::class, 'store'])->name('admin.artikelKategori.store');
+    Route::get('/artikel-kategori/{id}/edit', [ArtikelKategoriController::class, 'edit'])->name('admin.artikelKategori.edit');
+    Route::put('/artikel-kategori/{id}', [ArtikelKategoriController::class, 'update'])->name('admin.artikelKategori.update');
+    Route::delete('/artikel-kategori/{id}', [ArtikelKategoriController::class, 'destroy'])->name('admin.artikelKategori.destroy');
+
+    // Bimbingan Konseling
     Route::get('/konseling', [KonselingController::class, 'adminIndex'])->name('admin.konseling');
     Route::post('/konseling/reply', [KonselingController::class, 'adminReply'])->name('admin.konseling.reply');
     Route::put('/konseling/{id}/update', [KonselingController::class, 'adminUpdate'])->name('admin.konseling.update');
     Route::get('/konseling/{id}/show', [KonselingController::class, 'adminShow'])->name('admin.konseling.show');
     Route::delete('/konseling/{id}', [KonselingController::class, 'adminDestroy'])->name('admin.konseling.destroy');
+
+    Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel');
 
     Route::get('/konseling-siswa/{id}/detail', [KonselingController::class, 'siswaDetail'])->name('admin.siswa.detailKonseling');
 });

@@ -14,8 +14,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Data Pekerjaan</h3>
-
+                    <h3>Data Kategori Artikel</h3>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header">
@@ -35,37 +34,38 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <p class="text-subtitle text-muted">Manage Data Pekerjaan</p>
-                        <a href="{{ route('admin.pekerjaan.create') }}" class="btn btn-primary">
-                            Add Pekerjaan
-                        </a>
+                        <p class="text-subtitle text-muted">Manage Data Kategori Artikel</p>
+                        <a href="{{ route('admin.artikelKategori.create') }}" class="btn btn-primary">Add Kategori
+                            Artikel</a>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        @if ($pekerjaan->count() == 0)
+                        @if ($artikelKategori->count() == 0)
                             <div class="alert alert-info">
-                                Data Pekerjaan belum ada. Silahkan tambahkan data pekerjaan baru.
+                                Data Kategori Artikel belum ada. Silahkan tambahkan data kategori artikel baru.
                             </div>
                         @else
                             <table class="table table-striped" id="table1">
                                 <thead>
                                     <tr>
                                         <th class="col-1">No</th>
-                                        <th>Nama Pekerjaan</th>
+                                        <th>Nama Kategori</th>
+                                        <th>Slug</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($pekerjaan as $a)
+                                    @foreach ($artikelKategori as $a)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $a->nama }}</td>
+                                            <td>{{ $a->slug }}</td>
                                             <td>
-                                                <a href="{{ route('admin.pekerjaan.edit', $a->id) }}"
+                                                <a href="{{ route('admin.artikelKategori.edit', $a->id) }}"
                                                     class="btn btn-sm btn-warning">Edit</a>
-                                                <form action="{{ route('admin.pekerjaan.destroy', $a->id) }}" method="POST"
-                                                    class="d-inline form-delete">
+                                                <form action="{{ route('admin.artikelKategori.destroy', $a->id) }}"
+                                                    method="POST" class="d-inline form-delete">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="button"
@@ -83,7 +83,7 @@
                                                                 // Tampilkan SweetAlert
                                                                 Swal.fire({
                                                                     title: 'Apakah Anda yakin?',
-                                                                    text: "Data Pekerjaan ini akan dihapus secara permanen!",
+                                                                    text: "Data Kategori Artikel ini akan dihapus secara permanen!",
                                                                     icon: 'warning',
                                                                     showCancelButton: true,
                                                                     confirmButtonColor: '#d33',

@@ -22,6 +22,13 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item {{ Route::is('artikel') ? 'active' : '' }}">
+                    <a href="{{ route('artikel') }}" class="sidebar-link">
+                        <i data-feather="file-text" width="20"></i>
+                        <span>Artikel</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-title">Data Sekolah</li>
                 @if (Auth::user()->role == 'admin')
                     <li class="sidebar-item {{ Route::is('admin.guru') ? 'active' : '' }}">
@@ -81,6 +88,9 @@
                             </li>
                             <li>
                                 <a href="{{ route('admin.pendidikanTerakhir') }}">Pendidikan Terakhir</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.artikelKategori') }}">Kategori Artikel</a>
                             </li>
                         </ul>
                     </li>

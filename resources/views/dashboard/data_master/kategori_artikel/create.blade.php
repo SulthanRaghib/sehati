@@ -4,14 +4,14 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Data Pendidiakn Terakhir</h3>
+                    <h3>Data Kategori Artikel</h3>
 
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('admin.pendidikanTerakhir') }}">Pendidikan Terakhir</a>
+                                <a href="{{ route('admin.artikelKategori') }}">Kategori Artikel</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 {{ $title }}
@@ -25,8 +25,8 @@
             <div class="card">
                 <div class="card-header  pb-0">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Tambah Pendidikan Terakhir</h4>
-                        <a href="{{ route('admin.pendidikanTerakhir') }}" class="btn btn-outline-warning"
+                        <h4 class="card-title">Tambah Kategori Artikel</h4>
+                        <a href="{{ route('admin.artikelKategori') }}" class="btn btn-outline-warning"
                             id="kembali">Kembali</a>
                         <script>
                             document.getElementById('kembali').addEventListener('click', function(e) {
@@ -51,18 +51,18 @@
                 </div>
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="form form-vertical" method="POST"
-                            action="{{ route('admin.pendidikanTerakhir.store') }}">
+                        <form class="form form-vertical" method="POST" action="{{ route('admin.artikelKategori.store') }}">
                             @csrf
                             <div class="form-body">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
                                             <div class="form-group">
-                                                <label for="nama">Nama Pendidikan Terakhir</label>
-                                                <input type="text" id="nama" name="nama"
-                                                    class="form-control @error('nama') is-invalid @enderror"
-                                                    placeholder="Nama Pendidikan Terakhir" value="{{ old('nama') }}">
+                                                <label for="nama">Nama Kategori Artikel</label>
+                                                <input type="text" id="nama"
+                                                    class="form-control @error('nama') is-invalid @enderror" name="nama"
+                                                    placeholder="Masukkan Nama Kategori Artikel"
+                                                    value="{{ old('nama') }}">
                                                 @error('nama')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror

@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             KonselingSeeder::class,
             JawabanSeeder::class,
             RatingSeeder::class,
+            ArtikelKategoriSeeder::class,
         ]);
     }
 }

@@ -41,63 +41,69 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped" id="table1">
-                            <thead>
-                                <tr>
-                                    <th class="col-1">No</th>
-                                    <th>Nama Agama</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($agama as $a)
+                        @if ($agama->count() == 0)
+                            <div class="alert alert-info">
+                                Data Agama belum ada. Silahkan tambahkan data agama baru.
+                            </div>
+                        @else
+                            <table class="table table-striped" id="table1">
+                                <thead>
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $a->nama }}</td>
-                                        <td>
-                                            <a href="{{ route('admin.agama.edit', $a->id) }}"
-                                                class="btn btn-sm btn-warning">Edit</a>
-                                            <form action="{{ route('admin.agama.destroy', $a->id) }}" method="POST"
-                                                class="d-inline form-delete">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="button"
-                                                    class="btn btn-sm btn-danger btn-delete">Delete</button>
+                                        <th class="col-1">No</th>
+                                        <th>Nama Agama</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($agama as $a)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $a->nama }}</td>
+                                            <td>
+                                                <a href="{{ route('admin.agama.edit', $a->id) }}"
+                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                <form action="{{ route('admin.agama.destroy', $a->id) }}" method="POST"
+                                                    class="d-inline form-delete">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-danger btn-delete">Delete</button>
 
-                                                <script>
-                                                    // Seleksi semua tombol hapus
-                                                    document.querySelectorAll('.btn-delete').forEach(button => {
-                                                        button.addEventListener('click', function(e) {
-                                                            e.preventDefault(); // Mencegah form langsung terkirim
+                                                    <script>
+                                                        // Seleksi semua tombol hapus
+                                                        document.querySelectorAll('.btn-delete').forEach(button => {
+                                                            button.addEventListener('click', function(e) {
+                                                                e.preventDefault(); // Mencegah form langsung terkirim
 
-                                                            // Ambil form terdekat dari tombol
-                                                            const form = this.closest('.form-delete');
+                                                                // Ambil form terdekat dari tombol
+                                                                const form = this.closest('.form-delete');
 
-                                                            // Tampilkan SweetAlert
-                                                            Swal.fire({
-                                                                title: 'Apakah Anda yakin?',
-                                                                text: "Data Agama ini akan dihapus secara permanen!",
-                                                                icon: 'warning',
-                                                                showCancelButton: true,
-                                                                confirmButtonColor: '#d33',
-                                                                cancelButtonColor: '#3085d6',
-                                                                confirmButtonText: 'Ya, Hapus!',
-                                                                cancelButtonText: 'Batal'
-                                                            }).then((result) => {
-                                                                if (result.isConfirmed) {
-                                                                    // Submit form jika dikonfirmasi
-                                                                    form.submit();
-                                                                }
+                                                                // Tampilkan SweetAlert
+                                                                Swal.fire({
+                                                                    title: 'Apakah Anda yakin?',
+                                                                    text: "Data Agama ini akan dihapus secara permanen!",
+                                                                    icon: 'warning',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: '#d33',
+                                                                    cancelButtonColor: '#3085d6',
+                                                                    confirmButtonText: 'Ya, Hapus!',
+                                                                    cancelButtonText: 'Batal'
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        // Submit form jika dikonfirmasi
+                                                                        form.submit();
+                                                                    }
+                                                                });
                                                             });
                                                         });
-                                                    });
-                                                </script>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                                    </script>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
                     </div>
                 </div>
             </div>
