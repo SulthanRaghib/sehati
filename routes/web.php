@@ -108,6 +108,14 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::delete('/konseling/{id}', [KonselingController::class, 'adminDestroy'])->name('admin.konseling.destroy');
 
     Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel');
+    Route::get('/artikel/create', [ArtikelController::class, 'create'])->name('artikel.create');
+    Route::post('/artikel', [ArtikelController::class, 'store'])->name('artikel.store');
+    Route::get('/artikel/{id}/edit', [ArtikelController::class, 'edit'])->name('artikel.edit');
+    Route::put('/artikel/{id}', [ArtikelController::class, 'update'])->name('artikel.update');
+    Route::delete('/artikel/{id}', [ArtikelController::class, 'destroy'])->name('artikel.destroy');
+    Route::get('/artikel/{id}', [ArtikelController::class, 'show'])->name('artikel.show');
+    Route::post('/artikel/{id}/publish', [ArtikelController::class, 'publish'])->name('artikel.publish');
+    Route::post('/artikel/{id}/draft', [ArtikelController::class, 'draft'])->name('artikel.draft');
 
     Route::get('/konseling-siswa/{id}/detail', [KonselingController::class, 'siswaDetail'])->name('admin.siswa.detailKonseling');
 });

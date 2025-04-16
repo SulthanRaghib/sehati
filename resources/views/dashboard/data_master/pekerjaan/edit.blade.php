@@ -70,9 +70,8 @@
 
                                             <div class="col-12 d-flex justify-content-end">
                                                 <button type="submit" class="btn btn-primary mr-1 mb-1">
-                                                    Submit
+                                                    Update Pekerjaan
                                                 </button>
-
                                             </div>
                                         </div>
                                     </div>

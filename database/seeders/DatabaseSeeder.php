@@ -2,11 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Guru;
-use App\Models\Pekerjaan;
-use App\Models\PendidikanTerakhir;
-use App\Models\Siswa;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -30,6 +25,7 @@ class DatabaseSeeder extends Seeder
             JawabanSeeder::class,
             RatingSeeder::class,
             ArtikelKategoriSeeder::class,
+            ArtikelSeeder::class,
         ]);
     }
 }

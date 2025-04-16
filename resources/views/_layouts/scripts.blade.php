@@ -8,6 +8,15 @@
 
 <script src="{{ url('_partials/js/main.js') }}"></script>
 
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#wordArtikel'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+
 <script>
     $(document).ready(function() {
         $('#table1').DataTable({

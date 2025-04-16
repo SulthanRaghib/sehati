@@ -161,11 +161,14 @@
                                             </div>
 
                                             <div class="col-12 d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                                <button type="submit" class="btn btn-primary me-1 mb-1">
+                                                    Update Guru
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         </form>
                     </div>
                 </div>
