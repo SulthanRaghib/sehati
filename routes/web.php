@@ -8,6 +8,7 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\KonselingController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\PekerjaanController;
 use App\Http\Controllers\PendidikanTerakhirController;
 use App\Http\Controllers\ProfileController;
@@ -103,6 +104,8 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     // Bimbingan Konseling
     Route::get('/konseling', [KonselingController::class, 'adminIndex'])->name('admin.konseling');
     Route::post('/konseling/reply', [KonselingController::class, 'adminReply'])->name('admin.konseling.reply');
+    Route::get('/konseling/create', [KonselingController::class, 'adminCreate'])->name('admin.konseling.create');
+    Route::post('/konseling', [KonselingController::class, 'adminStore'])->name('admin.konseling.store');
     Route::put('/konseling/{id}/update', [KonselingController::class, 'adminUpdate'])->name('admin.konseling.update');
     Route::get('/konseling/{id}/show', [KonselingController::class, 'adminShow'])->name('admin.konseling.show');
     Route::delete('/konseling/{id}', [KonselingController::class, 'adminDestroy'])->name('admin.konseling.destroy');
@@ -118,6 +121,11 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::post('/artikel/{id}/draft', [ArtikelController::class, 'draft'])->name('artikel.draft');
 
     Route::get('/konseling-siswa/{id}/detail', [KonselingController::class, 'siswaDetail'])->name('admin.siswa.detailKonseling');
+
+    // Notifikasi
+    Route::get('/notifikasi/fetch', [NotifikasiController::class, 'fetchNotifikasi']);
+    Route::post('/notifikasi/{id}/read', [NotifikasiController::class, 'tandaiDibaca']);
+    Route::post('/notifikasi/baca', [NotifikasiController::class, 'tandaiSudahDibaca']);
 });
 
 require __DIR__ . '/auth.php';

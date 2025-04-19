@@ -112,3 +112,31 @@
         border-bottom: none;
     }
 </style>
+
+{{-- notif bell --}}
+<style>
+    .bell-notification {
+        position: relative;
+        display: inline-block;
+    }
+
+    .bell-notification .badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 6px;
+        background-color: #dc3545;
+        /* merah cerah */
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 0 2px white;
+        z-index: 10;
+    }
+</style>

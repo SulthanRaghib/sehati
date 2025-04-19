@@ -16,7 +16,7 @@
 
                 <li class="sidebar-title">Bimbingan Konseling</li>
                 <li class="sidebar-item {{ Route::is('admin.konseling') ? 'active' : '' }}">
-                    <a href="{{ route('admin.konseling') }}" class="sidebar-link">
+                    <a href="{{ route('admin.konseling') }}" class="sidebar-link" onclick="markAsRead()">
                         <i data-feather="book" width="20"></i>
                         <span>Konseling</span>
                     </a>
