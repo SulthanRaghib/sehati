@@ -18,6 +18,6 @@ class SiswaController extends Controller
             $siswa = null;
         }
 
-        return view('home', compact('title', 'user', 'siswa'));
+        return view('frontend.index', compact('title', 'user', 'siswa'));
     }
 }

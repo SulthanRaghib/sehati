@@ -40,8 +40,6 @@ class ApiKonselingController extends Controller
 
         event(new NewKonseling($notifikasi));
 
-
-
         return response()->json([
             'message' => 'Konseling created successfully',
             'data' => $konseling,

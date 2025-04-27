@@ -299,6 +299,13 @@ class AdminController extends Controller
         $agama = Agama::all();
         $kelas = Kelas::all();
         $pekerjaan = Pekerjaan::all();
+        $tahunAkademikAktif = TahunAkademik::where('is_active', 1)->first();
+
+        if (!$tahunAkademikAktif) {
+            return redirect()->route('admin.siswa')->with([
+                'error' => 'Tahun akademik aktif belum tersedia. Silakan tambahkan terlebih dahulu.',
+            ]);
+        }
 
         return view('dashboard.admin.siswa.create', compact('title', 'agama', 'kelas', 'pekerjaan'));
     }
@@ -308,57 +315,54 @@ class AdminController extends Controller
         $request->validate([
             'nisn' => 'required|numeric|unique:siswas,nisn',
             'nama' => 'required',
-            'tempat_lahir' => 'required',
-            'tanggal_lahir' => 'required|date|before:today',
-            'jenis_kelamin' => 'required|in:L,P',
-            'agama_id' => 'required',
-            'kelas_id' => 'required',
-            'alamat' => 'required',
-            'tahun_masuk' => 'required|numeric|digits:4',
-            // ayah
-            'nik_ayah' => 'required|numeric|unique:siswas,nik_ayah',
-            'nama_ayah' => 'required',
-            'tempat_lahir_ayah' => 'required',
-            'tanggal_lahir_ayah' => 'required|date|before:today',
-            'pekerjaan_ayah_id' => 'required',
-            // ibu
-            'nik_ibu' => 'required|numeric|unique:siswas,nik_ibu',
-            'nama_ibu' => 'required',
-            'tempat_lahir_ibu' => 'required',
-            'tanggal_lahir_ibu' => 'required|date|before:today',
-            'pekerjaan_ibu_id' => 'required',
+            // 'tempat_lahir' => 'required',
+            // 'tanggal_lahir' => 'required|date|before:today',
+            // 'jenis_kelamin' => 'required|in:L,P',
+            // 'agama_id' => 'required',
+            // 'kelas_id' => 'required',
+            // 'alamat' => 'required',
+            // 'tahun_masuk' => 'required|numeric|digits:4',
+            // // ayah
+            // 'nik_ayah' => 'required|numeric|unique:siswas,nik_ayah',
+            // 'nama_ayah' => 'required',
+            // 'tempat_lahir_ayah' => 'required',
+            // 'tanggal_lahir_ayah' => 'required|date|before:today',
+            // 'pekerjaan_ayah_id' => 'required',
+            // // ibu
+            // 'nik_ibu' => 'required|numeric|unique:siswas,nik_ibu',
+            // 'nama_ibu' => 'required',
+            // 'tempat_lahir_ibu' => 'required',
+            // 'tanggal_lahir_ibu' => 'required|date|before:today',
+            // 'pekerjaan_ibu_id' => 'required',
             // user
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
         ]);
 
         $tahunAkademikAktif = TahunAkademik::where('is_active', 1)->first();
-        if (!$tahunAkademikAktif) {
-            return redirect()->back()->with('error', 'Tahun akademik aktif tidak ditemukan');
-        }
 
         $siswa = Siswa::create([
             'nisn' => $request->nisn,
             'nama' => ucwords(strtolower($request->nama)),
-            'tempat_lahir' => ucwords(strtolower($request->tempat_lahir)),
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'agama_id' => $request->agama_id,
-            'kelas_id' => $request->kelas_id,
-            'alamat' => ucwords(strtolower($request->alamat)),
-            'tahun_masuk' => $request->tahun_masuk,
+            'tempat_lahir' => ucwords(strtolower($request->tempat_lahir)) ?? null,
+            'tanggal_lahir' => $request->tanggal_lahir ?? null,
+            'jenis_kelamin' => $request->jenis_kelamin ?? null,
+            'agama_id' => $request->agama_id ?? null,
+            'kelas_id' => $request->kelas_id ?? null,
+            'alamat' => ucwords(strtolower($request->alamat)) ?? null,
+            'tahun_masuk' => $request->tahun_masuk ?? null,
             // ayah
-            'nik_ayah' => $request->nik_ayah,
-            'nama_ayah' => ucwords(strtolower($request->nama_ayah)),
-            'tempat_lahir_ayah' => ucwords(strtolower($request->tempat_lahir_ayah)),
-            'tanggal_lahir_ayah' => $request->tanggal_lahir_ayah,
-            'pekerjaan_ayah_id' => $request->pekerjaan_ayah_id,
+            'nik_ayah' => $request->nik_ayah ?? null,
+            'nama_ayah' => ucwords(strtolower($request->nama_ayah)) ?? null,
+            'tempat_lahir_ayah' => ucwords(strtolower($request->tempat_lahir_ayah)) ?? null,
+            'tanggal_lahir_ayah' => $request->tanggal_lahir_ayah ?? null,
+            'pekerjaan_ayah_id' => $request->pekerjaan_ayah_id ?? null,
             // ibu
-            'nik_ibu' => $request->nik_ibu,
-            'nama_ibu' => ucwords(strtolower($request->nama_ibu)),
-            'tempat_lahir_ibu' => ucwords(strtolower($request->tempat_lahir_ibu)),
-            'tanggal_lahir_ibu' => $request->tanggal_lahir_ibu,
-            'pekerjaan_ibu_id' => $request->pekerjaan_ibu_id,
+            'nik_ibu' => $request->nik_ibu ?? null,
+            'nama_ibu' => ucwords(strtolower($request->nama_ibu)) ?? null,
+            'tempat_lahir_ibu' => ucwords(strtolower($request->tempat_lahir_ibu)) ?? null,
+            'tanggal_lahir_ibu' => $request->tanggal_lahir_ibu ?? null,
+            'pekerjaan_ibu_id' => $request->pekerjaan_ibu_id ?? null,
             'tahun_akademik_id' => $tahunAkademikAktif->id
         ]);
 

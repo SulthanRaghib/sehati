@@ -38,6 +38,7 @@ class KonselingController extends Controller
             'konseling_id' => $request->konseling_id,
             'isi_jawaban' => $request->isi_jawaban,
             'guru_id' => $guruID,
+            'tanggal_jawaban' => now(),
         ];
 
         if ($getKonselingID) {
@@ -80,16 +81,6 @@ class KonselingController extends Controller
             'isi_konseling' => 'required',
         ]);
 
-        // $jumlahInbox = 1;
-        // event(new NewKonseling([
-        //     'judul' => $request->judul,
-        //     'isi_konseling' => $request->isi_konseling,
-        //     'siswa_id' => 1,
-        //     'status_id' => 1,
-        //     'tanggal_konseling' => now(),
-        //     'jumlah_inbox' => $jumlahInbox,
-        // ]));
-
         Konseling::create([
             'judul' => $request->judul,
             'isi_konseling' => $request->isi_konseling,
@@ -119,5 +110,48 @@ class KonselingController extends Controller
         } else {
             return redirect()->route('admin.konseling')->with('error', 'Konseling tidak ditemukan');
         }
+    }
+
+    public function siswaKonselingStore(Request $request)
+    {
+        $request->validate(
+            [
+                'judul' => 'required|string|max:255',
+                'isi_konseling' => 'required|string',
+            ],
+            [
+                'judul.required' => 'Judul konseling tidak boleh kosong',
+                'isi_konseling.required' => 'Isi konseling tidak boleh kosong',
+            ]
+        );
+
+        Konseling::create([
+            'judul' => $request->judul,
+            'isi_konseling' => $request->isi_konseling,
+            'siswa_id' => Auth::user()->userable->id,
+            'status_id' => 1,
+            'tanggal_konseling' => now(),
+        ]);
+
+        $notifikasi = Notifikasi::create([
+            'user_id' => Auth::user()->userable->id,
+            'title' => 'Konseling Baru',
+            'body' => $request->judul,
+        ]);
+
+        event(new NewKonseling($notifikasi));
+
+        return redirect()->back()->with('success', 'Konseling berhasil dikirim!');
+    }
+
+    public function siswaKonselingRiwayat()
+    {
+        $title = 'Riwayat Konseling';
+        $konseling = Konseling::where('siswa_id', Auth::user()->userable->id)
+            ->with('status', 'jawaban')
+            ->orderBy('tanggal_konseling', 'desc')
+            ->get();
+
+        return view('frontend.konseling.riwayat', compact('title', 'konseling'));
     }
 }

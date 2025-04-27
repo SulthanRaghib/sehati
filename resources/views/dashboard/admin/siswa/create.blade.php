@@ -1,10 +1,70 @@
 @extends('dashboard')
 @section('content')
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('error') }}',
+            })
+        </script>
+    @endif
+
     <div class="main-content container-fluid">
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
                     <h3>Data Siswa</h3>
+
+                    @if (session('show_tahun_akademik_form'))
+                        <div class="alert alert-warning">
+                            <strong>Perhatian!</strong> Tahun akademik aktif belum ada.
+                            <form class="form form-vertical" method="POST" action="{{ route('tahun-akademik.store') }}">
+                                @csrf
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="periode">Periode</label>
+                                                <input type="text"
+                                                    class="form-control @error('periode') is-invalid @enderror"
+                                                    id="periode" placeholder="Contoh: 2023/2024" name="periode"
+                                                    value="{{ old('periode') }}">
+                                                @error('periode')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="semester">Semester</label>
+                                                <select name="semester"
+                                                    class="form-control @error('semester') is-invalid @enderror"
+                                                    id="semester">
+                                                    <option value="" disabled selected>Pilih Semester</option>
+                                                    <option value="Ganjil"
+                                                        {{ old('semester') == 'Ganjil' ? 'selected' : '' }}>
+                                                        Ganjil</option>
+                                                    <option value="Genap"
+                                                        {{ old('semester') == 'Genap' ? 'selected' : '' }}>
+                                                        Genap</option>
+                                                </select>
+                                                @error('semester')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary mr-1 mb-1">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    @endif
 
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">

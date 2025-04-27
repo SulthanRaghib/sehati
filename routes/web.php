@@ -29,8 +29,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Artikel`
+Route::get('/artikels', [HomeController::class, 'artikelSiswa'])->name('siswa.artikel');
+Route::get('/detail-artikel/{slug}', [ArtikelController::class, 'viewArtikel'])->name('siswa.artikel.show');
+
 Route::middleware(['auth', 'role:siswa'])->group(function () {
-    Route::get('/home', [SiswaController::class, 'home'])->name('siswa.home');
+    Route::get('/siswa-konseling', [HomeController::class, 'siswaKonseling'])->name('siswa.konseling');
+    Route::post('/siswa-konseling/store', [KonselingController::class, 'siswaKonselingStore'])->name('siswa.konselingStore');
+    Route::get('/siswa-konseling/history', [KonselingController::class, 'siswaKonselingRiwayat'])->name('siswa.konselingRiwayat');
 });
 
 Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
@@ -109,6 +115,7 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::put('/konseling/{id}/update', [KonselingController::class, 'adminUpdate'])->name('admin.konseling.update');
     Route::get('/konseling/{id}/show', [KonselingController::class, 'adminShow'])->name('admin.konseling.show');
     Route::delete('/konseling/{id}', [KonselingController::class, 'adminDestroy'])->name('admin.konseling.destroy');
+    Route::post('/siswa-konseling', [KonselingController::class, 'siswaKonseling'])->name('siswa.konseling.store');
 
     Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel');
     Route::get('/artikel/create', [ArtikelController::class, 'create'])->name('artikel.create');

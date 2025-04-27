@@ -107,12 +107,12 @@
                                         <tr>
                                             <td>Agama</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->agama->nama }}</td>
+                                            <td>{{ $siswa->agama->nama ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Alamat</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->alamat }}</td>
+                                            <td>{{ $siswa->alamat ?? '-' }}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -126,23 +126,23 @@
                                         <tr>
                                             <td>NIK</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->nik_ayah }}</td>
+                                            <td>{{ $siswa->nik_ayah ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Nama</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->nama_ayah }}</td>
+                                            <td>{{ $siswa->nama_ayah ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Tempat, Tanggal Lahir</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->tempat_lahir_ayah }},
-                                                {{ $siswa->tanggal_lahir_ayah }}</td>
+                                            <td>{{ $siswa->tempat_lahir_ayah ?? '-' }},
+                                                {{ $siswa->tanggal_lahir_ayah ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Pekerjaan Ayah</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->pekerjaanAyah->nama }}</td>
+                                            <td>{{ $siswa->pekerjaanAyah->nama ?? '-' }}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -152,23 +152,23 @@
                                         <tr>
                                             <td>NIK</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->nik_ibu }}</td>
+                                            <td>{{ $siswa->nik_ibu ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Nama</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->nama_ibu }}</td>
+                                            <td>{{ $siswa->nama_ibu ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Tempat, Tanggal Lahir</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->tempat_lahir_ibu }},
-                                                {{ $siswa->tanggal_lahir_ibu }}</td>
+                                            <td>{{ $siswa->tempat_lahir_ibu ?? '-' }},
+                                                {{ $siswa->tanggal_lahir_ibu ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Pekerjaan Ibu</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->pekerjaanIbu->nama }}</td>
+                                            <td>{{ $siswa->pekerjaanIbu->nama ?? '-' }}</td>
                                         </tr>
                                     </table>
                                 </div>

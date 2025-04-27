@@ -2,30 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Artikel;
+use App\Models\Konseling;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function index()
     {
         $title = 'Homepage | Siswa';
+        $user = Auth::user();
+        $artikelCount = Artikel::count();
+        $konselingCount = Konseling::count();
+        $guruBKCount = User::where('role', 'gurubk')->count();
 
-        return view('home', compact('title'));
+        // Default nilai
+        $siswa = null;
+
+        // Cek apakah user sudah login
+        if (Auth::check()) {
+            // Baru akses jika user tidak null
+            $siswa = $user->userable_type === 'App\Models\Siswa' ? $user->userable : null;
+        }
+
+        return view('frontend.index', compact('title', 'user', 'siswa', 'artikelCount', 'konselingCount', 'guruBKCount'));
     }
 
-    public function testingDashboard()
+    public function artikelSiswa()
     {
-        $title = 'Testing Dashboard';
+        $title = 'Artikel';
+        $artikel = Artikel::with('artikelKategori', 'user')->latest()->get();
+        // $artikel = Artikel::with('artikelKategori', 'user')->where('status', 'publish')->latest()->get();
+        $user = Auth::user();
 
-        return view('test.dashboard', compact('title'));
+        // Default nilai
+        $siswa = null;
+
+        // Cek apakah user sudah login
+        if (Auth::check()) {
+            // Baru akses jika user tidak null
+            $siswa = $user->userable_type === 'App\Models\Siswa' ? $user->userable : null;
+        }
+
+        return view('frontend.artikel.index', compact('title', 'artikel', 'siswa', 'user'));
     }
 
-    public function testingUser()
+    public function siswaKonseling()
     {
-        $title = 'Testing User';
-        $user = User::all();
+        $title = 'Konseling';
+        $user = Auth::user();
+        $siswa = $user->userable;
+        $konseling = $siswa->konseling()->with('status')->latest()->get();
 
-        return view('test.users', compact('title', 'user'));
+        return view('frontend.konseling.index', compact('title', 'konseling', 'siswa', 'user'));
     }
 }

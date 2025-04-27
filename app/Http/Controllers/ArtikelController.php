@@ -183,4 +183,23 @@ class ArtikelController extends Controller
 
         return redirect()->route('artikel')->with('success', 'Artikel berhasil disimpan sebagai draft.');
     }
+
+    public function viewArtikel($slug)
+    {
+        $title = 'Detail Artikel';
+        $artikel = Artikel::with('artikelKategori', 'user')->where('slug', $slug)->firstOrFail();
+        $artikel->increment('views');
+        $user = Auth::user();
+
+        // Default nilai
+        $siswa = null;
+
+        // Cek apakah user sudah login
+        if (Auth::check()) {
+            // Baru akses jika user tidak null
+            $siswa = $user->userable_type === 'App\Models\Siswa' ? $user->userable : null;
+        }
+
+        return view('frontend.artikel.view_detail', compact('title', 'artikel', 'siswa', 'user'));
+    }
 }

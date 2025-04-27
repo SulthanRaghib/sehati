@@ -214,60 +214,6 @@
                 </div>
         </section>
 
-        {{-- Modal Add Konseling --}}
-        <div class="modal fade text-left" id="konselingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
-            aria-hidden="true" data-backdrop="static">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel33">
-                            Tambah Konseling
-                        </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cancel">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form form-vertical" method="POST" action="{{ route('admin.konseling.store') }}">
-                            @csrf
-                            <div class="form-body">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <div class="form-group">
-                                                <label for="judul">Topik Konseling</label>
-                                                <input type="text" id="judul" name="judul"
-                                                    class="form-control @error('judul') is-invalid @enderror"
-                                                    placeholder="Silahkan isi Topik Konseling" value="{{ old('judul') }}">
-                                                @error('judul')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="isi_konseling">Pesan Konseling</label>
-                                                <textarea id="isi_konseling" name="isi_konseling" class="form-control @error('isi_konseling') is-invalid @enderror"
-                                                    placeholder="Silahkan isi Pesan Konseling">{{ old('isi_konseling') }}</textarea>
-                                                @error('isi_konseling')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-
-                                            <div class="col-12 d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-primary mr-1 mb-1">
-                                                    Submit
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Modal Reply -->
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -289,8 +235,8 @@
             });
         </script>
 
-        <div class="modal fade text-left" id="replyModal" tabindex="-1" role="dialog"
-            aria-labelledby="myModalLabel33" aria-hidden="true" data-backdrop="static">
+        <div class="modal fade text-left" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+            aria-hidden="true" data-backdrop="static">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -313,14 +259,14 @@
                                         <label class="col-form-label">Judul</label>
                                     </div>
                                     <div class="col-lg-9 col-9">
-                                        : <span id="judul"></span>
+                                        : <span id="judul">{{ $a->judul }}</span>
                                     </div>
 
                                     <div class="col-lg-3 col-3">
                                         <label class="col-form-label">Pesan Konseling</label>
                                     </div>
                                     <div class="col-lg-9 col-9">
-                                        : <span id="isi_konseling"></span>
+                                        : <span id="isi_konseling">{{ $a->isi_konseling }}</span>
                                     </div>
                                     <div class="col-lg-12 col-12">
                                         <label class="col-form-label">Balas Pesan</label>
@@ -469,5 +415,60 @@
             });
         </script>
 
+
+        {{-- Modal Add Konseling --}}
+        <div class="modal fade text-left" id="konselingModal" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel33" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel33">
+                            Tambah Konseling
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cancel">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form form-vertical" method="POST" action="{{ route('admin.konseling.store') }}">
+                            @csrf
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="judul">Topik Konseling</label>
+                                                <input type="text" id="judul" name="judul"
+                                                    class="form-control @error('judul') is-invalid @enderror"
+                                                    placeholder="Silahkan isi Topik Konseling"
+                                                    value="{{ old('judul') }}">
+                                                @error('judul')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="isi_konseling">Pesan Konseling</label>
+                                                <textarea id="isi_konseling" name="isi_konseling" class="form-control @error('isi_konseling') is-invalid @enderror"
+                                                    placeholder="Silahkan isi Pesan Konseling">{{ old('isi_konseling') }}</textarea>
+                                                @error('isi_konseling')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-12 d-flex justify-content-end">
+                                                <button type="submit" class="btn btn-primary mr-1 mb-1">
+                                                    Submit
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

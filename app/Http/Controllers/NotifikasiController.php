@@ -10,7 +10,7 @@ class NotifikasiController extends Controller
 {
     public function fetchNotifikasi()
     {
-        $notifs = Notifikasi::where('user_id', 1)->latest()->get();
+        $notifs = Notifikasi::latest()->get();
 
         return response()->json($notifs);
     }

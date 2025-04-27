@@ -9,6 +9,15 @@
             })
         </script>
     @endif
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('error') }}',
+            })
+        </script>
+    @endif
 
     <div class="main-content container-fluid">
         <div class="page-title">
