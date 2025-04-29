@@ -29,7 +29,7 @@
                 const notifList = document.getElementById('notif-list');
 
                 function fetchNotif() {
-                    fetch('/notifikasi/fetch')
+                    fetch('/notifikasi/fetch/konseling')
                         .then(res => res.json())
                         .then(data => {
                             notifList.innerHTML = '';
@@ -85,11 +85,28 @@
                     forceTLS: true
                 });
 
-                const channel = pusher.subscribe('konseling-baru');
-                channel.bind('konseling-baru', function(data) {
-                    console.log('Data masuk dari Pusher:', data); // <--- Tambahkan ini
-                    fetchNotif(); // Ambil ulang setelah ada notifikasi baru
+                // Subscribe ke channel konseling baru
+                const channelKonselingBaru = pusher.subscribe('konseling-baru');
+                channelKonselingBaru.bind('konseling-baru', function(data) {
+                    console.log('✅ Dapat data dari Pusher (konseling baru):', data);
+                    if (typeof fetchNotif === 'function') {
+                        fetchNotif();
+                    }
                 });
+
+                // Subscribe ke channel jawaban konseling
+                const channelJawabanKonseling = pusher.subscribe('jawaban-konseling');
+                channelJawabanKonseling.bind('jawaban-konseling', function(data) {
+                    console.log('✅ Dapat data dari Pusher (jawaban konseling):', data);
+                    if (typeof fetchNotif === 'function') {
+                        fetchNotif();
+                    }
+                });
+
+                // Optional: auto-fetch saat page load
+                if (typeof fetchNotif === 'function') {
+                    fetchNotif();
+                }
             </script>
 
             {{-- Message --}}

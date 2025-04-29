@@ -22,4 +22,14 @@ class Jawaban extends Model
     {
         return $this->belongsTo(Guru::class);
     }
+
+    public function notifikasi()
+    {
+        return $this->morphOne(Notifikasi::class, 'related');
+    }
+
+    public function ratings()
+    {
+        return $this->hasOne(Rating::class);
+    }
 }

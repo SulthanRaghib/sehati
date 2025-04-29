@@ -6,6 +6,7 @@ use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\ArtikelKategoriController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JawabanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\KonselingController;
 use App\Http\Controllers\NotifikasiController;
@@ -37,6 +38,15 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/siswa-konseling', [HomeController::class, 'siswaKonseling'])->name('siswa.konseling');
     Route::post('/siswa-konseling/store', [KonselingController::class, 'siswaKonselingStore'])->name('siswa.konselingStore');
     Route::get('/siswa-konseling/history', [KonselingController::class, 'siswaKonselingRiwayat'])->name('siswa.konselingRiwayat');
+    Route::get('/siswa-konseling/jawaban-unread', [JawabanController::class, 'siswaJawabanUnread'])->name('siswa.konselingJawabanUnread');
+    Route::delete('/siswa-konseling/{id}', [KonselingController::class, 'siswaKonselingDestroy'])->name('siswa.konseling.destroy');
+
+    Route::get('/notifikasi/fetch/jawaban', [NotifikasiController::class, 'fetchNotifikasiJawaban']);
+    Route::post('/notifikasi/baca/jawaban', [NotifikasiController::class, 'tandaiSudahDibacaJawaban']);
+    Route::post('/notifikasi/{id}/read/jawaban', [NotifikasiController::class, 'tandaiDibacaJawaban'])->name('notifikasi.markAsRead');
+    Route::post('/jawaban/rating', [JawabanController::class, 'rating'])->name('jawaban.rating');
+
+    Route::get('/siswa/profile', [SiswaController::class, 'show'])->name('siswa.profile');
 });
 
 Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
@@ -109,7 +119,7 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
 
     // Bimbingan Konseling
     Route::get('/konseling', [KonselingController::class, 'adminIndex'])->name('admin.konseling');
-    Route::post('/konseling/reply', [KonselingController::class, 'adminReply'])->name('admin.konseling.reply');
+    Route::post('/konseling/reply', [JawabanController::class, 'adminReply'])->name('admin.konseling.reply');
     Route::get('/konseling/create', [KonselingController::class, 'adminCreate'])->name('admin.konseling.create');
     Route::post('/konseling', [KonselingController::class, 'adminStore'])->name('admin.konseling.store');
     Route::put('/konseling/{id}/update', [KonselingController::class, 'adminUpdate'])->name('admin.konseling.update');
@@ -130,9 +140,9 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::get('/konseling-siswa/{id}/detail', [KonselingController::class, 'siswaDetail'])->name('admin.siswa.detailKonseling');
 
     // Notifikasi
-    Route::get('/notifikasi/fetch', [NotifikasiController::class, 'fetchNotifikasi']);
-    Route::post('/notifikasi/{id}/read', [NotifikasiController::class, 'tandaiDibaca']);
-    Route::post('/notifikasi/baca', [NotifikasiController::class, 'tandaiSudahDibaca']);
+    Route::get('/notifikasi/fetch/konseling', [NotifikasiController::class, 'fetchNotifikasiKonseling']);
+    Route::post('/notifikasi/{id}/read', [NotifikasiController::class, 'tandaiDibacaKonseling']);
+    Route::post('/notifikasi/baca/konseling', [NotifikasiController::class, 'tandaiSudahDibacaKonseling']);
 });
 
 require __DIR__ . '/auth.php';

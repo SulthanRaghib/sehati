@@ -11,7 +11,7 @@
     @endif
     <script>
         // Kirim request tandai sebagai dibaca saat user buka halaman konseling
-        fetch('/notifikasi/baca', {
+        fetch('/notifikasi/baca/konseling', {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -109,8 +109,8 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="text-subtitle text-muted">Manage Data Konseling</p>
-                        <a href="javascript:void(0)" class="btn btn-outline-primary" id="tambahKonseling"
-                            data-toggle="modal" data-target="#konselingModal">Tambah Konseling</a>
+                        {{-- <a href="javascript:void(0)" class="btn btn-primary" id="tambahKonseling"
+                            data-toggle="modal" data-target="#konselingModal">Tambah Konseling</a> --}}
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -140,9 +140,9 @@
                                             <td>{{ $formattedDate }}</td>
                                             <td>
                                                 @if ($a->status_id == '1')
-                                                    <span class="badge bg-warning text-dark">Belum Dijawab</span>
+                                                    <span class="badge bg-warning">Belum Dijawab</span>
                                                 @elseif($a->status_id == '2')
-                                                    <span class="badge bg-info">Dijawab</span>
+                                                    <span class="badge bg-info">Sudah Dibalas</span>
                                                 @elseif($a->status_id == '3')
                                                     <span class="badge bg-success">Selesai</span>
                                                 @endif
@@ -158,52 +158,144 @@
                                                         Balas
                                                     </a>
                                                 @elseif($a->status_id == '2')
-                                                    <a href="javascript:void(0)" class="btn-detail btn btn-sm btn-info"
-                                                        data-toggle="modal" data-target="#detailKonseling"
-                                                        data-id="{{ $a->id }}" data-judul="{{ $a->judul }}"
-                                                        data-konseling="{{ $a->isi_konseling }}"
-                                                        data-nama="{{ $a->siswa->nama }}"
-                                                        data-jawaban="{{ $a->jawaban->isi_jawaban }}"
-                                                        data-tanggal="{{ $a->jawaban->tanggal_jawaban }}">
+                                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                                        data-bs-target="#detailModal{{ $a->id }}">
                                                         Detail
-                                                    </a>
-                                                @endif
-                                                <form action="{{ route('admin.konseling.destroy', $a->id) }}"
-                                                    method="POST" class="d-inline form-delete">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="button" class="btn btn-sm btn-danger btn-delete">
-                                                        Delete
                                                     </button>
-                                                    <script>
-                                                        // Seleksi semua tombol hapus
-                                                        document.querySelectorAll('.btn-delete').forEach(button => {
-                                                            button.addEventListener('click', function(e) {
-                                                                e.preventDefault(); // Mencegah form langsung terkirim
 
-                                                                // Ambil form terdekat dari tombol
-                                                                const form = this.closest('.form-delete');
+                                                    <!-- Modal Detail -->
+                                                    <div class="modal fade" id="detailModal{{ $a->id }}"
+                                                        tabindex="-1" aria-labelledby="detailLabel{{ $a->id }}"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title"
+                                                                        id="detailLabel{{ $a->id }}">Detail
+                                                                        Konseling</h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close"
+                                                                        id="cancel">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body"
+                                                                    style="word-break: break-word; overflow-wrap: break-word;">
+                                                                    <table class="table table-borderless">
+                                                                        <tr>
+                                                                            <th style="width: 25%;">Nama</th>
+                                                                            <td>{{ $a->siswa->nama }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Judul</th>
+                                                                            <td>{{ $a->judul }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Pesan Konseling</th>
+                                                                            <td>{{ $a->isi_konseling }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Jawaban</th>
+                                                                            <td>
+                                                                                {{ $a->jawaban->isi_jawaban }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Tanggal Jawaban</th>
+                                                                            <td>{{ \Carbon\Carbon::parse($a->jawaban->tanggal_jawaban)->format('d-m-Y') }}
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
 
-                                                                // Tampilkan SweetAlert
-                                                                Swal.fire({
-                                                                    title: 'Apakah Anda yakin?',
-                                                                    text: "Data Konseling ini akan dihapus secara permanen!",
-                                                                    icon: 'warning',
-                                                                    showCancelButton: true,
-                                                                    confirmButtonColor: '#d33',
-                                                                    cancelButtonColor: '#3085d6',
-                                                                    confirmButtonText: 'Ya, Hapus!',
-                                                                    cancelButtonText: 'Batal'
-                                                                }).then((result) => {
-                                                                    if (result.isConfirmed) {
-                                                                        // Submit form jika dikonfirmasi
-                                                                        form.submit();
-                                                                    }
-                                                                });
-                                                            });
-                                                        });
-                                                    </script>
-                                                </form>
+                                                                    {{-- alert rating belom ada --}}
+                                                                    <div class="alert alert-warning mt-3">
+                                                                        Siswa belum memberikan rating
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Tutup</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @elseif ($a->status_id == '3')
+                                                    <button class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                                        data-bs-target="#ratingModal{{ $a->id }}">
+                                                        Detail
+                                                    </button>
+
+                                                    <!-- Modal Rating -->
+                                                    <div class="modal fade" id="ratingModal{{ $a->id }}"
+                                                        tabindex="-1" aria-labelledby="ratingLabel{{ $a->id }}"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title"
+                                                                        id="ratingLabel{{ $a->id }}">Detail
+                                                                        Konseling</h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close"
+                                                                        id="cancel">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <table class="table table-borderless">
+                                                                        <tr>
+                                                                            <th style="width: 25%;">Nama</th>
+                                                                            <td>{{ $a->siswa->nama }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Judul</th>
+                                                                            <td>{{ $a->judul }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Pesan Konseling</th>
+                                                                            <td>
+                                                                                {{ $a->isi_konseling }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Jawaban</th>
+                                                                            <td>
+                                                                                {{ $a->jawaban->isi_jawaban }}</td>
+                                                                        </tr>
+                                                                        @php
+                                                                            $rating = $a->jawaban->ratings ?? null;
+                                                                        @endphp
+                                                                        @if ($rating)
+                                                                            <tr>
+                                                                                <th>Rating</th>
+                                                                                <td>
+                                                                                    @for ($i = 1; $i <= 5; $i++)
+                                                                                        @if ($i <= $rating->rating)
+                                                                                            <i
+                                                                                                class="bi bi-star-fill text-warning"></i>
+                                                                                        @else
+                                                                                            <i
+                                                                                                class="bi bi-star text-secondary"></i>
+                                                                                        @endif
+                                                                                    @endfor
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Komentar</th>
+                                                                                <td>{{ $rating->komentar ?? 'Tidak ada komentar' }}
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endif
+                                                                    </table>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Tutup</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -237,7 +329,7 @@
 
         <div class="modal fade text-left" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
             aria-hidden="true" data-backdrop="static">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="myModalLabel33">
@@ -289,87 +381,6 @@
             </div>
         </div>
         {{-- /End Modal Reply --}}
-
-        <!-- Modal Detail Konseling -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const detailButtons = document.querySelectorAll('.btn-detail');
-
-                detailButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const nama = this.getAttribute('data-nama');
-                        const judul = this.getAttribute('data-judul');
-                        const isiKonseling = this.getAttribute('data-konseling');
-                        const jawaban = this.getAttribute('data-jawaban');
-                        const tanggal = this.getAttribute('data-tanggal');
-                        const formattedDate = new Date(tanggal).toLocaleDateString('id-ID', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric'
-                        });
-
-                        document.getElementById('nama_detail').textContent = nama;
-                        document.getElementById('judul_detail').textContent = judul;
-                        document.getElementById('isi_konseling_detail').textContent = isiKonseling;
-                        document.getElementById('isi_jawaban_detail').textContent = jawaban;
-                        document.getElementById('tanggal_jawaban_detail').textContent = formattedDate;
-                    });
-                });
-            });
-        </script>
-
-
-        <div class="modal fade text-left" id="detailKonseling" tabindex="-1" role="dialog"
-            aria-labelledby="detailModalLabel" aria-hidden="true" data-backdrop="static">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="detailModalLabel">Detail Konseling</h4>
-                        {{-- tanggal  --}}
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-md-12">
-                            <div class="form-group row align-items-center">
-                                <div class="col-lg-3 col-3">
-                                    <label class="col-form-label">Nama</label>
-                                </div>
-                                <div class="col-lg-9 col-9">
-                                    : <span id="nama_detail"></span>
-                                </div>
-
-                                <div class="col-lg-3 col-3">
-                                    <label class="col-form-label">Judul</label>
-                                </div>
-                                <div class="col-lg-9 col-9">
-                                    : <span id="judul_detail"></span>
-                                </div>
-
-                                <div class="col-lg-3 col-3">
-                                    <label class="col-form-label">Pesan Konseling</label>
-                                </div>
-                                <div class="col-lg-9 col-9">
-                                    : <span id="isi_konseling_detail"></span>
-                                </div>
-                                <div class="col-lg-3 col-3">
-                                    <label class="col-form-label">Jawaban</label>
-                                </div>
-                                <div class="col-lg-9 col-9">
-                                    : <span id="isi_jawaban_detail"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- /End Modal Detail Konseling --}}
-
         <script>
             document.getElementById('tutupModal').addEventListener('click', function(e) {
                 e.preventDefault(); // Mencegah modal langsung tertutup
@@ -419,7 +430,7 @@
         {{-- Modal Add Konseling --}}
         <div class="modal fade text-left" id="konselingModal" tabindex="-1" role="dialog"
             aria-labelledby="myModalLabel33" aria-hidden="true" data-backdrop="static">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="myModalLabel33">

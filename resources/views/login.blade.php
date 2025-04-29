@@ -7,7 +7,7 @@
     <title>Login</title>
     <link rel="stylesheet" href="{{ url('_partials/css/bootstrap.css') }}" />
 
-    <link rel="shortcut icon" href="{{ url('_partials/images/favicon.svg') }}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ url('mine/img/logo_tanpa_text_png.png') }}" type="image/x-icon" />
     <link rel="stylesheet" href="{{ url('_partials/css/app.css') }}" />
 </head>
 

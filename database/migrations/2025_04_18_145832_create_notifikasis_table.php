@@ -16,7 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id'); // Admin atau target user
             $table->string('title');
             $table->text('body');
+            $table->string('type'); // Jenis notifikasi (konseling, jawaban, dll)
             $table->boolean('is_read')->default(false);
+            $table->morphs('related'); // Relasi ke model lain jika diperlukan
             $table->timestamps();
         });
     }

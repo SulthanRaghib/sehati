@@ -9,19 +9,20 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
-class NewKonseling implements ShouldBroadcast
+class NewJawaban implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $konseling;
+    public $jawaban;
     /**
      * Create a new event instance.
+     *
+     * @param mixed $jawaban
      */
-    public function __construct($konseling)
+    public function __construct($jawaban)
     {
-        $this->konseling = $konseling;
+        $this->jawaban = $jawaban;
     }
 
     /**
@@ -32,27 +33,19 @@ class NewKonseling implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('konseling-baru')
+            new Channel('jawaban-konseling'),
         ];
     }
 
     public function broadcastAs()
     {
-        return 'konseling-baru';
+        return 'jawaban-konseling';
     }
 
     public function broadcastWith(): array
     {
-        // Log::info('Data yang dikirim ke pusher:', $this->konseling);
         return [
-            'konseling' => $this->konseling,
+            'jawaban' => $this->jawaban,
         ];
-        // return [
-        //     'id' => $this->konseling->id,
-        //     'title' => $this->konseling->title,
-        //     'body' => $this->konseling->body,
-        //     'type' => $this->konseling->type,
-        //     'is_read' => $this->konseling->is_read,
-        // ];
     }
 }

@@ -18,38 +18,16 @@ class KonselingController extends Controller
     {
         $title = 'Konseling';
         $konseling = Konseling::with('siswa', 'status', 'jawaban')
+            ->orderByRaw('
+                CASE
+                    WHEN EXISTS (SELECT 1 FROM jawabans WHERE jawabans.konseling_id = konselings.id) THEN 1
+                    ELSE 0
+                END ASC
+            ') // Belum dibalas (0) dulu, yang sudah dibalas (1) belakangan
             ->orderBy('tanggal_konseling', 'desc')
             ->get();
 
         return view('dashboard.konseling.index', compact('title', 'konseling'));
-    }
-
-    public function adminReply(Request $request)
-    {
-        $user = Auth::user();
-        $guruID = $user->userable_type === 'App\Models\Guru' ? $user->userable->id : null;
-        $getKonselingID = Konseling::find($request->konseling_id);
-
-        $request->validate([
-            'isi_jawaban' => 'required',
-        ]);
-
-        $insertJawaban = [
-            'konseling_id' => $request->konseling_id,
-            'isi_jawaban' => $request->isi_jawaban,
-            'guru_id' => $guruID,
-            'tanggal_jawaban' => now(),
-        ];
-
-        if ($getKonselingID) {
-            Jawaban::create($insertJawaban);
-            Konseling::where('id', $request->konseling_id)->update([
-                'status_id' => 2,
-            ]);
-            return redirect()->route('admin.konseling')->with('success', 'Konseling berhasil dibalas');
-        } else {
-            return redirect()->route('admin.konseling')->with('error', 'Konseling tidak ditemukan');
-        }
     }
 
     public function siswaDetail($id)
@@ -125,7 +103,7 @@ class KonselingController extends Controller
             ]
         );
 
-        Konseling::create([
+        $konseling = Konseling::create([
             'judul' => $request->judul,
             'isi_konseling' => $request->isi_konseling,
             'siswa_id' => Auth::user()->userable->id,
@@ -136,7 +114,10 @@ class KonselingController extends Controller
         $notifikasi = Notifikasi::create([
             'user_id' => Auth::user()->userable->id,
             'title' => 'Konseling Baru',
+            'type' => 'konseling',
             'body' => $request->judul,
+            'related_id' => $konseling->id,
+            'related_type' => Konseling::class,
         ]);
 
         event(new NewKonseling($notifikasi));
@@ -148,10 +129,22 @@ class KonselingController extends Controller
     {
         $title = 'Riwayat Konseling';
         $konseling = Konseling::where('siswa_id', Auth::user()->userable->id)
-            ->with('status', 'jawaban')
+            ->with('status', 'jawaban', 'jawaban.ratings')
             ->orderBy('tanggal_konseling', 'desc')
             ->get();
 
         return view('frontend.konseling.riwayat', compact('title', 'konseling'));
+    }
+
+    public function siswaKonselingDestroy($id)
+    {
+        $konseling = Konseling::find($id);
+
+        if ($konseling) {
+            $konseling->delete();
+            return redirect()->back()->with('success', 'Konseling berhasil dihapus');
+        } else {
+            return redirect()->back()->with('error', 'Konseling tidak ditemukan');
+        }
     }
 }

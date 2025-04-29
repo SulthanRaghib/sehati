@@ -2,7 +2,7 @@
 @section('main-content')
     <div class="features section">
         <!-- Section Title -->
-        <div class="container section-title pt-5" data-aos="fade-up">
+        <div class="container section-title pt-5 mt-4 pb-3" data-aos="fade-up">
             <div class="col-lg-12 col-md-12">
 
                 <div class="mb-4">

@@ -1,30 +1,44 @@
 @extends('home')
 @section('main-content')
-    <script>
-        channel.bind('konseling-baru', function(data) {
-            console.log('✅ Data Pusher masuk:', data);
-            fetchNotif();
-        });
-    </script>
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+            });
+        </script>
+    @elseif (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: '{{ session('error') }}',
+            });
+        </script>
+    @endif
     <!-- Services Section -->
     <section id="services" class="services section light-background">
         <!-- Section Title -->
-        <div class="container section-title pt-5" data-aos="fade-up">
-            <h2>Layanan Konseling</h2>
+        <div class="pt-3">
+            <div class="container section-title pt-5 pb-3" data-aos="fade-up">
+                <h2>Layanan Konseling</h2>
+            </div>
         </div>
         <!-- End Section Title -->
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
             <div class="row g-4">
+                <!-- Mulai Konseling -->
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <a href="#" class="text-decoration-none text-dark" data-bs-toggle="modal"
                         data-bs-target="#konselingModal">
-                        <div class="service-card d-flex p-4 h-100 shadow-sm rounded-3">
-                            <div class="icon flex-shrink-0 me-3" style="background:none;">
+                        <div class="service-card d-flex align-items-center p-4 h-100 shadow-sm rounded-3">
+                            <div class="icon flex-shrink-0 me-3 position-relative" style="background:none;">
                                 <i class="bi bi-chat-left display-5 text-primary"></i>
                             </div>
                             <div>
-                                <h5 class="fw-bold">Mulai Konseling</h5>
+                                <h5 class="fw-bold mb-1">Mulai Konseling</h5>
                                 <p class="mb-0 small">
                                     Silahkan isi form untuk memulai sesi konseling. Pastikan semua data sudah benar.
                                 </p>
@@ -33,83 +47,43 @@
                     </a>
                 </div>
 
-                <!-- Modal Mulai Konseling -->
-                <div class="modal fade @if ($errors->any()) show d-block @endif" id="konselingModal"
-                    tabindex="-1" aria-labelledby="konselingModalLabel" aria-hidden="true" data-bs-backdrop="static"
-                    data-bs-keyboard="false">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form action="{{ route('siswa.konselingStore') }}" method="POST">
-                                @csrf
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="konselingModalLabel">Mulai Sesi Konseling</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Tutup"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="judul" class="form-label">Judul Konseling</label>
-                                        <input type="text" class="form-control @error('judul') is-invalid @enderror"
-                                            id="judul" name="judul" value="{{ old('judul') }}">
-                                        @error('judul')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="isi_konseling" class="form-label">Isi Konseling</label>
-                                        <textarea class="form-control @error('isi_konseling') is-invalid @enderror" id="isi_konseling" name="isi_konseling"
-                                            rows="4">{{ old('isi_konseling') }}</textarea>
-                                        @error('isi_konseling')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">Kirim Konseling</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        @if ($errors->any())
-                            var myModal = new bootstrap.Modal(document.getElementById('konselingModal'), {
-                                backdrop: 'static',
-                                keyboard: false
-                            });
-                            myModal.show();
-                        @endif
-                    });
-                </script>
-
+                <!-- Jawaban Belum Dibaca -->
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="150">
-                    <a href="#" class="text-decoration-none text-dark">
-                        <div class="service-card d-flex p-4 h-100 shadow-sm rounded-3">
-                            <div class="icon flex-shrink-0 me-3" style="background:none;">
+                    <a href="{{ route('siswa.konselingJawabanUnread') }}"
+                        class="text-decoration-none text-dark position-relative">
+                        <div class="service-card d-flex align-items-center p-4 h-100 shadow-sm rounded-3">
+                            <div class="icon flex-shrink-0 me-3 position-relative" style="background:none;">
                                 <i class="bi bi-chat-left-text display-5 text-success"></i>
+
+                                <!-- Notif badge -->
+                                <span id="notif-count"
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    style="font-size: 0.75rem; padding: 0.3rem 0.5rem;">
+                                    <!-- Notifikasi akan dimasukkan di sini -->
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
                             </div>
                             <div>
-                                <h5 class="fw-bold">Jawaban Belum Dibaca</h5>
+                                <h5 class="fw-bold mb-1">Berikan Penilaian Jawaban</h5>
                                 <p class="mb-0 small">
-                                    Cek jawaban dari guru BK yang belum Anda baca untuk mendapatkan update.
+                                    Tinjau kembali jawaban konseling yang telah Anda terima dan berikan rating sebagai umpan
+                                    balik.
                                 </p>
                             </div>
                         </div>
                     </a>
                 </div>
 
+                <!-- Riwayat Konseling -->
                 @if ($konseling->count() == 0)
-                    <!-- Jika tidak ada riwayat -->
                     <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
                         <a href="#" class="text-decoration-none text-dark">
-                            <div class="service-card d-flex p-4 h-100 shadow-sm rounded-3">
+                            <div class="service-card d-flex align-items-center p-4 h-100 shadow-sm rounded-3">
                                 <div class="icon flex-shrink-0 me-3" style="background:none;">
                                     <i class="bi bi-emoji-frown display-5 text-secondary"></i>
                                 </div>
                                 <div>
-                                    <h5 class="fw-bold">Belum Ada Riwayat</h5>
+                                    <h5 class="fw-bold mb-1">Belum Ada Riwayat</h5>
                                     <p class="mb-0 small">
                                         Wah, kamu belum pernah konsultasi 😢<br>
                                         Yuk, <strong>mulai konsultasi</strong> pertama kamu dengan guru BK!
@@ -119,15 +93,14 @@
                         </a>
                     </div>
                 @else
-                    <!-- Jika sudah ada riwayat -->
                     <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
                         <a href="{{ route('siswa.konselingRiwayat') }}" class="text-decoration-none text-dark">
-                            <div class="service-card d-flex p-4 h-100 shadow-sm rounded-3">
+                            <div class="service-card d-flex align-items-center p-4 h-100 shadow-sm rounded-3">
                                 <div class="icon flex-shrink-0 me-3" style="background:none;">
                                     <i class="bi bi-chat-left-heart display-5 text-danger"></i>
                                 </div>
                                 <div>
-                                    <h5 class="fw-bold">Riwayat Konseling</h5>
+                                    <h5 class="fw-bold mb-1">Riwayat Konseling</h5>
                                     <p class="mb-0 small">
                                         Lihat daftar sesi konseling yang sudah Anda lakukan bersama guru BK.
                                     </p>
@@ -139,8 +112,7 @@
             </div>
         </div>
 
-
-        <script>
+        {{-- <script>
             fetch("/api/quote")
                 .then(res => res.json())
                 .then(data => {
@@ -158,6 +130,7 @@
                         <h1 id="quote-text" class="display-5 text-white" style="font-size: 1.8rem; font-weight: 600">
                             <h5 id="quote-translation" style="font-style: italic; color:white;"></h5>
                             <p id="quote-author" class="mb-0"></p>
+                        </h1>
                     </div>
 
                     <!-- Abstract Background Elements -->
@@ -208,20 +181,69 @@
                 </div>
             </div>
         </section>
-    </section>
+    </section> --}}
 
-    <!-- Tambahkan CSS hover -->
-    <style>
-        .service-card {
-            transition: all 0.3s ease;
-            background-color: #fff;
-        }
+        <!-- Modal Mulai Konseling -->
+        <div class="modal fade @if ($errors->any()) show d-block @endif" id="konselingModal" tabindex="-1"
+            aria-labelledby="konselingModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{ route('siswa.konselingStore') }}" method="POST">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="konselingModalLabel">Mulai Sesi Konseling</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="judul" class="form-label">Judul Konseling</label>
+                                <input type="text" class="form-control @error('judul') is-invalid @enderror"
+                                    id="judul" name="judul" value="{{ old('judul') }}">
+                                @error('judul')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="isi_konseling" class="form-label">Isi Konseling</label>
+                                <textarea class="form-control @error('isi_konseling') is-invalid @enderror" id="isi_konseling" name="isi_konseling"
+                                    rows="4">{{ old('isi_konseling') }}</textarea>
+                                @error('isi_konseling')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Kirim Konseling</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                @if ($errors->any())
+                    var myModal = new bootstrap.Modal(document.getElementById('konselingModal'), {
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    myModal.show();
+                @endif
+            });
+        </script>
 
-        a:hover .service-card,
-        .service-card:hover {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            transform: translateY(-5px);
-            background-color: #f9f9f9;
-        }
-    </style>
-@endsection
+        <!-- Tambahkan CSS hover -->
+        <style>
+            .service-card {
+                transition: all 0.3s ease;
+                background-color: #fff;
+            }
+
+            a:hover .service-card,
+            .service-card:hover {
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+                transform: translateY(-5px);
+                background-color: #f9f9f9;
+            }
+        </style>
+    @endsection

@@ -46,3 +46,93 @@
         }
     });
 </script>
+
+<script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+@vite('resources/js/app.js')
+<script>
+    Pusher.logToConsole = true;
+
+    const pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+        cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
+        forceTLS: true
+    });
+
+    const notifBadge = document.getElementById('notif-badge');
+    const notifCount = document.getElementById('notif-count');
+    const notifList = document.getElementById('notif-list');
+
+    function fetchJawabanNotif() {
+        console.log('[fetchJawabanNotif] Dipanggil!');
+
+        fetch('/notifikasi/fetch/jawaban')
+            .then(res => res.json())
+            .then(data => {
+                notifList.innerHTML = '';
+                let unread = 0;
+                const maxDisplay = 3;
+
+                const unreadNotifs = data.filter(notif => !notif.is_read);
+                unread = unreadNotifs.length;
+
+                unreadNotifs.slice(0, maxDisplay).forEach(notif => {
+                    notifList.innerHTML += `
+                    <li class="list-group-item border-0 align-items-start">
+                        <a href="/siswa-konseling/jawaban-unread" class="d-flex text-dark text-decoration-none">
+                            <div class="avatar bg-primary mr-3">
+                                <span class="avatar-content"><i data-feather="mail"></i></span>
+                            </div>
+                            <div>
+                                <h6 class="text-bold mb-1">${notif.title}</h6>
+                                <p class="text-xs mb-0">${notif.body.length > 10 ? notif.body.slice(0, 10) + '...' : notif.body}</p>
+                            </div>
+                        </a>
+                    </li>
+                `;
+                });
+
+                if (unread > maxDisplay) {
+                    notifList.innerHTML += `
+                    <li class="list-group-item text-center border-top">
+                        <a href="/siswa-konseling/jawaban-unread" class="text-primary font-weight-bold">
+                            Lihat Semua Jawaban
+                        </a>
+                    </li>
+                `;
+                }
+
+                if (notifCount) {
+                    notifCount.textContent = unread;
+                }
+                if (notifBadge) {
+                    notifBadge.textContent = unread;
+                }
+
+                localStorage.setItem('unreadNotifs', unread);
+
+                feather.replace();
+            })
+            .catch(error => {
+                console.error('Gagal fetch notifikasi jawaban:', error);
+            });
+    }
+
+    // On page load, update the notification badge with the saved value from localStorage
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const savedUnread = localStorage.getItem('unreadNotifs');
+        if (savedUnread) {
+            notifCount.textContent = savedUnread;
+            notifBadge.textContent = savedUnread;
+        }
+    });
+
+    // Pertama load langsung fetch
+    fetchJawabanNotif();
+
+
+    // Subscribe channel jawaban-konseling
+    const channelJawabanKonseling = pusher.subscribe('jawaban-konseling');
+    channelJawabanKonseling.bind('jawaban-konseling', function(data) {
+        console.log('✅ Dapat data dari Pusher (jawaban konseling):', data);
+        fetchJawabanNotif();
+    });
+</script>

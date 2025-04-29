@@ -2,8 +2,10 @@
 @section('main-content')
     <div class="features section">
         <!-- Section Title -->
-        <div class="container section-title pt-5" data-aos="fade-up">
-            <h2>Artikel</h2>
+        <div class="pt-3">
+            <div class="container section-title pt-5 pb-3" data-aos="fade-up">
+                <h2>Artikel</h2>
+            </div>
         </div>
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
