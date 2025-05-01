@@ -265,7 +265,7 @@
 
         <!-- Call To Action Section -->
         <script>
-            fetch("/api/quote")
+            fetch("/quote")
                 .then(res => res.json())
                 .then(data => {
                     document.getElementById("quote-text").innerText = data.original;

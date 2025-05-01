@@ -16,9 +16,29 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TahunAkademik;
 use App\Http\Controllers\TahunAkademikController;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/quote', function () {
+    $response = Http::get('https://favqs.com/api/qotd');
+    $data = $response->json();
+
+    $quote = $data['quote']['body'] ?? '';
+    $author = $data['quote']['author'] ?? 'Unknown';
+
+    // Translate ke Bahasa Indonesia
+    $tr = new GoogleTranslate('id');
+    $translated = $tr->translate($quote);
+
+    return response()->json([
+        'original' => $quote,
+        'translated' => $translated,
+        'author' => $author,
+    ]);
+});
+
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
