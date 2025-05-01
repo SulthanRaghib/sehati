@@ -9,6 +9,11 @@
 
     <link rel="shortcut icon" href="{{ url('mine/img/logo_tanpa_text_png.png') }}" type="image/x-icon" />
     <link rel="stylesheet" href="{{ url('_partials/css/app.css') }}" />
+
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="description" content="Login page for user authentication">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 
 <body>
