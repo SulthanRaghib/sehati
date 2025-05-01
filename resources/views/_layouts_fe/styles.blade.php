@@ -20,9 +20,18 @@
 <link href="{{ url('assets/css/main.css') }}" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
+@kropifyStyles
 
 {{-- SweetAlert --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<link rel="stylesheet" href="{{ asset('mine/editor_img/pintura.css') }}">
+<script src="{{ asset('mine/editor_img/pintura.js') }}"></script>
+
+<!-- Filepond stylesheet -->
+{{-- <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond-plugin-image-edit/dist/filepond-plugin-image-edit.css" rel="stylesheet" /> --}}
 
 
 <style>

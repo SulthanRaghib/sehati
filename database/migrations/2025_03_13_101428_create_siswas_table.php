@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('alamat')->nullable();
             $table->foreignId('agama_id')->nullable()->constrained('agamas');
             $table->foreignId('kelas_id')->constrained('kelas');
+            $table->string('no_hp')->nullable();
+            $table->string('foto')->nullable();
             $table->string('nik_ayah', 20)->nullable();
             $table->string('nama_ayah', 100)->nullable();
             $table->string('tempat_lahir_ayah', 100)->nullable();

@@ -46,7 +46,12 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::post('/notifikasi/{id}/read/jawaban', [NotifikasiController::class, 'tandaiDibacaJawaban'])->name('notifikasi.markAsRead');
     Route::post('/jawaban/rating', [JawabanController::class, 'rating'])->name('jawaban.rating');
 
-    Route::get('/siswa/profile', [SiswaController::class, 'show'])->name('siswa.profile');
+    Route::get('/siswa/profile', [SiswaController::class, 'profile'])->name('siswa.profile.show');
+    Route::get('/siswa/profile/edit', [SiswaController::class, 'editProfile'])->name('siswa.profile.edit');
+    Route::put('/siswa/profile/update', [SiswaController::class, 'updateDataSiswa'])->name('siswa.profile.update');
+    Route::post('/upload/foto/siswa', [SiswaController::class, 'uploadFoto'])->name('siswa.upload.foto');
+    Route::get('upload', [SiswaController::class, 'index']);
+    Route::post('crop', [SiswaController::class, 'crop'])->name('crop');
 });
 
 Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
