@@ -1,3 +1,5 @@
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
 <link rel="stylesheet" href="{{ url('_partials/css/bootstrap.css') }}" />
 
 <link rel="stylesheet" href="{{ url('_partials/vendors/chartjs/Chart.min.css') }}" />

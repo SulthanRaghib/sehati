@@ -1,3 +1,5 @@
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
 <!-- Favicons -->
 <link href="{{ url('mine/img/logo_tanpa_text_png.png') }}" rel="icon" />
 <link href="{{ url('mine/img/logo_tanpa_text_png.png') }}" rel="apple-touch-icon" />
