@@ -104,26 +104,28 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        let currentUrl = window.location.href;
+@push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let currentUrl = window.location.href;
 
-        document.querySelectorAll(".sidebar-item.has-sub").forEach(function(item) {
-            let submenuLinks = item.querySelectorAll(".submenu a");
-            let isActive = false;
+            document.querySelectorAll(".sidebar-item.has-sub").forEach(function(item) {
+                let submenuLinks = item.querySelectorAll(".submenu a");
+                let isActive = false;
 
-            submenuLinks.forEach(function(link) {
-                if (link.href === currentUrl) {
-                    isActive = true;
-                    link.classList.add("active");
+                submenuLinks.forEach(function(link) {
+                    if (link.href === currentUrl) {
+                        isActive = true;
+                        link.classList.add("active");
+                    }
+                });
+
+                if (isActive) {
+                    item.classList.add("active");
+                } else {
+                    item.classList.remove("active"); // Hapus active jika bukan halaman dropdown
                 }
             });
-
-            if (isActive) {
-                item.classList.add("active");
-            } else {
-                item.classList.remove("active"); // Hapus active jika bukan halaman dropdown
-            }
         });
-    });
-</script>
+    </script>
+@endpush

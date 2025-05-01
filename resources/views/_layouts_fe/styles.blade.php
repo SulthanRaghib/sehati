@@ -20,15 +20,11 @@
 
 <!-- Main CSS File -->
 <link href="{{ url('assets/css/main.css') }}" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @kropifyStyles
 
-{{-- SweetAlert --}}
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <link rel="stylesheet" href="{{ asset('mine/editor_img/pintura.css') }}">
-<script src="{{ asset('mine/editor_img/pintura.js') }}"></script>
+
 
 <!-- Filepond stylesheet -->
 {{-- <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
@@ -110,34 +106,9 @@
 </script> --}}
 
 
+
 {{-- Data Tabel --}}
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
-<script>
-    $(document).ready(function() {
-        $('#dataTable').DataTable({
-            "paging": true, // Aktifkan pagination
-            "lengthChange": true, // Aktifkan opsi jumlah data per halaman
-            "searching": true, // Aktifkan fitur pencarian
-            "ordering": true, // Aktifkan fitur sorting
-            "info": true, // Aktifkan info jumlah data
-            "autoWidth": false, // Matikan auto-width agar tabel responsif
-            "responsive": true, // Aktifkan responsivitas DataTables
-            "language": {
-                "search": "Cari Riwayat Konseling :",
-                "lengthMenu": "Tampilkan _MENU_ data per halaman",
-                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ data",
-                "paginate": {
-                    "first": "Awal",
-                    "last": "Akhir",
-                    "next": "Selanjutnya",
-                    "previous": "Sebelumnya"
-                }
-            },
-        });
-    });
-</script>
+
+@stack('styles')

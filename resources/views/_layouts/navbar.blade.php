@@ -22,30 +22,31 @@
                     </ul>
                 </div>
             </li>
-            <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
-            @vite('resources/js/app.js')
-            <script>
-                const notifCount = document.getElementById('notif-count');
-                const notifList = document.getElementById('notif-list');
+            @push('scripts')
+                <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+                @vite('resources/js/app.js')
+                <script>
+                    const notifCount = document.getElementById('notif-count');
+                    const notifList = document.getElementById('notif-list');
 
-                function fetchNotif() {
-                    fetch('/notifikasi/fetch/konseling')
-                        .then(res => res.json())
-                        .then(data => {
-                            notifList.innerHTML = '';
-                            let unread = 0;
-                            const maxDisplay = 3;
+                    function fetchNotif() {
+                        fetch('/notifikasi/fetch/konseling')
+                            .then(res => res.json())
+                            .then(data => {
+                                notifList.innerHTML = '';
+                                let unread = 0;
+                                const maxDisplay = 3;
 
-                            // Hitung unread
-                            data.forEach(notif => {
-                                if (!notif.is_read) unread++;
-                            });
+                                // Hitung unread
+                                data.forEach(notif => {
+                                    if (!notif.is_read) unread++;
+                                });
 
-                            // Hanya tampilkan notifikasi yang belum dibaca
-                            const unreadNotifs = data.filter(notif => !notif.is_read);
+                                // Hanya tampilkan notifikasi yang belum dibaca
+                                const unreadNotifs = data.filter(notif => !notif.is_read);
 
-                            unreadNotifs.slice(0, maxDisplay).forEach(notif => {
-                                notifList.innerHTML += `
+                                unreadNotifs.slice(0, maxDisplay).forEach(notif => {
+                                    notifList.innerHTML += `
                                     <li class="list-group-item border-0 align-items-start">
                                         <a href="/konseling" class="d-flex text-dark text-decoration-none">
                                             <div class="avatar bg-success mr-3">
@@ -58,57 +59,57 @@
                                         </a>
                                     </li>
                                 `;
-                            });
+                                });
 
-                            if (unreadNotifs.length > maxDisplay) {
-                                notifList.innerHTML += `
+                                if (unreadNotifs.length > maxDisplay) {
+                                    notifList.innerHTML += `
                                     <li class="list-group-item text-center border-top">
                                         <a href="/konseling" class="text-primary font-weight-bold">
                                             Lihat Semua Konseling
                                         </a>
                                     </li>
                                 `;
-                            }
+                                }
 
-                            notifCount.textContent = unread;
-                            feather.replace();
-                        });
-                }
-
-                // Inisialisasi pertama
-                fetchNotif();
-
-                // Pusher listener
-                Pusher.logToConsole = true;
-                const pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
-                    cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
-                    forceTLS: true
-                });
-
-                // Subscribe ke channel konseling baru
-                const channelKonselingBaru = pusher.subscribe('konseling-baru');
-                channelKonselingBaru.bind('konseling-baru', function(data) {
-                    console.log('✅ Dapat data dari Pusher (konseling baru):', data);
-                    if (typeof fetchNotif === 'function') {
-                        fetchNotif();
+                                notifCount.textContent = unread;
+                                feather.replace();
+                            });
                     }
-                });
 
-                // Subscribe ke channel jawaban konseling
-                const channelJawabanKonseling = pusher.subscribe('jawaban-konseling');
-                channelJawabanKonseling.bind('jawaban-konseling', function(data) {
-                    console.log('✅ Dapat data dari Pusher (jawaban konseling):', data);
-                    if (typeof fetchNotif === 'function') {
-                        fetchNotif();
-                    }
-                });
-
-                // Optional: auto-fetch saat page load
-                if (typeof fetchNotif === 'function') {
+                    // Inisialisasi pertama
                     fetchNotif();
-                }
-            </script>
 
+                    // Pusher listener
+                    Pusher.logToConsole = true;
+                    const pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+                        cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
+                        forceTLS: true
+                    });
+
+                    // Subscribe ke channel konseling baru
+                    const channelKonselingBaru = pusher.subscribe('konseling-baru');
+                    channelKonselingBaru.bind('konseling-baru', function(data) {
+                        console.log('✅ Dapat data dari Pusher (konseling baru):', data);
+                        if (typeof fetchNotif === 'function') {
+                            fetchNotif();
+                        }
+                    });
+
+                    // Subscribe ke channel jawaban konseling
+                    const channelJawabanKonseling = pusher.subscribe('jawaban-konseling');
+                    channelJawabanKonseling.bind('jawaban-konseling', function(data) {
+                        console.log('✅ Dapat data dari Pusher (jawaban konseling):', data);
+                        if (typeof fetchNotif === 'function') {
+                            fetchNotif();
+                        }
+                    });
+
+                    // Optional: auto-fetch saat page load
+                    if (typeof fetchNotif === 'function') {
+                        fetchNotif();
+                    }
+                </script>
+            @endpush
             {{-- Message --}}
             <li class="dropdown nav-icon mr-2">
                 <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
