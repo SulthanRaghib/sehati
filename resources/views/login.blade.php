@@ -5,10 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet" href="{{ url('_partials/css/bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ secure_asset('_partials/css/bootstrap.css') }}" />
 
-    <link rel="shortcut icon" href="{{ url('mine/img/logo_tanpa_text_png.png') }}" type="image/x-icon" />
-    <link rel="stylesheet" href="{{ url('_partials/css/app.css') }}" />
+    <link rel="shortcut icon" href="{{ secure_asset('mine/img/logo_tanpa_text_png.png') }}" type="image/x-icon" />
+    <link rel="stylesheet" href="{{ secure_asset('_partials/css/app.css') }}" />
 
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="description" content="Login page for user authentication">
@@ -24,7 +24,7 @@
                     <div class="card pt-4">
                         <div class="card-body">
                             <div class="text-center mb-5">
-                                <img src="{{ url('mine/img/logo_tanpa_text_png.png') }}" height="48"
+                                <img src="{{ secure_asset('mine/img/logo_tanpa_text_png.png') }}" height="48"
                                     class="mb-4" />
                                 <h3>Login</h3>
                                 <p>Sign in to your account to continue</p>
@@ -87,10 +87,10 @@
         });
     </script>
 
-    <script src="{{ url('_partials/js/feather-icons/feather.min.js') }}"></script>
-    <script src="{{ url('_partials/js/app.js') }}"></script>
+    <script src="{{ secure_asset('_partials/js/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ secure_asset('_partials/js/app.js') }}"></script>
 
-    <script src="{{ url('_partials/js/main.js') }}"></script>
+    <script src="{{ secure_asset('_partials/js/main.js') }}"></script>
 </body>
 
 </html>
