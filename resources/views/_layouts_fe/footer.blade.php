@@ -7,7 +7,7 @@
                 <h5 class="fw-bold">Sistem BK SMK Amaliyah</h5>
                 <p class="small text-muted">
                     Sistem Informasi Bimbingan Konseling untuk Kesehatan Mental.<br>
-                    Dibuat sebagai Tugas Akhir Mahasiswa Sistem Informasi.
+                    Dibuat sebagai Tugas Akhir Mahasiswa Teknik Informatika.
                 </p>
                 <p class="small text-muted mb-0">&copy; 2025 All Rights Reserved</p>
             </div>
