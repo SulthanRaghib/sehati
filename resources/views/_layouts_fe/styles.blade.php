@@ -25,6 +25,8 @@
 
 <link rel="stylesheet" href="{{ asset('mine/editor_img/pintura.css') }}">
 
+{{-- SweetAlert --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Filepond stylesheet -->
 {{-- <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
@@ -33,6 +35,20 @@
 
 
 <style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    main {
+        flex: 1;
+        background: #f3f9ff;
+    }
+
+
     /* Ini global styling */
     .mobile-nav-toggle {
         cursor: pointer;
@@ -63,7 +79,7 @@
         .toggle-laknat {
             position: absolute;
             right: 50px;
-            top: 10px;
+            top: 20px;
             z-index: 1;
         }
     }
@@ -73,14 +89,13 @@
         .toggle-laknat {
             position: absolute;
             right: 50px;
-            top: 10px;
+            top: 20px;
             z-index: 1;
         }
     }
 </style>
 
 {{-- <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
-@vite('resources/js/app.js')
 <script>
     Pusher.logToConsole = true;
 
