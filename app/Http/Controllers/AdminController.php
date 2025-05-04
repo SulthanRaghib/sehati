@@ -5,30 +5,135 @@ namespace App\Http\Controllers;
 use App\Models\Agama;
 use App\Models\Guru;
 use App\Models\Kelas;
+use App\Models\Konseling;
 use App\Models\Pekerjaan;
 use App\Models\PendidikanTerakhir;
 use App\Models\Siswa;
 use App\Models\TahunAkademik;
 use App\Models\User;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $title = 'Dashboard';
         $user = Auth::user();
 
-        if ($user->userable_type == 'App\Models\Guru') {
-            $guru = $user->userable;
-        } else {
-            $guru = null;
+        $guru = $user->userable_type == 'App\Models\Guru' ? $user->userable : null;
+
+        $bulan = $request->bulan;
+        $tahun = $request->tahun;
+
+        // Mulai query dasar
+        $query = Konseling::query();
+
+        if ($bulan) {
+            $query->whereMonth('created_at', $bulan);
         }
 
-        return view('dashboard.index', compact('title', 'user', 'guru'));
+        if ($tahun) {
+            $query->whereYear('created_at', $tahun);
+        }
+
+        $konselings = $query->get();
+
+        // Penentuan rentang hari hanya kalau ada filter bulan & tahun
+        if ($bulan && $tahun) {
+            $daysInMonth = Carbon::create($tahun, $bulan)->daysInMonth;
+            $chartLabels = [];
+            $chartData = [];
+
+            for ($day = 1; $day <= $daysInMonth; $day++) {
+                $start = Carbon::create($tahun, $bulan, $day)->startOfDay();
+                $end = Carbon::create($tahun, $bulan, $day)->endOfDay();
+
+                $chartLabels[] = $day;
+                $chartData[] = $konselings->whereBetween('created_at', [$start, $end])->count();
+            }
+        } elseif ($tahun && !$bulan) {
+            // Filter per bulan dalam tahun
+            $chartLabels = [];
+            $chartData = [];
+
+            for ($m = 1; $m <= 12; $m++) {
+                $count = $konselings->filter(function ($item) use ($m) {
+                    return $item->created_at->month == $m;
+                })->count();
+
+                $chartLabels[] = DateTime::createFromFormat('!m', $m)->format('F');
+                $chartData[] = $count;
+            }
+        } elseif ($bulan && !$tahun) {
+            // Filter per hari dalam bulan ini tahun ini
+            $tahun = now()->year;
+            $daysInMonth = Carbon::create($tahun, $bulan)->daysInMonth;
+
+            $chartLabels = [];
+            $chartData = [];
+
+            for ($day = 1; $day <= $daysInMonth; $day++) {
+                $start = Carbon::create($tahun, $bulan, $day)->startOfDay();
+                $end = Carbon::create($tahun, $bulan, $day)->endOfDay();
+
+                $chartLabels[] = $day;
+                $chartData[] = $konselings->whereBetween('created_at', [$start, $end])->count();
+            }
+        } else {
+            // Default sekarang: bulan & tahun saat ini
+            $bulan = now()->month;
+            $tahun = now()->year;
+            $daysInMonth = Carbon::create($tahun, $bulan)->daysInMonth;
+
+            $chartLabels = [];
+            $chartData = [];
+
+            for ($day = 1; $day <= $daysInMonth; $day++) {
+                $start = Carbon::create($tahun, $bulan, $day)->startOfDay();
+                $end = Carbon::create($tahun, $bulan, $day)->endOfDay();
+
+                $chartLabels[] = $day;
+                $chartData[] = Konseling::whereBetween('created_at', [$start, $end])->count();
+            }
+        }
+
+        // TOPIK POPULER
+        $keywords = [];
+        $judulList = Konseling::pluck('judul')->toArray();
+
+
+        foreach ($judulList as $judul) {
+            $judul = strtolower($judul);
+            $judul = preg_replace('/[^a-z0-9\s]/', '', $judul); // hilangkan tanda baca
+            $words = explode(' ', $judul);
+
+            foreach ($words as $word) {
+                if (strlen($word) > 3 && !in_array($word, ['yang', 'dari', 'dan', 'untuk', 'pada'])) {
+                    $keywords[$word] = ($keywords[$word] ?? 0) + 1;
+                }
+            }
+        }
+
+        // Ambil 5 teratas
+        arsort($keywords);
+        $topikPopuler = array_slice($keywords, 0, 4, true);
+
+        // Ambil total data Guru BK, validasi dari user role gurubk
+        $guruCount = User::where('role', 'gurubk')->count();
+
+        // Ambil total data konseling
+        $konselingCount = Konseling::count();
+
+        // Ambil total siswa yang sudah melakukan konseling
+        $siswaCount = Siswa::whereHas('konseling')->count();
+
+        return view('dashboard.index', compact('title', 'user', 'guru', 'chartLabels', 'chartData', 'bulan', 'tahun', 'topikPopuler', 'guruCount', 'konselingCount', 'siswaCount'));
     }
 
     // USERS =================================================================================

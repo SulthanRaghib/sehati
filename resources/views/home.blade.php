@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>{{ $title }}</title>
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
+    <meta name="description" content="Sistem Informasi Konseling" />
+    <meta name="author" content="Sulthan Raghib Fillah" />
+    <meta name="keywords" content="Sistem Informasi Konseling" />
 
     @include('_layouts_fe.styles')
 </head>
@@ -15,7 +16,7 @@
 
     @include('_layouts_fe.header')
 
-    <main class="main">
+    <main class="main light-background">
         @yield('main-content')
     </main>
 

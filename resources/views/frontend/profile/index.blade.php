@@ -19,7 +19,7 @@
     @endif
 
     <!-- Services Section -->
-    <section id="services" class="services section light-background">
+    <section id="services" class="services section">
         <!-- Section Title -->
         <div class="pt-3">
             <div class="container section-title pt-5 pb-3" data-aos="fade-up">

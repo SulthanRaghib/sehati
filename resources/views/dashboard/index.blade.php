@@ -7,281 +7,229 @@
                 {{ $guru->nama }} - {{ $guru->nip }}
             </p>
         </div>
-        <section class="section">
-            <div class="row mb-2">
-                <div class="col-12 col-md-3">
-                    <div class="card card-statistic">
-                        <div class="card-body p-0">
-                            <div class="d-flex flex-column">
-                                <div class="px-3 py-3 d-flex justify-content-between">
-                                    <h3 class="card-title">BALANCE</h3>
-                                    <div class="card-right d-flex align-items-center">
-                                        <p>$50</p>
-                                    </div>
-                                </div>
-                                <div class="chart-wrapper">
-                                    <canvas id="canvas1" style="height: 100px !important"></canvas>
-                                </div>
-                            </div>
-                        </div>
+        <div class="row g-4">
+            <!-- Statistik Konseling -->
+            <div class="col-md-3 d-flex align-items-stretch">
+                <div class="card shadow-sm w-100">
+                    <div class="card-header text-center bg-primary">
+                        <h5 class="card-title text-white">Total Konseling</h5>
                     </div>
-                </div>
-                <div class="col-12 col-md-3">
-                    <div class="card card-statistic">
-                        <div class="card-body p-0">
-                            <div class="d-flex flex-column">
-                                <div class="px-3 py-3 d-flex justify-content-between">
-                                    <h3 class="card-title">Revenue</h3>
-                                    <div class="card-right d-flex align-items-center">
-                                        <p>$532,2</p>
-                                    </div>
-                                </div>
-                                <div class="chart-wrapper">
-                                    <canvas id="canvas2" style="height: 100px !important"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-3">
-                    <div class="card card-statistic">
-                        <div class="card-body p-0">
-                            <div class="d-flex flex-column">
-                                <div class="px-3 py-3 d-flex justify-content-between">
-                                    <h3 class="card-title">ORDERS</h3>
-                                    <div class="card-right d-flex align-items-center">
-                                        <p>1,544</p>
-                                    </div>
-                                </div>
-                                <div class="chart-wrapper">
-                                    <canvas id="canvas3" style="height: 100px !important"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-3">
-                    <div class="card card-statistic">
-                        <div class="card-body p-0">
-                            <div class="d-flex flex-column">
-                                <div class="px-3 py-3 d-flex justify-content-between">
-                                    <h3 class="card-title">Sales Today</h3>
-                                    <div class="card-right d-flex align-items-center">
-                                        <p>423</p>
-                                    </div>
-                                </div>
-                                <div class="chart-wrapper">
-                                    <canvas id="canvas4" style="height: 100px !important"></canvas>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="card-body text-center d-flex flex-column justify-content-center">
+                        <h1 class="text-primary">{{ $konselingCount }}</h1>
                     </div>
                 </div>
             </div>
-            <div class="row mb-4">
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-heading p-1 pl-3">Sales</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4 col-12">
-                                    <div class="pl-3">
-                                        <h1 class="mt-5">$21,102</h1>
-                                        <p class="text-xs">
-                                            <span class="text-green"><i data-feather="bar-chart" width="15"></i>
-                                                +19%</span>
-                                            than last month
-                                        </p>
-                                        <div class="legends">
-                                            <div class="legend d-flex flex-row align-items-center">
-                                                <div class="w-3 h-3 rounded-full bg-info mr-2"></div>
-                                                <span class="text-xs">Last Month</span>
-                                            </div>
-                                            <div class="legend d-flex flex-row align-items-center">
-                                                <div class="w-3 h-3 rounded-full bg-blue mr-2"></div>
-                                                <span class="text-xs">Current Month</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 col-12">
-                                    <canvas id="bar"></canvas>
-                                </div>
-                            </div>
-                        </div>
+            <div class="col-md-3 d-flex align-items-stretch">
+                <div class="card shadow-sm w-100">
+                    <div class="card-header text-center bg-success">
+                        <h5 class="card-title text-white">Konselor Aktif</h5>
                     </div>
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="card-title">Orders Today</h4>
-                            <div class="d-flex">
-                                <i data-feather="download"></i>
-                            </div>
-                        </div>
-                        <div class="card-body px-0 pb-0">
-                            <div class="table-responsive">
-                                <table class="table mb-0" id="table1">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>City</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Graiden</td>
-                                            <td>vehicula.aliquet@semconsequat.co.uk</td>
-                                            <td>076 4820 8838</td>
-                                            <td>Offenburg</td>
-                                            <td>
-                                                <span class="badge bg-success">Active</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Dale</td>
-                                            <td>fringilla.euismod.enim@quam.ca</td>
-                                            <td>0500 527693</td>
-                                            <td>New Quay</td>
-                                            <td>
-                                                <span class="badge bg-success">Active</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Nathaniel</td>
-                                            <td>mi.Duis@diam.edu</td>
-                                            <td>(012165) 76278</td>
-                                            <td>Grumo Appula</td>
-                                            <td>
-                                                <span class="badge bg-danger">Inactive</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Darius</td>
-                                            <td>velit@nec.com</td>
-                                            <td>0309 690 7871</td>
-                                            <td>Ways</td>
-                                            <td>
-                                                <span class="badge bg-success">Active</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ganteng</td>
-                                            <td>velit@nec.com</td>
-                                            <td>0309 690 7871</td>
-                                            <td>Ways</td>
-                                            <td>
-                                                <span class="badge bg-success">Active</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Oleg</td>
-                                            <td>rhoncus.id@Aliquamauctorvelit.net</td>
-                                            <td>0500 441046</td>
-                                            <td>Rossignol</td>
-                                            <td>
-                                                <span class="badge bg-success">Active</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Kermit</td>
-                                            <td>diam.Sed.diam@anteVivamusnon.org</td>
-                                            <td>(01653) 27844</td>
-                                            <td>Patna</td>
-                                            <td>
-                                                <span class="badge bg-success">Active</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Your Earnings</h4>
-                        </div>
-                        <div class="card-body">
-                            <div id="radialBars"></div>
-                            <div class="text-center mb-5">
-                                <h6>From last month</h6>
-                                <h1 class="text-green">+$2,134</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card widget-todo">
-                        <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                            <h4 class="card-title d-flex">
-                                <i class="bx bx-check font-medium-5 pl-25 pr-75"></i>Progress
-                            </h4>
-                        </div>
-                        <div class="card-body px-0 py-1">
-                            <table class="table table-borderless">
-                                <tr>
-                                    <td class="col-3">UI Design</td>
-                                    <td class="col-6">
-                                        <div class="progress progress-info">
-                                            <div class="progress-bar" role="progressbar" style="width: 60%"
-                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="col-3 text-center">60%</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-3">VueJS</td>
-                                    <td class="col-6">
-                                        <div class="progress progress-success">
-                                            <div class="progress-bar" role="progressbar" style="width: 35%"
-                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="col-3 text-center">30%</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-3">Laravel</td>
-                                    <td class="col-6">
-                                        <div class="progress progress-danger">
-                                            <div class="progress-bar" role="progressbar" style="width: 50%"
-                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="col-3 text-center">50%</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-3">ReactJS</td>
-                                    <td class="col-6">
-                                        <div class="progress progress-primary">
-                                            <div class="progress-bar" role="progressbar" style="width: 80%"
-                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="col-3 text-center">80%</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-3">Go</td>
-                                    <td class="col-6">
-                                        <div class="progress progress-secondary">
-                                            <div class="progress-bar" role="progressbar" style="width: 65%"
-                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="col-3 text-center">65%</td>
-                                </tr>
-                            </table>
-                        </div>
+                    <div class="card-body text-center d-flex flex-column justify-content-center">
+                        <h1 class="text-success">{{ $guruCount }}</h1>
                     </div>
                 </div>
             </div>
+            <div class="col-md-3 d-flex align-items-stretch">
+                <div class="card shadow-sm w-100">
+                    <div class="card-header text-center bg-info">
+                        <h5 class="card-title text-white">Siswa Pernah Konseling</h5>
+                    </div>
+                    <div class="card-body text-center d-flex flex-column justify-content-center">
+                        <h1 class="text-info">{{ $siswaCount }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-items-stretch">
+                <div class="card shadow-sm w-100 d-flex flex-column">
+                    <div class="card-header text-center bg-secondary">
+                        <h5 class="card-title text-white">Topik Populer</h5>
+                    </div>
+                    <ul class="list-group list-group-flush flex-grow-1">
+                        @forelse($topikPopuler as $topik => $jumlah)
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>{{ ucfirst($topik) }}</span>
+                                <span class="badge bg-secondary">{{ $jumlah }}x</span>
+                            </li>
+                        @empty
+                            <li class="list-group-item text-muted">Belum ada data</li>
+                        @endforelse
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <!-- Grafik Konseling Bulanan -->
+                <div class="card mt-4 shadow-sm border-0 rounded-4">
+                    <div class="card-body px-4 py-4">
+
+                        <!-- Judul -->
+                        <h5 class="text-center fw-bold mb-4">
+                            <i class="bi bi-graph-up-arrow me-2 text-primary"></i>
+                            Grafik Konseling Bulanan
+                            @if (request('bulan') && request('tahun'))
+                                <span class="text-muted small d-block mt-1">
+                                    {{ DateTime::createFromFormat('!m', request('bulan'))->format('F') }}
+                                    {{ request('tahun') }}
+                                </span>
+                            @endif
+                        </h5>
+
+                        <!-- Form Filter -->
+                        <form method="GET" action="{{ route('admin.dashboard') }}"
+                            class="row g-3 justify-content-center mb-4">
+                            <div class="d-flex justify-content-center align-items-end mb-3" style="gap: 1rem;">
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <label for="bulanSelect">Pilih Bulan</label>
+                                        <select name="bulan" class="form-select" id="bulanSelect">
+                                            <option value="">-- Semua Bulan --</option>
+                                            @for ($i = 1; $i <= 12; $i++)
+                                                <option value="{{ $i }}" {{ $i == $bulan ? 'selected' : '' }}>
+                                                    {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                                                </option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <label for="tahunSelect">Pilih Tahun</label>
+                                        <select name="tahun" class="form-select" id="tahunSelect">
+                                            <option value="">-- Semua Tahun --</option>
+                                            @for ($y = now()->year; $y >= 2020; $y--)
+                                                <option value="{{ $y }}" {{ $y == $tahun ? 'selected' : '' }}>
+                                                    {{ $y }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg rounded-3">
+                                        <i class="bi bi-filter-circle me-1"></i> Filter
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Chart -->
+                        <div class="chart-container" style="position: relative; height: 40vh; width: 100%;">
+                            <canvas id="grafikKonseling"></canvas>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jadwal Hari Ini -->
+        <div class="card mt-5 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Jadwal Konseling Hari Ini</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Jam</th>
+                            <th>Siswa</th>
+                            <th>Konselor</th>
+                            <th>Topik</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>08:00</td>
+                            <td>Dina Sari</td>
+                            <td>Bu Rani</td>
+                            <td>Kecemasan</td>
+                            <td><span class="badge bg-warning text-dark">Menunggu</span></td>
+                        </tr>
+                        <tr>
+                            <td>10:00</td>
+                            <td>Rizki</td>
+                            <td>Pak Budi</td>
+                            <td>Perundungan</td>
+                            <td><span class="badge bg-success">Selesai</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Feedback atau Notifikasi -->
+        <div class="card mt-5 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Notifikasi Terbaru</h5>
+                <ul class="list-group">
+                    <li class="list-group-item">🆕 Dina mengajukan sesi konseling baru</li>
+                    <li class="list-group-item">📝 Rizki memberi rating 4/5 pada sesi terakhir</li>
+                    <li class="list-group-item">⚠️ Kasus bullying perlu ditindaklanjuti</li>
+                </ul>
+            </div>
+        </div>
         </section>
     </div>
 @endsection
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('grafikKonseling').getContext('2d');
+
+        const data = {
+            labels: {!! json_encode($chartLabels) !!},
+            datasets: [{
+                label: 'Jumlah Konseling',
+                data: {!! json_encode($chartData) !!},
+                backgroundColor: '#4e73df',
+                borderRadius: 6,
+                barPercentage: 0.5, // lebar batang
+                categoryPercentage: 1.2 // jarak antar batang
+            }]
+        };
+
+        const options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 1000,
+                easing: 'easeOutQuart'
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    offset: true,
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        padding: 8
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    suggestedMax: Math.max(...{!! json_encode($chartData) !!}) + 1,
+                    ticks: {
+                        stepSize: 1,
+                        precision: 0,
+                        padding: 8
+                    },
+                    grid: {
+                        color: '#e9ecef',
+                        borderDash: [4, 4]
+                    }
+                }
+            }
+        };
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    </script>
+@endpush

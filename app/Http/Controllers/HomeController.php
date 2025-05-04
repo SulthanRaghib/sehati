@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Artikel;
 use App\Models\Konseling;
+use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,12 @@ class HomeController extends Controller
         $artikelCount = Artikel::count();
         $konselingCount = Konseling::count();
         $guruBKCount = User::where('role', 'gurubk')->count();
+        $siswaTerbantu = Siswa::whereHas('konseling', function ($konselingQuery) {
+            $konselingQuery->where('status_id', 3) // status selesai
+                ->whereHas('jawaban.ratings', function ($ratingQuery) {
+                    $ratingQuery->where('rating', '>=', 4);
+                });
+        })->count();
 
         // Default nilai
         $siswa = null;
@@ -27,7 +34,7 @@ class HomeController extends Controller
             $siswa = $user->userable_type === 'App\Models\Siswa' ? $user->userable : null;
         }
 
-        return view('frontend.index', compact('title', 'user', 'siswa', 'artikelCount', 'konselingCount', 'guruBKCount'));
+        return view('frontend.index', compact('title', 'user', 'siswa', 'artikelCount', 'konselingCount', 'guruBKCount', 'siswaTerbantu'));
     }
 
     public function artikelSiswa()

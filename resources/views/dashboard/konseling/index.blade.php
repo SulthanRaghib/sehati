@@ -9,22 +9,23 @@
             })
         </script>
     @endif
-    <script>
-        // Kirim request tandai sebagai dibaca saat user buka halaman konseling
-        fetch('/notifikasi/baca/konseling', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Content-Type': 'application/json'
-            }
-        }).then(() => {
-            console.log('Semua notifikasi ditandai sebagai dibaca.');
-        });
-    </script>
 
+    @push('scripts')
+        <script>
+            // Kirim request tandai sebagai dibaca saat user buka halaman konseling
+            fetch('/notifikasi/baca/konseling', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json'
+                }
+            }).then(() => {
+                console.log('Semua notifikasi ditandai sebagai dibaca.');
+            });
+        </script>
+    @endpush
 
     {{-- <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
-    @vite('resources/js/app.js')
     <script>
         Pusher.logToConsole = true;
 

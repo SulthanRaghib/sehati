@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ $title }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <meta name="description" content="Sistem Informasi Konseling" />
+    <meta name="author" content="Sulthan Raghib Fillah" />
+    <meta name="keywords" content="Sistem Informasi Konseling" />
 
     @include('_layouts.styles')
 </head>
