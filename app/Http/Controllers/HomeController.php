@@ -40,8 +40,7 @@ class HomeController extends Controller
     public function artikelSiswa()
     {
         $title = 'Artikel';
-        $artikel = Artikel::with('artikelKategori', 'user')->latest()->get();
-        // $artikel = Artikel::with('artikelKategori', 'user')->where('status', 'publish')->latest()->get();
+        $artikel = Artikel::with('artikelKategori', 'user')->where('status', 'publish')->latest()->get();
         $user = Auth::user();
 
         // Default nilai

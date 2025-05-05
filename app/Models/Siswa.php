@@ -33,7 +33,49 @@ class Siswa extends Model
         'pekerjaan_ibu_id',
         'tahun_akademik_id',
         'tahun_masuk',
+        'status',
+        'is_completed',
     ];
+
+    public function checkCompletion()
+    {
+        $fields = [
+            'nisn' => $this->nisn,
+            'nama' => $this->nama,
+            'tempat_lahir' => $this->tempat_lahir,
+            'tanggal_lahir' => $this->tanggal_lahir,
+            'jenis_kelamin' => $this->jenis_kelamin,
+            'alamat' => $this->alamat,
+            'agama_id' => $this->agama_id,
+            'kelas_id' => $this->kelas_id,
+            'no_hp' => $this->no_hp,
+            'foto' => $this->foto,
+            'nik_ayah' => $this->nik_ayah,
+            'nama_ayah' => $this->nama_ayah,
+            'tempat_lahir_ayah' => $this->tempat_lahir_ayah,
+            'tanggal_lahir_ayah' => $this->tanggal_lahir_ayah,
+            'pekerjaan_ayah_id' => $this->pekerjaan_ayah_id,
+            'nik_ibu' => $this->nik_ibu,
+            'nama_ibu' => $this->nama_ibu,
+            'tempat_lahir_ibu' => $this->tempat_lahir_ibu,
+            'tanggal_lahir_ibu' => $this->tanggal_lahir_ibu,
+            'pekerjaan_ibu_id' => $this->pekerjaan_ibu_id,
+        ];
+
+        $emptyFields = [];
+
+        foreach ($fields as $key => $value) {
+            if ($value === null || $value === '') {
+                $emptyFields[] = $key;
+            }
+        }
+
+        $this->is_completed = count($emptyFields) === 0;
+        $this->save();
+
+        return $emptyFields; // Kembalikan array field yang belum lengkap
+    }
+
 
     protected static function boot()
     {

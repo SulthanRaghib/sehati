@@ -35,6 +35,8 @@ return new class extends Migration
             $table->foreignId('pekerjaan_ibu_id')->nullable()->constrained('pekerjaans');
             $table->foreignId('tahun_akademik_id')->nullable()->constrained('tahun_akademiks');
             $table->string('tahun_masuk', 4)->nullable();
+            $table->string('status')->default('Aktif');
+            $table->boolean('is_completed')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

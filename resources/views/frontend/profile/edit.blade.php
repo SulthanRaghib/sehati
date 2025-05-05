@@ -1,13 +1,3 @@
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-
-@endif
 <!-- Edit Tab -->
 <div class="tab-pane fade show active" id="edit" role="tabpanel">
     <div class="card shadow-sm border-0">

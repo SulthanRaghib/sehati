@@ -20,7 +20,7 @@
                             <th>Isi Konseling</th>
                             <th>Status</th>
                             <th>Tanggal Konseling</th>
-                            <th>Balasan</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,7 +32,7 @@
                                 <td>
                                     @switch($k->status_id)
                                         @case(1)
-                                            <span class="badge bg-warning">Menunggu</span>
+                                            <span class="badge bg-warning">Menunggu Jawaban</span>
                                         @break
 
                                         @case(2)
@@ -49,10 +49,48 @@
                                 </td>
                                 <td>{{ \Carbon\Carbon::parse($k->tanggal_konseling)->format('d M Y H:i') }}</td>
                                 <td>
-                                    @if ($k->status_id == 2)
+                                    @if ($k->status_id == 1)
+                                        {{-- delete --}}
+                                        <form action="{{ route('siswa.konseling.destroy', $k->id) }}" method="POST"
+                                            class="d-inline form-delete">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="button"
+                                                class="btn btn-sm btn-outline-danger btn-delete">Delete</button>
+
+                                            <script>
+                                                // Seleksi semua tombol hapus
+                                                document.querySelectorAll('.btn-delete').forEach(button => {
+                                                    button.addEventListener('click', function(e) {
+                                                        e.preventDefault(); // Mencegah form langsung terkirim
+
+                                                        // Ambil form terdekat dari tombol
+                                                        const form = this.closest('.form-delete');
+
+                                                        // Tampilkan SweetAlert
+                                                        Swal.fire({
+                                                            title: 'Apakah Anda yakin?',
+                                                            text: "Data Konseling ini akan dihapus secara permanen!",
+                                                            icon: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#d33',
+                                                            cancelButtonColor: '#3085d6',
+                                                            confirmButtonText: 'Ya, Hapus!',
+                                                            cancelButtonText: 'Batal'
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                // Submit form jika dikonfirmasi
+                                                                form.submit();
+                                                            }
+                                                        });
+                                                    });
+                                                });
+                                            </script>
+                                        </form>
+                                    @elseif ($k->status_id == 2)
                                         <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
                                             data-bs-target="#balasanModal{{ $k->id }}">
-                                            Lihat
+                                            Lihat Balasan
                                         </button>
 
                                         <!-- Modal Balasan -->
@@ -102,7 +140,7 @@
                                                     </div>
                                                     <div class="modal-body"
                                                         style="word-break: break-word; overflow-wrap: break-word;">
-                                                        <p>{{ $k->jawaban->isi_jawaban }}</p>
+                                                        <p>{!! $k->jawaban->isi_jawaban !!}</p>
 
                                                         <hr>
 
@@ -142,45 +180,7 @@
                                             </div>
                                         </div>
                                     @else
-                                        <span class="text-muted">Belum Ada Jawaban</span>
                                     @endif
-                                    {{-- delete --}}
-                                    <form action="{{ route('siswa.konseling.destroy', $k->id) }}" method="POST"
-                                        class="d-inline form-delete">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="button"
-                                            class="btn btn-sm btn-outline-danger btn-delete">Delete</button>
-
-                                        <script>
-                                            // Seleksi semua tombol hapus
-                                            document.querySelectorAll('.btn-delete').forEach(button => {
-                                                button.addEventListener('click', function(e) {
-                                                    e.preventDefault(); // Mencegah form langsung terkirim
-
-                                                    // Ambil form terdekat dari tombol
-                                                    const form = this.closest('.form-delete');
-
-                                                    // Tampilkan SweetAlert
-                                                    Swal.fire({
-                                                        title: 'Apakah Anda yakin?',
-                                                        text: "Data Konseling ini akan dihapus secara permanen!",
-                                                        icon: 'warning',
-                                                        showCancelButton: true,
-                                                        confirmButtonColor: '#d33',
-                                                        cancelButtonColor: '#3085d6',
-                                                        confirmButtonText: 'Ya, Hapus!',
-                                                        cancelButtonText: 'Batal'
-                                                    }).then((result) => {
-                                                        if (result.isConfirmed) {
-                                                            // Submit form jika dikonfirmasi
-                                                            form.submit();
-                                                        }
-                                                    });
-                                                });
-                                            });
-                                        </script>
-                                    </form>
                                 </td>
                             </tr>
                         @endforeach

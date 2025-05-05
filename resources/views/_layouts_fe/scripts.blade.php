@@ -126,7 +126,7 @@
                             </div>
                             <div>
                                 <h6 class="text-bold mb-1">${notif.title}</h6>
-                                <p class="text-xs mb-0">${notif.body.length > 10 ? notif.body.slice(0, 10) + '...' : notif.body}</p>
+                                <p class="text-xs mb-0">${notif.body.length > 20 ? notif.body.slice(0, 20) + '...' : notif.body}</p>
                             </div>
                         </a>
                     </li>

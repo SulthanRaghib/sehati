@@ -95,33 +95,6 @@
     }
 </style>
 
-{{-- <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
-<script>
-    Pusher.logToConsole = true;
-
-    // Inisialisasi Pusher
-    const pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
-        cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
-        forceTLS: true
-    });
-
-    // Subscribe ke channel jawaban konseling
-    const channelJawabanKonseling = pusher.subscribe('jawaban-konseling');
-    channelJawabanKonseling.bind('jawaban-konseling', function(data) {
-        console.log('✅ Dapat data dari Pusher (jawaban konseling):', data);
-        if (typeof fetchNotif === 'function') {
-            fetchNotif();
-        }
-    });
-
-    // Fetch notifikasi saat halaman dimuat
-    if (typeof fetchNotif === 'function') {
-        fetchNotif();
-    }
-</script> --}}
-
-
-
 {{-- Data Tabel --}}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">

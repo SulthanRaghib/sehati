@@ -16,6 +16,14 @@
                 text: '{{ session('error') }}',
             });
         </script>
+    @elseif (session('warning'))
+        <script>
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan!',
+                text: '{{ session('warning') }}',
+            });
+        </script>
     @endif
 
     <!-- Services Section -->
@@ -29,12 +37,21 @@
         <!-- End Section Title -->
 
         <div class="container">
-            @if (session('warning'))
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>Perhatian!</strong> {{ session('warning') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            @if (!$siswa->is_completed)
+                <div class="alert alert-warning">
+                    <strong>Data Anda belum lengkap.</strong>
+                    Silakan lengkapi <a href="{{ route('siswa.profile.edit') }}">di sini</a>.
+
+                    <br>
+                    <small><strong>Field yang belum diisi:</strong></small>
+                    <ul class="mb-0">
+                        @foreach ($missingFields as $field)
+                            <li>{{ $field }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
+
             <!-- Tabs -->
             <div class="d-flex flex-column align-items-center">
                 <ul class="nav nav-pills" id="profileTab" role="tablist">

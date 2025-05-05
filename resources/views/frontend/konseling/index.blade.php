@@ -66,8 +66,8 @@
                             <div>
                                 <h5 class="fw-bold mb-1">Berikan Penilaian Jawaban</h5>
                                 <p class="mb-0 small">
-                                    Tinjau kembali jawaban konseling yang telah Anda terima dan berikan rating sebagai umpan
-                                    balik.
+                                    Pendapatmu sangat berarti sebagai umpan balik agar layanan konseling bisa menjadi lebih
+                                    baik ke depannya.
                                 </p>
                             </div>
                         </div>
@@ -120,29 +120,32 @@
                     <form action="{{ route('siswa.konselingStore') }}" method="POST">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="konselingModalLabel">Mulai Sesi Konseling</h5>
+                            <h5 class="modal-title" id="konselingModalLabel">Cerita Yuk, Ada Apa Hari Ini?</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="judul" class="form-label">Judul Konseling</label>
+                                <label for="judul" class="form-label">Kalimat Singkat Tentang Apa yang Ingin Kamu
+                                    Ceritakan</label>
                                 <input type="text" class="form-control @error('judul') is-invalid @enderror"
-                                    id="judul" name="judul" value="{{ old('judul') }}">
+                                    id="judul" name="judul" value="{{ old('judul') }}"
+                                    placeholder="Contoh: Aku merasa tertekan di sekolah akhir-akhir ini">
                                 @error('judul')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="isi_konseling" class="form-label">Isi Konseling</label>
+                                <label for="isi_konseling" class="form-label">Ceritakan Lebih Lengkap di Sini, Kami Siap
+                                    Mendengarkan</label>
                                 <textarea class="form-control @error('isi_konseling') is-invalid @enderror" id="isi_konseling" name="isi_konseling"
-                                    rows="4">{{ old('isi_konseling') }}</textarea>
+                                    rows="5" placeholder="Tulis semua yang kamu rasakan, kamu tidak sendiri...">{{ old('isi_konseling') }}</textarea>
                                 @error('isi_konseling')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Kirim Konseling</button>
+                            <button type="submit" class="btn btn-primary">Kirim Cerita Saya</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                         </div>
                     </form>

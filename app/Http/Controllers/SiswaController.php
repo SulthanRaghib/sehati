@@ -38,40 +38,33 @@ class SiswaController extends Controller
         $agama = Agama::all();
         $pekerjaans = Pekerjaan::all();
 
-        $wajibIsi = [
-            'nisn',
-            'nama',
-            'tempat_lahir',
-            'tanggal_lahir',
-            'jenis_kelamin',
-            'alamat',
-            'agama_id',
-            'kelas_id',
-            'no_hp',
-            'nik_ayah',
-            'nama_ayah',
-            'tempat_lahir_ayah',
-            'tanggal_lahir_ayah',
-            'pekerjaan_ayah_id',
-            'nik_ibu',
-            'nama_ibu',
-            'tempat_lahir_ibu',
-            'tanggal_lahir_ibu',
-            'pekerjaan_ibu_id'
+        $emptyFields = $siswa->checkCompletion(); // Ambil field kosong
+        $labels = [
+            'nisn' => 'NISN',
+            'nama' => 'Nama',
+            'tempat_lahir' => 'Tempat Lahir',
+            'tanggal_lahir' => 'Tanggal Lahir',
+            'jenis_kelamin' => 'Jenis Kelamin',
+            'alamat' => 'Alamat',
+            'agama_id' => 'Agama',
+            'kelas_id' => 'Kelas',
+            'no_hp' => 'No HP',
+            'foto' => 'Foto',
+            'nik_ayah' => 'NIK Ayah',
+            'nama_ayah' => 'Nama Ayah',
+            'tempat_lahir_ayah' => 'Tempat Lahir Ayah',
+            'tanggal_lahir_ayah' => 'Tanggal Lahir Ayah',
+            'pekerjaan_ayah_id' => 'Pekerjaan Ayah',
+            'nik_ibu' => 'NIK Ibu',
+            'nama_ibu' => 'Nama Ibu',
+            'tempat_lahir_ibu' => 'Tempat Lahir Ibu',
+            'tanggal_lahir_ibu' => 'Tanggal Lahir Ibu',
+            'pekerjaan_ibu_id' => 'Pekerjaan Ibu',
         ];
 
-        $dataKosong = [];
-        foreach ($wajibIsi as $field) {
-            if (empty($siswa->$field)) {
-                $dataKosong[] = $field;
-            }
-        }
+        $missingFields = collect($emptyFields)->map(fn($key) => $labels[$key] ?? $key)->toArray();
 
-        if (!empty($dataKosong)) {
-            session()->flash('warning', 'Silakan lengkapi data profil terlebih dahulu!');
-        }
-
-        return view('frontend.profile.index', compact('title', 'siswa', 'agama', 'pekerjaans'));
+        return view('frontend.profile.index', compact('title', 'siswa', 'agama', 'pekerjaans', 'missingFields'));
     }
 
     public function editProfile()
@@ -82,40 +75,33 @@ class SiswaController extends Controller
         $agama = Agama::all();
         $pekerjaans = Pekerjaan::all();
 
-        $wajibIsi = [
-            'nisn',
-            'nama',
-            'tempat_lahir',
-            'tanggal_lahir',
-            'jenis_kelamin',
-            'alamat',
-            'agama_id',
-            'kelas_id',
-            'no_hp',
-            'nik_ayah',
-            'nama_ayah',
-            'tempat_lahir_ayah',
-            'tanggal_lahir_ayah',
-            'pekerjaan_ayah_id',
-            'nik_ibu',
-            'nama_ibu',
-            'tempat_lahir_ibu',
-            'tanggal_lahir_ibu',
-            'pekerjaan_ibu_id'
+        $emptyFields = $siswa->checkCompletion(); // Ambil field kosong
+        $labels = [
+            'nisn' => 'NISN',
+            'nama' => 'Nama',
+            'tempat_lahir' => 'Tempat Lahir',
+            'tanggal_lahir' => 'Tanggal Lahir',
+            'jenis_kelamin' => 'Jenis Kelamin',
+            'alamat' => 'Alamat',
+            'agama_id' => 'Agama',
+            'kelas_id' => 'Kelas',
+            'no_hp' => 'No HP',
+            'foto' => 'Foto',
+            'nik_ayah' => 'NIK Ayah',
+            'nama_ayah' => 'Nama Ayah',
+            'tempat_lahir_ayah' => 'Tempat Lahir Ayah',
+            'tanggal_lahir_ayah' => 'Tanggal Lahir Ayah',
+            'pekerjaan_ayah_id' => 'Pekerjaan Ayah',
+            'nik_ibu' => 'NIK Ibu',
+            'nama_ibu' => 'Nama Ibu',
+            'tempat_lahir_ibu' => 'Tempat Lahir Ibu',
+            'tanggal_lahir_ibu' => 'Tanggal Lahir Ibu',
+            'pekerjaan_ibu_id' => 'Pekerjaan Ibu',
         ];
 
-        $dataKosong = [];
-        foreach ($wajibIsi as $field) {
-            if (empty($siswa->$field)) {
-                $dataKosong[] = $field;
-            }
-        }
+        $missingFields = collect($emptyFields)->map(fn($key) => $labels[$key] ?? $key)->toArray();
 
-        if (!empty($dataKosong)) {
-            session()->flash('warning', 'Silakan lengkapi data profil terlebih dahulu!');
-        }
-
-        return view('frontend.profile.index', compact('title', 'siswa', 'agama', 'pekerjaans'));
+        return view('frontend.profile.index', compact('title', 'siswa', 'agama', 'pekerjaans', 'missingFields'));
     }
 
     public function updateDataSiswa(Request $request)
@@ -168,11 +154,15 @@ class SiswaController extends Controller
             'pekerjaan_ibu_id' => $request->pekerjaan_ibu_id,
         ]);
 
-        if ($siswa) {
-            return redirect()->route('siswa.profile.show')->with('success', 'Data berhasil diperbarui');
-        } else {
-            return redirect()->back()->with('error', 'Data gagal diperbarui');
+        $emptyFields = $siswa->checkCompletion();
+
+        if (!empty($emptyFields)) {
+            $fieldNames = implode(', ', $emptyFields);
+            return redirect()->route('siswa.profile.show')
+                ->with('warning', 'Data berhasil diperbarui, namun masih ada data yang belum lengkap: ' . $fieldNames);
         }
+
+        return redirect()->route('siswa.profile.show')->with('success', 'Data berhasil diperbarui dan sudah lengkap');
     }
 
     public function uploadFoto(Request $request)

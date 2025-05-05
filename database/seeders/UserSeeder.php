@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -29,6 +30,7 @@ class UserSeeder extends Seeder
             'added_by_role' => 'admin',
             'userable_id' => $guruBk->id,
             'userable_type' => Guru::class,
+            'remember_token' => Str::random(60),
         ]);
 
         // User untuk Siswa
@@ -40,17 +42,19 @@ class UserSeeder extends Seeder
             'added_by_role' => 'gurubk',
             'userable_id' => $siswa->id,
             'userable_type' => Siswa::class,
+            'remember_token' => Str::random(60),
         ]);
 
         // User untuk Kepala Sekolah (Admin)
         User::create([
             'name' => $kepalaSekolah->nama,
             'email' => 'admin@gmail.com',
-            'password' => Hash::make('123456'),
+            'password' => Hash::make('admin#123'),
             'role' => 'admin', // Admin tetap bagian dari guru
             'added_by_role' => 'admin',
             'userable_id' => $kepalaSekolah->id,
             'userable_type' => Guru::class,
+            'remember_token' => Str::random(60),
         ]);
     }
 }
