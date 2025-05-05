@@ -84,6 +84,8 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::get('/users/{id}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
     Route::put('/users/{id}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/users/{id}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
+    Route::post('/users/{id}/password', [AdminController::class, 'editUserPassword'])->name('admin.users.password');
+    Route::post('/users/update/password', [AdminController::class, 'updatePassword'])->name('admin.users.update.password');
 
     Route::get('/guru', [AdminController::class, 'guru'])->name('admin.guru');
     Route::get('/guru/create', [AdminController::class, 'createGuru'])->name('admin.guru.create');
@@ -105,6 +107,9 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::get('/tahun-akademik/create', [TahunAkademikController::class, 'create'])->name('admin.tahunAkademik.create');
     Route::post('/tahun-akademik', [TahunAkademikController::class, 'store'])->name('admin.tahunAkademik.store');
     Route::post('/tahun-akademik/set/{id}', [TahunAkademikController::class, 'setTahunAkademik'])->name('admin.setTahunAkademik');
+    Route::get('/tahun-akademik/{id}/edit', [TahunAkademikController::class, 'edit'])->name('admin.tahunAkademik.edit');
+    Route::put('/tahun-akademik/{id}', [TahunAkademikController::class, 'update'])->name('admin.tahunAkademik.update');
+    Route::delete('/tahun-akademik/{id}', [TahunAkademikController::class, 'destroy'])->name('admin.tahunAkademik.destroy');
 
     // Data Master
     Route::get('/agama', [AgamaController::class, 'index'])->name('admin.agama');

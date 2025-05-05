@@ -71,17 +71,63 @@
                                             </td>
                                             </td>
                                             <td>
-                                                @if (!$a->is_active)
-                                                    <form action="{{ route('admin.setTahunAkademik', $a->id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-sm btn-primary">
-                                                            Set Aktif
-                                                        </button>
-                                                    </form>
-                                                @else
-                                                    <button class="btn btn-sm btn-success" disabled>Aktif</button>
-                                                @endif
+                                                <div class="d-flex flex-wrap" style="gap: 5px;">
+                                                    {{-- Tombol Set Aktif / Aktif --}}
+                                                    @if (!$a->is_active)
+                                                        <form action="{{ route('admin.setTahunAkademik', $a->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-primary">Set
+                                                                Aktif</button>
+                                                        </form>
+                                                    @else
+                                                        <button class="btn btn-sm btn-success" disabled>Aktif</button>
+                                                    @endif
+
+                                                    {{-- Tombol Edit --}}
+                                                    <a href="{{ route('admin.tahunAkademik.edit', $a->id) }}"
+                                                        class="btn btn-sm btn-warning">Edit</a>
+
+                                                    {{-- Tombol Delete atau Lock --}}
+                                                    @if (!$a->is_active && $a->siswa->isEmpty())
+                                                        <form action="{{ route('admin.tahunAkademik.destroy', $a->id) }}"
+                                                            method="POST" class="d-inline form-delete">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-danger btn-delete">Delete</button>
+
+                                                            <script>
+                                                                // Seleksi semua tombol hapus
+                                                                document.querySelectorAll('.btn-delete').forEach(button => {
+                                                                    button.addEventListener('click', function(e) {
+                                                                        e.preventDefault(); // Mencegah form langsung terkirim
+
+                                                                        // Ambil form terdekat dari tombol
+                                                                        const form = this.closest('.form-delete');
+
+                                                                        // Tampilkan SweetAlert
+                                                                        Swal.fire({
+                                                                            title: 'Apakah Anda yakin?',
+                                                                            text: "Data Tahun Akademik ini akan dihapus secara permanen!",
+                                                                            icon: 'warning',
+                                                                            showCancelButton: true,
+                                                                            confirmButtonColor: '#d33',
+                                                                            cancelButtonColor: '#3085d6',
+                                                                            confirmButtonText: 'Ya, Hapus!',
+                                                                            cancelButtonText: 'Batal'
+                                                                        }).then((result) => {
+                                                                            if (result.isConfirmed) {
+                                                                                // Submit form jika dikonfirmasi
+                                                                                form.submit();
+                                                                            }
+                                                                        });
+                                                                    });
+                                                                });
+                                                            </script>
+                                                        </form>
+                                                    @endif
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
