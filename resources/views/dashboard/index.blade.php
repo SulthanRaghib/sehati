@@ -202,7 +202,7 @@
         </div>
 
         <!-- Jadwal Hari Ini -->
-        <div class="card mt-5 shadow-sm">
+        {{-- <div class="card mt-5 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Jadwal Konseling Hari Ini</h5>
                 <div class="table-responsive">
@@ -235,10 +235,10 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Feedback atau Notifikasi -->
-        <div class="card mt-5 shadow-sm">
+        {{-- <div class="card mt-5 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Notifikasi Terbaru</h5>
                 <ul class="list-group">
@@ -247,7 +247,7 @@
                     <li class="list-group-item">⚠️ Kasus bullying perlu ditindaklanjuti</li>
                 </ul>
             </div>
-        </div>
+        </div> --}}
         </section>
     </div>
 @endsection
