@@ -29,7 +29,8 @@
                 <h6 class="fw-bold">Informasi Akademik</h6>
                 <ul class="list-unstyled small text-muted">
                     <li><i class="bi bi-journal-text me-2 text-primary"></i> Tugas Akhir 2025</li>
-                    <li><i class="bi bi-person-badge me-2 text-primary"></i> Dosen Pembimbing: Nasrul</li>
+                    <li><i class="bi bi-person-badge me-2 text-primary"></i> Dosen Pembimbing: Nasrul, S.Pd.I., S.Kom.,
+                        M.Kom.</li>
                     <li><i class="bi bi-building me-2 text-primary"></i> SMK Amaliyah</li>
                 </ul>
             </div>

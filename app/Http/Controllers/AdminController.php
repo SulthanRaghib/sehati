@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
@@ -28,40 +29,42 @@ class AdminController extends Controller
 
         $guru = $user->userable_type == 'App\Models\Guru' ? $user->userable : null;
 
-        $bulan = $request->bulan;
-        $tahun = $request->tahun;
+        // Ambil filter untuk grafik batang (blok)
+        $blok_bulan = $request->blok_bulan;
+        $blok_tahun = $request->blok_tahun;
 
-        // Mulai query dasar
-        $query = Konseling::query();
+        // Ambil filter untuk grafik donat
+        $donat_bulan = $request->donat_bulan;
+        $donat_tahun = $request->donat_tahun;
 
-        if ($bulan) {
-            $query->whereMonth('created_at', $bulan);
+        // ===================== GRAFIK BATANG =====================
+        $blokQuery = Konseling::query();
+
+        if ($blok_bulan) {
+            $blokQuery->whereMonth('created_at', $blok_bulan);
         }
 
-        if ($tahun) {
-            $query->whereYear('created_at', $tahun);
+        if ($blok_tahun) {
+            $blokQuery->whereYear('created_at', $blok_tahun);
         }
 
-        $konselings = $query->get();
+        $konselings = $blokQuery->get();
 
-        // Penentuan rentang hari hanya kalau ada filter bulan & tahun
-        if ($bulan && $tahun) {
-            $daysInMonth = Carbon::create($tahun, $bulan)->daysInMonth;
-            $chartLabels = [];
-            $chartData = [];
+        // Generate chart batang
+        $chartLabels = [];
+        $chartData = [];
+
+        if ($blok_bulan && $blok_tahun) {
+            $daysInMonth = Carbon::create($blok_tahun, $blok_bulan)->daysInMonth;
 
             for ($day = 1; $day <= $daysInMonth; $day++) {
-                $start = Carbon::create($tahun, $bulan, $day)->startOfDay();
-                $end = Carbon::create($tahun, $bulan, $day)->endOfDay();
+                $start = Carbon::create($blok_tahun, $blok_bulan, $day)->startOfDay();
+                $end = Carbon::create($blok_tahun, $blok_bulan, $day)->endOfDay();
 
                 $chartLabels[] = $day;
                 $chartData[] = $konselings->whereBetween('created_at', [$start, $end])->count();
             }
-        } elseif ($tahun && !$bulan) {
-            // Filter per bulan dalam tahun
-            $chartLabels = [];
-            $chartData = [];
-
+        } elseif ($blok_tahun && !$blok_bulan) {
             for ($m = 1; $m <= 12; $m++) {
                 $count = $konselings->filter(function ($item) use ($m) {
                     return $item->created_at->month == $m;
@@ -70,38 +73,55 @@ class AdminController extends Controller
                 $chartLabels[] = DateTime::createFromFormat('!m', $m)->format('F');
                 $chartData[] = $count;
             }
-        } elseif ($bulan && !$tahun) {
-            // Filter per hari dalam bulan ini tahun ini
-            $tahun = now()->year;
-            $daysInMonth = Carbon::create($tahun, $bulan)->daysInMonth;
-
-            $chartLabels = [];
-            $chartData = [];
+        } elseif ($blok_bulan && !$blok_tahun) {
+            $blok_tahun = now()->year;
+            $daysInMonth = Carbon::create($blok_tahun, $blok_bulan)->daysInMonth;
 
             for ($day = 1; $day <= $daysInMonth; $day++) {
-                $start = Carbon::create($tahun, $bulan, $day)->startOfDay();
-                $end = Carbon::create($tahun, $bulan, $day)->endOfDay();
+                $start = Carbon::create($blok_tahun, $blok_bulan, $day)->startOfDay();
+                $end = Carbon::create($blok_tahun, $blok_bulan, $day)->endOfDay();
 
                 $chartLabels[] = $day;
                 $chartData[] = $konselings->whereBetween('created_at', [$start, $end])->count();
             }
         } else {
-            // Default sekarang: bulan & tahun saat ini
-            $bulan = now()->month;
-            $tahun = now()->year;
-            $daysInMonth = Carbon::create($tahun, $bulan)->daysInMonth;
-
-            $chartLabels = [];
-            $chartData = [];
+            // Default: bulan dan tahun saat ini
+            $blok_bulan = now()->month;
+            $blok_tahun = now()->year;
+            $daysInMonth = Carbon::create($blok_tahun, $blok_bulan)->daysInMonth;
 
             for ($day = 1; $day <= $daysInMonth; $day++) {
-                $start = Carbon::create($tahun, $bulan, $day)->startOfDay();
-                $end = Carbon::create($tahun, $bulan, $day)->endOfDay();
+                $start = Carbon::create($blok_tahun, $blok_bulan, $day)->startOfDay();
+                $end = Carbon::create($blok_tahun, $blok_bulan, $day)->endOfDay();
 
                 $chartLabels[] = $day;
                 $chartData[] = Konseling::whereBetween('created_at', [$start, $end])->count();
             }
         }
+
+        // ===================== GRAFIK DONAT =====================
+        $topQuery = Konseling::query();
+
+        if ($donat_bulan) {
+            $topQuery->whereMonth('created_at', $donat_bulan);
+        }
+
+        if ($donat_tahun) {
+            $topQuery->whereYear('created_at', $donat_tahun);
+        }
+
+        $topSiswa = $topQuery->with('siswa')
+            ->select('siswa_id', DB::raw('count(*) as total'))
+            ->groupBy('siswa_id')
+            ->orderByDesc('total')
+            ->take(10)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'nama' => optional($item->siswa)->nama ?? 'Tidak diketahui',
+                    'total' => $item->total
+                ];
+            });
 
         // TOPIK POPULER
         $keywords = [];
@@ -120,7 +140,7 @@ class AdminController extends Controller
             }
         }
 
-        // Ambil 5 teratas
+        // Ambil 4 teratas
         arsort($keywords);
         $topikPopuler = array_slice($keywords, 0, 4, true);
 
@@ -133,7 +153,22 @@ class AdminController extends Controller
         // Ambil total siswa yang sudah melakukan konseling
         $siswaCount = Siswa::whereHas('konseling')->count();
 
-        return view('dashboard.index', compact('title', 'user', 'guru', 'chartLabels', 'chartData', 'bulan', 'tahun', 'topikPopuler', 'guruCount', 'konselingCount', 'siswaCount'));
+        return view('dashboard.index', compact(
+            'title',
+            'user',
+            'guru',
+            'guruCount',
+            'konselingCount',
+            'siswaCount',
+            'topSiswa',
+            'chartLabels',
+            'chartData',
+            'blok_bulan',
+            'blok_tahun',
+            'donat_bulan',
+            'donat_tahun',
+            'topikPopuler'
+        ));
     }
 
     // USERS =================================================================================
@@ -153,6 +188,19 @@ class AdminController extends Controller
                 })
                 ->get();
         }
+
+        // Tambahkan flag apakah bisa reset password
+        $user->map(function ($item) use ($u) {
+            $item->canReset = false;
+
+            if ($u->role === 'admin') {
+                $item->canReset = true; // Admin bisa semua
+            } elseif ($u->role === 'gurubk' && in_array($item->role, ['guru', 'siswa'])) {
+                $item->canReset = true; // Guru BK hanya guru/siswa
+            }
+
+            return $item;
+        });
 
         return view('dashboard.admin.users.index', compact('title', 'user'));
     }
@@ -255,6 +303,29 @@ class AdminController extends Controller
         ])->save();
 
         return redirect()->route('admin.users')->with('success', 'Pengguna berhasil diperbarui');
+    }
+
+    public function editUserPassword($id)
+    {
+        $title = 'Edit Password Pengguna';
+        $user = User::findOrFail($id);
+
+        return view('dashboard.admin.users.edit_password', compact('title', 'user'));
+    }
+
+    public function updateUserPassword(Request $request, $id)
+    {
+        $request->validate([
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required|min:6|same:password',
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('admin.users')->with('success', 'Password pengguna berhasil diperbarui');
     }
 
     public function destroyUser($id)
@@ -418,27 +489,13 @@ class AdminController extends Controller
     public function storeSiswa(Request $request)
     {
         $request->validate([
+            // siswa
             'nisn' => 'required|numeric|unique:siswas,nisn',
             'nama' => 'required',
-            // 'tempat_lahir' => 'required',
-            // 'tanggal_lahir' => 'required|date|before:today',
-            // 'jenis_kelamin' => 'required|in:L,P',
-            // 'agama_id' => 'required',
-            // 'kelas_id' => 'required',
-            // 'alamat' => 'required',
-            // 'tahun_masuk' => 'required|numeric|digits:4',
-            // // ayah
-            // 'nik_ayah' => 'required|numeric|unique:siswas,nik_ayah',
-            // 'nama_ayah' => 'required',
-            // 'tempat_lahir_ayah' => 'required',
-            // 'tanggal_lahir_ayah' => 'required|date|before:today',
-            // 'pekerjaan_ayah_id' => 'required',
-            // // ibu
-            // 'nik_ibu' => 'required|numeric|unique:siswas,nik_ibu',
-            // 'nama_ibu' => 'required',
-            // 'tempat_lahir_ibu' => 'required',
-            // 'tanggal_lahir_ibu' => 'required|date|before:today',
-            // 'pekerjaan_ibu_id' => 'required',
+            'jenis_kelamin' => 'required|in:L,P',
+            'agama_id' => 'required',
+            'kelas_id' => 'required',
+            'tahun_masuk' => 'required|numeric|digits:4',
             // user
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
@@ -449,35 +506,26 @@ class AdminController extends Controller
         $siswa = Siswa::create([
             'nisn' => $request->nisn,
             'nama' => ucwords(strtolower($request->nama)),
-            'tempat_lahir' => ucwords(strtolower($request->tempat_lahir)) ?? null,
-            'tanggal_lahir' => $request->tanggal_lahir ?? null,
             'jenis_kelamin' => $request->jenis_kelamin ?? null,
             'agama_id' => $request->agama_id ?? null,
             'kelas_id' => $request->kelas_id ?? null,
-            'alamat' => ucwords(strtolower($request->alamat)) ?? null,
             'tahun_masuk' => $request->tahun_masuk ?? null,
-            // ayah
-            'nik_ayah' => $request->nik_ayah ?? null,
-            'nama_ayah' => ucwords(strtolower($request->nama_ayah)) ?? null,
-            'tempat_lahir_ayah' => ucwords(strtolower($request->tempat_lahir_ayah)) ?? null,
-            'tanggal_lahir_ayah' => $request->tanggal_lahir_ayah ?? null,
-            'pekerjaan_ayah_id' => $request->pekerjaan_ayah_id ?? null,
-            // ibu
-            'nik_ibu' => $request->nik_ibu ?? null,
-            'nama_ibu' => ucwords(strtolower($request->nama_ibu)) ?? null,
-            'tempat_lahir_ibu' => ucwords(strtolower($request->tempat_lahir_ibu)) ?? null,
-            'tanggal_lahir_ibu' => $request->tanggal_lahir_ibu ?? null,
-            'pekerjaan_ibu_id' => $request->pekerjaan_ibu_id ?? null,
-            'tahun_akademik_id' => $tahunAkademikAktif->id
+            'tahun_akademik_id' => $tahunAkademikAktif->id,
         ]);
 
-        $siswa->user()->create([
+        $user = $siswa->user()->create([
             'name' => ucwords(strtolower($request->nama)),
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'siswa',
             'added_by_role' => Auth::user()->role,
         ]);
+        // Sekarang user-nya sudah tersimpan dan bisa dipakai
+        $token = Str::random(60);
+
+        // Simpan token ke user kalau memang kamu perlu (optional)
+        $user->remember_token = $token;
+        $user->save();
 
         return redirect()->route('admin.siswa')->with('success', 'Siswa berhasil ditambahkan');
     }
@@ -498,25 +546,26 @@ class AdminController extends Controller
         $request->validate([
             'nisn' => 'required|numeric|unique:siswas,nisn,' . $id,
             'nama' => 'required',
-            'tempat_lahir' => 'required',
-            'tanggal_lahir' => 'required|date|before:today',
             'jenis_kelamin' => 'required|in:L,P',
             'agama_id' => 'required',
             'kelas_id' => 'required',
-            'alamat' => 'required',
             'tahun_masuk' => 'required|numeric|digits:4',
+            'tempat_lahir' => 'nullable',
+            'tanggal_lahir' => 'date|before:today|nullable',
+            'alamat' => 'nullable',
+            'no_hp' => 'nullable|numeric',
             // ayah
-            'nik_ayah' => 'required|numeric',
-            'nama_ayah' => 'required',
-            'tempat_lahir_ayah' => 'required',
-            'tanggal_lahir_ayah' => 'required|date|before:today',
-            'pekerjaan_ayah_id' => 'required',
+            'nik_ayah' => 'numeric|nullable',
+            'nama_ayah' => 'nullable',
+            'tempat_lahir_ayah' => 'nullable',
+            'tanggal_lahir_ayah' => 'date|before:today|nullable',
+            'pekerjaan_ayah_id' => 'nullable|exists:pekerjaans,id',
             // ibu
-            'nik_ibu' => 'required|numeric',
-            'nama_ibu' => 'required',
-            'tempat_lahir_ibu' => 'required',
-            'tanggal_lahir_ibu' => 'required|date|before:today',
-            'pekerjaan_ibu_id' => 'required',
+            'nik_ibu' => 'numeric|nullable',
+            'nama_ibu' => 'nullable',
+            'tempat_lahir_ibu' => 'nullable',
+            'tanggal_lahir_ibu' => 'date|before:today|nullable',
+            'pekerjaan_ibu_id' => 'nullable|exists:pekerjaans,id',
         ]);
 
         $siswa = Siswa::findOrFail($id);

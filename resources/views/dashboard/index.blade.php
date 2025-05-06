@@ -59,7 +59,7 @@
         </div>
 
         <div class="row">
-            <div class="col-6">
+            <div class="col-md-12 col-lg-7">
                 <!-- Grafik Konseling Bulanan -->
                 <div class="card mt-4 shadow-sm border-0 rounded-4">
                     <div class="card-body px-4 py-4">
@@ -68,41 +68,49 @@
                         <h5 class="text-center fw-bold mb-4">
                             <i class="bi bi-graph-up-arrow me-2 text-primary"></i>
                             Grafik Konseling Bulanan
-                            @if (request('bulan') && request('tahun'))
+                            @if (request('blok_bulan') && request('blok_tahun'))
                                 <span class="text-muted small d-block mt-1">
-                                    {{ DateTime::createFromFormat('!m', request('bulan'))->format('F') }}
-                                    {{ request('tahun') }}
+                                    {{ DateTime::createFromFormat('!m', request('blok_bulan'))->format('F') }}
+                                    {{ request('blok_tahun') }}
                                 </span>
                             @endif
                         </h5>
 
-                        <!-- Form Filter -->
+                        @php
+                            $selectedBulan = request('blok_bulan', now()->month);
+                            $selectedTahun = request('blok_tahun', now()->year);
+                        @endphp
+
+                        <!-- Form Filter Grafik Batang -->
                         <form method="GET" action="{{ route('admin.dashboard') }}"
                             class="row g-3 justify-content-center mb-4">
                             <div class="d-flex justify-content-center align-items-end mb-3" style="gap: 1rem;">
                                 <div class="col-md-3">
                                     <div class="form-floating">
-                                        <label for="bulanSelect">Pilih Bulan</label>
-                                        <select name="bulan" class="form-select" id="bulanSelect">
+                                        <select name="blok_bulan" class="form-select" id="bulanSelect">
                                             <option value="">-- Semua Bulan --</option>
                                             @for ($i = 1; $i <= 12; $i++)
-                                                <option value="{{ $i }}" {{ $i == $bulan ? 'selected' : '' }}>
+                                                <option value="{{ $i }}"
+                                                    {{ $i == $selectedBulan ? 'selected' : '' }}>
                                                     {{ DateTime::createFromFormat('!m', $i)->format('F') }}
                                                 </option>
                                             @endfor
                                         </select>
+                                        <label for="bulanSelect">Pilih Bulan</label>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-floating">
-                                        <label for="tahunSelect">Pilih Tahun</label>
-                                        <select name="tahun" class="form-select" id="tahunSelect">
+                                        <select name="blok_tahun" class="form-select" id="tahunSelect">
                                             <option value="">-- Semua Tahun --</option>
                                             @for ($y = now()->year; $y >= 2020; $y--)
-                                                <option value="{{ $y }}" {{ $y == $tahun ? 'selected' : '' }}>
-                                                    {{ $y }}</option>
+                                                <option value="{{ $y }}"
+                                                    {{ $y == $selectedTahun ? 'selected' : '' }}>
+                                                    {{ $y }}
+                                                </option>
                                             @endfor
                                         </select>
+                                        <label for="tahunSelect">Pilih Tahun</label>
                                     </div>
                                 </div>
                                 <div class="col-md-2 d-grid">
@@ -113,9 +121,79 @@
                             </div>
                         </form>
 
+
                         <!-- Chart -->
                         <div class="chart-container" style="position: relative; height: 40vh; width: 100%;">
                             <canvas id="grafikKonseling"></canvas>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-5">
+                <!-- Grafik Donat Konseling -->
+                <div class="card mt-4 shadow-sm border-0 rounded-4">
+                    <div class="card-body px-4 py-4">
+
+                        <!-- Judul -->
+                        <h5 class="text-center fw-bold mb-4">
+                            <i class="bi bi-pie-chart-fill me-2 text-success"></i>
+                            Siswa Paling Sering Konseling
+                            @if (request('donat_bulan') && request('donat_tahun'))
+                                <span class="text-muted small d-block mt-1">
+                                    {{ DateTime::createFromFormat('!m', request('donat_bulan'))->format('F') }}
+                                    {{ request('donat_tahun') }}
+                                </span>
+                            @endif
+                        </h5>
+
+                        @php
+                            $selectedDonatBulan = request('donat_bulan', now()->month);
+                            $selectedDonatTahun = request('donat_tahun', now()->year);
+                        @endphp
+
+                        <!-- Form Filter Grafik Donat -->
+                        <form method="GET" action="{{ route('admin.dashboard') }}"
+                            class="row g-3 justify-content-center mb-4">
+                            <div class="d-flex justify-content-center align-items-end mb-3" style="gap: 1rem;">
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <select name="donat_bulan" class="form-select" id="bulanDonutSelect">
+                                            <option value="">-- Semua Bulan --</option>
+                                            @for ($i = 1; $i <= 12; $i++)
+                                                <option value="{{ $i }}"
+                                                    {{ $i == $selectedDonatBulan ? 'selected' : '' }}>
+                                                    {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                                                </option>
+                                            @endfor
+                                        </select>
+                                        <label for="bulanDonutSelect">Pilih Bulan</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <select name="donat_tahun" class="form-select" id="tahunDonutSelect">
+                                            <option value="">-- Semua Tahun --</option>
+                                            @for ($y = now()->year; $y >= 2020; $y--)
+                                                <option value="{{ $y }}"
+                                                    {{ $y == $selectedDonatTahun ? 'selected' : '' }}>
+                                                    {{ $y }}</option>
+                                            @endfor
+                                        </select>
+                                        <label for="tahunDonutSelect">Pilih Tahun</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 d-grid">
+                                    <button type="submit" class="btn btn-success btn-lg rounded-3">
+                                        <i class="bi bi-filter-circle me-1"></i> Filter
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Donut Chart -->
+                        <div class="chart-container" style="position: relative; height: 40vh; width: 100%;">
+                            <canvas id="donutChart"></canvas>
                         </div>
 
                     </div>
@@ -127,33 +205,35 @@
         <div class="card mt-5 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Jadwal Konseling Hari Ini</h5>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Jam</th>
-                            <th>Siswa</th>
-                            <th>Konselor</th>
-                            <th>Topik</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>08:00</td>
-                            <td>Dina Sari</td>
-                            <td>Bu Rani</td>
-                            <td>Kecemasan</td>
-                            <td><span class="badge bg-warning text-dark">Menunggu</span></td>
-                        </tr>
-                        <tr>
-                            <td>10:00</td>
-                            <td>Rizki</td>
-                            <td>Pak Budi</td>
-                            <td>Perundungan</td>
-                            <td><span class="badge bg-success">Selesai</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Jam</th>
+                                <th>Siswa</th>
+                                <th>Konselor</th>
+                                <th>Topik</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>08:00</td>
+                                <td>Dina Sari</td>
+                                <td>Bu Rani</td>
+                                <td>Kecemasan</td>
+                                <td><span class="badge bg-warning text-dark">Menunggu</span></td>
+                            </tr>
+                            <tr>
+                                <td>10:00</td>
+                                <td>Rizki</td>
+                                <td>Pak Budi</td>
+                                <td>Perundungan</td>
+                                <td><span class="badge bg-success">Selesai</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -171,65 +251,124 @@
         </section>
     </div>
 @endsection
+
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
-        const ctx = document.getElementById('grafikKonseling').getContext('2d');
+        // Grafik Konseling Bulanan
+        const ctx = document.getElementById('grafikKonseling')?.getContext('2d');
+        if (ctx) {
+            const chartLabels = {!! json_encode($chartLabels) !!};
+            const chartData = {!! json_encode($chartData) !!};
 
-        const data = {
-            labels: {!! json_encode($chartLabels) !!},
-            datasets: [{
-                label: 'Jumlah Konseling',
-                data: {!! json_encode($chartData) !!},
-                backgroundColor: '#4e73df',
-                borderRadius: 6,
-                barPercentage: 0.5, // lebar batang
-                categoryPercentage: 1.2 // jarak antar batang
-            }]
-        };
+            const data = {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Jumlah Konseling',
+                    data: chartData,
+                    backgroundColor: '#4e73df',
+                    borderRadius: 6,
+                    barPercentage: 0.5,
+                    categoryPercentage: 1.2
+                }]
+            };
 
-        const options = {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: {
-                duration: 1000,
-                easing: 'easeOutQuart'
-            },
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                x: {
-                    offset: true,
-                    grid: {
+            const options = {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
+                },
+                plugins: {
+                    legend: {
                         display: false
                     },
-                    ticks: {
-                        padding: 8
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                // Tampilkan label kategori sesuai index
+                                return `Bulan: ${chartLabels[tooltipItems[0].dataIndex]}`;
+                            },
+                            label: function(tooltipItem) {
+                                return `Jumlah Konseling: ${tooltipItem.raw}`;
+                            }
+                        }
                     }
                 },
-                y: {
-                    beginAtZero: true,
-                    suggestedMax: Math.max(...{!! json_encode($chartData) !!}) + 1,
-                    ticks: {
-                        stepSize: 1,
-                        precision: 0,
-                        padding: 8
+                scales: {
+                    x: {
+                        offset: true,
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            padding: 8
+                        }
                     },
-                    grid: {
-                        color: '#e9ecef',
-                        borderDash: [4, 4]
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: Math.max(...chartData, 3) + 1,
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0,
+                            padding: 8
+                        },
+                        grid: {
+                            color: '#e9ecef',
+                            borderDash: [4, 4]
+                        }
                     }
                 }
-            }
-        };
+            };
 
-        new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: options
-        });
+            new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: options
+            });
+        }
+
+        // Grafik Donat
+        const donutCtx = document.getElementById('donutChart')?.getContext('2d');
+        if (donutCtx) {
+            const donutLabels = {!! json_encode($topSiswa->pluck('nama')) !!};
+            const donutData = {!! json_encode($topSiswa->pluck('total')) !!};
+
+            new Chart(donutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: donutLabels,
+                    datasets: [{
+                        data: donutData,
+                        backgroundColor: [
+                            '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b',
+                            '#858796', '#fd7e14', '#20c997', '#6610f2', '#6f42c1'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        },
+                        title: {
+                            display: true,
+                            text: '10 Siswa Paling Aktif Konseling'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return `${donutLabels[tooltipItem.dataIndex]}: ${tooltipItem.raw}x konseling`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
     </script>
 @endpush

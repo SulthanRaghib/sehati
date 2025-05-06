@@ -52,18 +52,29 @@
 
 {{-- Password Hide Show --}}
 <script>
-    // toggle password
-    const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#password');
-    togglePassword.addEventListener('click', function(e) {
-        // toggle icon eye
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        this.innerHTML = `<i data-feather="${type === 'password' ? 'eye-off' : 'eye'}"></i>`;
-        // jalankan kembali feather icons
-        feather.replace();
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle for password
+        const togglePassword = document.querySelector('#togglePassword');
+        const passwordInput = document.querySelector('#password');
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.innerHTML = `<i data-feather="${type === 'password' ? 'eye-off' : 'eye'}"></i>`;
+            feather.replace();
+        });
+
+        // Toggle for confirm password
+        const toggleConfirm = document.querySelector('#togglePasswordConfirmation');
+        const confirmInput = document.querySelector('#password_confirmation');
+        toggleConfirm.addEventListener('click', function() {
+            const type = confirmInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmInput.setAttribute('type', type);
+            this.innerHTML = `<i data-feather="${type === 'password' ? 'eye-off' : 'eye'}"></i>`;
+            feather.replace();
+        });
     });
 </script>
+
 
 {{-- Notifikasi --}}
 <script>

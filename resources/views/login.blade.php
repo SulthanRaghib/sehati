@@ -27,7 +27,8 @@
                                 <img src="{{ url('mine/img/logo_tanpa_text_png.png') }}" height="48"
                                     class="mb-4" />
                                 <h3>Login</h3>
-                                <p>Sign in to your account to continue</p>
+                                <p class="mb-1">Sign in to your account to continue</p>
+                                <a href="{{ url('/') }}">Back to Home</a>
                             </div>
                             <form action="{{ route('login') }}" method="POST">
                                 @csrf

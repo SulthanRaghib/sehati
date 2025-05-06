@@ -23,7 +23,7 @@
         </div>
         <div class="col-12">
             <div class="card">
-                <div class="card-header  pb-0">
+                <div class="card-header pb-0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="card-title">Edit User</h4>
                         <a href="{{ route('admin.users') }}" class="btn btn-outline-warning" id="cancel">Batal</a>

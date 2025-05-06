@@ -61,7 +61,9 @@
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label for="nisn">NISN</label>
+                                                        <label class="form-label mb-0" for="nisn">NISN<span
+                                                                class="text-danger"
+                                                                style="font-size: 1.2rem; font-weight: bold;">*</span></label>
                                                         <input type="text"
                                                             class="form-control @error('nisn') is-invalid @enderror"
                                                             id="nisn" placeholder="NISN" name="nisn"
@@ -73,7 +75,9 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label for="nama">Nama</label>
+                                                        <label class="form-label mb-0" for="nama">Nama<span
+                                                                class="text-danger"
+                                                                style="font-size: 1.2rem; font-weight: bold;">*</span></label>
                                                         <input type="text"
                                                             class="form-control @error('nama') is-invalid @enderror"
                                                             id="nama" placeholder="Nama" name="nama"
@@ -85,7 +89,9 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label for="jenis_kelamin">Jenis Kelamin</label>
+                                                        <label class="form-label mb-0" for="jenis_kelamin">Jenis
+                                                            Kelamin<span class="text-danger"
+                                                                style="font-size: 1.2rem; font-weight: bold;">*</span></label>
                                                         <select
                                                             class="form-control @error('jenis_kelamin') is-invalid @enderror"
                                                             id="jenis_kelamin" name="jenis_kelamin">
@@ -104,7 +110,9 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label for="kelas">Kelas</label>
+                                                        <label class="form-label mb-0" for="kelas">Kelas<span
+                                                                class="text-danger"
+                                                                style="font-size: 1.2rem; font-weight: bold;">*</span></label>
                                                         <select class="form-control @error('kelas_id') is-invalid @enderror"
                                                             id="kelas" name="kelas_id">
                                                             <option value="">-- Pilih Kelas --</option>
@@ -123,7 +131,8 @@
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label for="tempat_lahir">Tempat Lahir</label>
+                                                        <label class="form-label mb-0" for="tempat_lahir">Tempat
+                                                            Lahir</label>
                                                         <input type="text"
                                                             class="form-control @error('tempat_lahir') is-invalid @enderror"
                                                             id="tempat_lahir" placeholder="Tempat Lahir" name="tempat_lahir"
@@ -135,7 +144,8 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label for="tanggal_lahir">Tanggal Lahir</label>
+                                                        <label class="form-label mb-0" for="tanggal_lahir">Tanggal
+                                                            Lahir</label>
                                                         <input type="date"
                                                             class="form-control @error('tanggal_lahir') is-invalid @enderror"
                                                             id="tanggal_lahir" placeholder="Tanggal Lahir"
@@ -147,7 +157,9 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label for="tahun_masuk">Tahun Masuk</label>
+                                                        <label class="form-label mb-0" for="tahun_masuk">Tahun Masuk<span
+                                                                class="text-danger"
+                                                                style="font-size: 1.2rem; font-weight: bold;">*</span></label>
                                                         <input type="text"
                                                             class="form-control @error('tahun_masuk') is-invalid @enderror"
                                                             id="tahun_masuk" placeholder="Tahun Masuk" name="tahun_masuk"
@@ -159,7 +171,9 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label for="agama_id">Agama</label>
+                                                        <label class="form-label mb-0" for="agama_id">Agama<span
+                                                                class="text-danger"
+                                                                style="font-size: 1.2rem; font-weight: bold;">*</span></label>
                                                         <select
                                                             class="form-control @error('agama_id') is-invalid @enderror"
                                                             id="agama_id" name="agama_id">
@@ -179,7 +193,7 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label for="alamat">Alamat Siswa</label>
+                                                        <label class="form-label mb-0" for="alamat">Alamat Siswa</label>
                                                         <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat"
                                                             placeholder="Alamat">{{ $siswa->alamat }}</textarea>
                                                         @error('alamat')
@@ -197,7 +211,7 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="nik_ayah">NIK</label>
+                                                                <label class="form-label mb-0" for="nik_ayah">NIK</label>
                                                                 <input type="text" class="form-control" id="nik_ayah"
                                                                     name="nik_ayah" value="{{ $siswa->nik_ayah }}">
                                                                 @error('nik_ayah')
@@ -208,7 +222,8 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="nama_ayah">Nama</label>
+                                                                <label class="form-label mb-0"
+                                                                    for="nama_ayah">Nama</label>
                                                                 <input type="text" class="form-control" id="nama_ayah"
                                                                     name="nama_ayah" value="{{ $siswa->nama_ayah }}">
                                                                 @error('nama_ayah')
@@ -221,7 +236,8 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="tempat_lahir_ayah">Tempat Lahir</label>
+                                                                <label class="form-label mb-0"
+                                                                    for="tempat_lahir_ayah">Tempat Lahir</label>
                                                                 <input type="text" class="form-control"
                                                                     id="tempat_lahir_ayah" name="tempat_lahir_ayah"
                                                                     value="{{ $siswa->tempat_lahir_ayah }}">
@@ -233,7 +249,8 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="tanggal_lahir_ayah">Tanggal Lahir</label>
+                                                                <label class="form-label mb-0"
+                                                                    for="tanggal_lahir_ayah">Tanggal Lahir</label>
                                                                 <input type="date" class="form-control"
                                                                     id="tanggal_lahir_ayah" name="tanggal_lahir_ayah"
                                                                     value="{{ $siswa->tanggal_lahir_ayah }}">
@@ -245,13 +262,14 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="pekerjaan_ayah">Pekerjaan</label>
+                                                        <label class="form-label mb-0" for="pekerjaan_ayah">Pekerjaan
+                                                            Ayah</label>
                                                         <select class="form-control" id="pekerjaan_ayah_id"
                                                             name="pekerjaan_ayah_id">
                                                             <option value="">-- Pilih Pekerjaan --</option>
                                                             @foreach ($pekerjaan as $p)
                                                                 <option value="{{ $p->id }}"
-                                                                    {{ $siswa->pekerjaanAyah->id == $p->id ? 'selected' : '' }}>
+                                                                    {{ $siswa->pekerjaanAyah && $siswa->pekerjaanAyah->id == $p->id ? 'selected' : '' }}>
                                                                     {{ $p->nama }}</option>
                                                             @endforeach
                                                         </select>
@@ -265,7 +283,7 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="nik_ibu">NIK</label>
+                                                                <label class="form-label mb-0" for="nik_ibu">NIK</label>
                                                                 <input type="text" class="form-control" id="nik_ibu"
                                                                     name="nik_ibu" value="{{ $siswa->nik_ibu }}">
                                                                 @error('nik_ibu')
@@ -276,7 +294,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="nama_ibu">Nama</label>
+                                                                <label class="form-label mb-0" for="nama_ibu">Nama</label>
                                                                 <input type="text" class="form-control" id="nama_ibu"
                                                                     name="nama_ibu" value="{{ $siswa->nama_ibu }}">
                                                                 @error('nama_ibu')
@@ -289,7 +307,8 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="tempat_lahir_ibu">Tempat Lahir</label>
+                                                                <label class="form-label mb-0"
+                                                                    for="tempat_lahir_ibu">Tempat Lahir</label>
                                                                 <input type="text" class="form-control"
                                                                     id="tempat_lahir_ibu" name="tempat_lahir_ibu"
                                                                     value="{{ $siswa->tempat_lahir_ibu }}">
@@ -301,7 +320,8 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label for="tanggal_lahir_ibu">Tanggal Lahir</label>
+                                                                <label class="form-label mb-0"
+                                                                    for="tanggal_lahir_ibu">Tanggal Lahir</label>
                                                                 <input type="date" class="form-control"
                                                                     id="tanggal_lahir_ibu" name="tanggal_lahir_ibu"
                                                                     value="{{ $siswa->tanggal_lahir_ibu }}">
@@ -313,13 +333,14 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="pekerjaan_ibu">Pekerjaan</label>
+                                                        <label class="form-label mb-0" for="pekerjaan_ibu">Pekerjaan
+                                                            Ibu</label>
                                                         <select class="form-control" id="pekerjaan_ibu_id"
                                                             name="pekerjaan_ibu_id">
                                                             <option value="">-- Pilih Pekerjaan --</option>
                                                             @foreach ($pekerjaan as $p)
                                                                 <option value="{{ $p->id }}"
-                                                                    {{ $siswa->pekerjaanIbu->id == $p->id ? 'selected' : '' }}>
+                                                                    {{ $siswa->pekerjaanIbu && $siswa->pekerjaanIbu->id == $p->id ? 'selected' : '' }}>
                                                                     {{ $p->nama }}</option>
                                                             @endforeach
                                                         </select>

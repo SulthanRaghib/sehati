@@ -1,5 +1,21 @@
 @extends('home')
 @section('main-content')
+    @push('styles')
+        <style>
+            .service-card {
+                transition: all 0.3s ease;
+                background-color: #fff;
+            }
+
+            a:hover .service-card,
+            .service-card:hover {
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+                transform: translateY(-5px);
+                background-color: #f9f9f9;
+            }
+        </style>
+    @endpush
+
     @if (session('success'))
         <script>
             Swal.fire({
@@ -155,31 +171,17 @@
 
     </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            @if ($errors->any())
-                var myModal = new bootstrap.Modal(document.getElementById('konselingModal'), {
-                    backdrop: 'static',
-                    keyboard: false
-                });
-                myModal.show();
-            @endif
-        });
-    </script>
-
-    @push('styles')
-        <style>
-            .service-card {
-                transition: all 0.3s ease;
-                background-color: #fff;
-            }
-
-            a:hover .service-card,
-            .service-card:hover {
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-                transform: translateY(-5px);
-                background-color: #f9f9f9;
-            }
-        </style>
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                @if ($errors->any())
+                    var myModal = new bootstrap.Modal(document.getElementById('konselingModal'), {
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    myModal.show();
+                @endif
+            });
+        </script>
     @endpush
 @endsection

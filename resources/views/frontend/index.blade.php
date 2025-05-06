@@ -22,9 +22,10 @@
                             </h1>
 
                             <p class="mb-4 mb-md-5">
-                                Merasa cemas, stres, atau butuh tempat bercerita? Jangan ragu untuk mencari bantuan!
-                                Bimbingan konseling hadir untuk mendukung kesehatan mental dan emosionalmu. Yuk, mulai
-                                langkah pertama menuju versi terbaik dari dirimu! 💙
+                                Ingat, kamu nggak sendirian. Kami di sini untuk mendengarkan dan membantumu.
+                                Yuk, lanjutkan konseling yang sudah kamu mulai, atau ceritakan hal baru yang sedang kamu
+                                alami hari ini.
+                                Versi terbaik dari dirimu sedang dalam perjalanan! 💙
                             </p>
 
                             <div class="hero-buttons">
@@ -143,13 +144,13 @@
                             </h1>
 
                             <p class="mb-4 mb-md-5">
-                                Merasa cemas, stres, atau butuh tempat bercerita? Jangan ragu untuk mencari bantuan!
-                                Bimbingan konseling hadir untuk mendukung kesehatan mental dan emosionalmu. Yuk, mulai
-                                langkah pertama menuju versi terbaik dari dirimu! 💙
+                                “Merasa cemas, stres, atau butuh tempat bercerita?... Yuk, mulai langkah pertama menuju
+                                versi terbaik dari dirimu!”
                             </p>
 
                             <div class="hero-buttons">
-                                <a href="#" class="btn btn-primary me-0 me-sm-2 mx-1">Mulai Konseling</a>
+                                <a href="{{ route('siswa.konseling') }}" class="btn btn-primary me-0 me-sm-2 mx-1">Mulai
+                                    Konseling</a>
                                 {{-- <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8"
                             class="btn btn-link mt-2 mt-sm-0 glightbox">
                             <i class="bi bi-play-circle me-1"></i>

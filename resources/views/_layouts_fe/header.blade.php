@@ -16,6 +16,11 @@
                 <li><a href="{{ route('siswa.artikel') }}"
                         class="{{ Route::is('siswa.artikel') ? 'active fw-bold' : '' }} text-decoration-none">Artikel</a>
                 </li>
+                @if (Auth::check() && Auth::user()->role == 'siswa')
+                    <li><a href="{{ route('siswa.dashboard') }}"
+                            class="{{ Route::is('siswa.dashboard') ? 'active fw-bold' : '' }} text-decoration-none">Dashboard</a>
+                    </li>
+                @endif
             </ul>
 
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>

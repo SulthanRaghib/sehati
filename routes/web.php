@@ -70,8 +70,10 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/siswa/profile/edit', [SiswaController::class, 'editProfile'])->name('siswa.profile.edit');
     Route::put('/siswa/profile/update', [SiswaController::class, 'updateDataSiswa'])->name('siswa.profile.update');
     Route::post('/upload/foto/siswa', [SiswaController::class, 'uploadFoto'])->name('siswa.upload.foto');
-    Route::get('upload', [SiswaController::class, 'index']);
-    Route::post('crop', [SiswaController::class, 'crop'])->name('crop');
+    Route::get('/siswa/profile/new-password', [SiswaController::class, 'editPassword'])->name('siswa.profile.newPassword');
+    Route::put('/siswa/profile/new-password', [SiswaController::class, 'updatePassword'])->name('siswa.profile.newPassword.update');
+
+    Route::get('/siswa/dashboard', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
 });
 
 Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
@@ -84,8 +86,8 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::get('/users/{id}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
     Route::put('/users/{id}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/users/{id}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
-    Route::post('/users/{id}/password', [AdminController::class, 'editUserPassword'])->name('admin.users.password');
-    Route::post('/users/update/password', [AdminController::class, 'updatePassword'])->name('admin.users.update.password');
+    Route::get('/users/{id}/edit-password', [AdminController::class, 'editUserPassword'])->name('admin.users.password.edit');
+    Route::put('/users/{id}/update-password', [AdminController::class, 'updateUserPassword'])->name('admin.users.password.update');
 
     Route::get('/guru', [AdminController::class, 'guru'])->name('admin.guru');
     Route::get('/guru/create', [AdminController::class, 'createGuru'])->name('admin.guru.create');

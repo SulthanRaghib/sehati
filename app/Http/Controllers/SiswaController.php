@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use SawaStacks\Utils\Kropify;
 use App\Helpers\SupabaseUploader;
-
+use App\Models\Konseling;
+use App\Models\Rating;
+use DateTime;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class SiswaController extends Controller
 {
@@ -70,6 +74,43 @@ class SiswaController extends Controller
     public function editProfile()
     {
         $title = 'Edit Profile Siswa';
+        $userId = Auth::user()->userable_id;
+        $siswa = Siswa::with(['agama', 'kelas', 'pekerjaanAyah', 'pekerjaanIbu'])->find($userId);
+        $agama = Agama::all();
+        $pekerjaans = Pekerjaan::all();
+
+        $emptyFields = $siswa->checkCompletion(); // Ambil field kosong
+        $labels = [
+            'nisn' => 'NISN',
+            'nama' => 'Nama',
+            'tempat_lahir' => 'Tempat Lahir',
+            'tanggal_lahir' => 'Tanggal Lahir',
+            'jenis_kelamin' => 'Jenis Kelamin',
+            'alamat' => 'Alamat',
+            'agama_id' => 'Agama',
+            'kelas_id' => 'Kelas',
+            'no_hp' => 'No HP',
+            'foto' => 'Foto',
+            'nik_ayah' => 'NIK Ayah',
+            'nama_ayah' => 'Nama Ayah',
+            'tempat_lahir_ayah' => 'Tempat Lahir Ayah',
+            'tanggal_lahir_ayah' => 'Tanggal Lahir Ayah',
+            'pekerjaan_ayah_id' => 'Pekerjaan Ayah',
+            'nik_ibu' => 'NIK Ibu',
+            'nama_ibu' => 'Nama Ibu',
+            'tempat_lahir_ibu' => 'Tempat Lahir Ibu',
+            'tanggal_lahir_ibu' => 'Tanggal Lahir Ibu',
+            'pekerjaan_ibu_id' => 'Pekerjaan Ibu',
+        ];
+
+        $missingFields = collect($emptyFields)->map(fn($key) => $labels[$key] ?? $key)->toArray();
+
+        return view('frontend.profile.index', compact('title', 'siswa', 'agama', 'pekerjaans', 'missingFields'));
+    }
+
+    public function editPassword()
+    {
+        $title = 'Edit Password Siswa';
         $userId = Auth::user()->userable_id;
         $siswa = Siswa::with(['agama', 'kelas', 'pekerjaanAyah', 'pekerjaanIbu'])->find($userId);
         $agama = Agama::all();
@@ -222,11 +263,68 @@ class SiswaController extends Controller
         }
     }
 
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:8|confirmed',
+            'password_confirmation' => 'required|min:8|same:password',
+        ], [
+            'password.required' => 'Password tidak boleh kosong',
+            'password.min' => 'Password minimal 8 karakter',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai',
+            'password_confirmation.required' => 'Konfirmasi password tidak boleh kosong',
+            'password_confirmation.same' => 'Konfirmasi password tidak sesuai',
+        ]);
+
+        $userId = Auth::user()->userable_id;
+        $siswa = Siswa::find($userId);
+        $siswa->user->update([
+            'password' => Hash::make($request->password),
+            'remember_token' => Str::random(60),
+        ]);
+
+        return redirect()->route('siswa.profile.show')->with('success', 'Password berhasil diperbarui');
+    }
+
     public function deleteFoto()
     {
         $user = Auth::user()->userable;
         $user->foto = null;
         $user->save();
         return redirect()->back()->with('success', 'Foto berhasil dihapus');
+    }
+
+    public function dashboard()
+    {
+        $title = 'Dashboard Siswa';
+        $userId = Auth::user()->userable_id;
+        $myKonselingCount = Siswa::find($userId)->konseling()->count();
+        $myKonselingProses = Siswa::find($userId)->konseling()->where('status_id', '!=', 3)->count();
+        $myKonselingSelesai = Siswa::find($userId)->konseling()->where('status_id', 3)->count();
+        $myRatingCount = Rating::where('siswa_id', $userId)->count();
+        $dataPerBulan = Konseling::where('siswa_id', $userId)
+            ->selectRaw('MONTH(tanggal_konseling) as bulan, COUNT(*) as jumlah')
+            ->groupBy('bulan')
+            ->pluck('jumlah', 'bulan');
+
+        $bulanLabels = collect(range(1, 12))->map(function ($i) {
+            return DateTime::createFromFormat('!m', $i)->format('M');
+        });
+
+        $jumlahPerBulan = $bulanLabels->map(function ($label, $i) use ($dataPerBulan) {
+            return $dataPerBulan->get($i + 1, 0);
+        });
+
+
+        return view('frontend.dashboard.index', compact(
+            'title',
+            'myKonselingCount',
+            'myKonselingProses',
+            'myKonselingSelesai',
+            'myRatingCount',
+            'dataPerBulan',
+            'bulanLabels',
+            'jumlahPerBulan'
+        ));
     }
 }

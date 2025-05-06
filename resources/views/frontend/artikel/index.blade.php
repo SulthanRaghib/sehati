@@ -8,7 +8,24 @@
             </div>
         </div>
 
+
+
         <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="d-flex justify-content-center mb-4">
+                <div class="col-12 col-md-6">
+                    {{-- Search Bar --}}
+                    <form method="GET" action="{{ url()->current() }}" class="mb-3">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control"
+                                placeholder="Cari artikel: Judul, Isi, Kategori" value="{{ request('search') }}">
+                            <input type="hidden" name="perPage" value="{{ request('perPage', 10) }}">
+                            <button class="btn btn-outline-primary" type="submit">Cari</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="row g-4">
                 @forelse ($artikel as $a)
                     <div class="col-md-6 col-lg-4">
@@ -39,10 +56,14 @@
                     </div>
                 @empty
                     <div class="col-12">
-                        <div class="alert alert-info text-center">Belum ada artikel yang tersedia.</div>
+                        <div class="alert alert-info text-center">Belum ada artikel yang tersedia, anda bisa meminta guru
+                            untuk menambahkan artikel. Silahkan hubungi guru BK atau mengajukan permintaan melalui
+                            <a href="{{ route('siswa.konseling') }}" class="text-decoration-none">Konseling</a>.
+                        </div>
                     </div>
                 @endforelse
             </div>
+            {{ $artikel->links('vendor.pagination.custom') }}
         </div>
         <!-- End Section Title -->
     </div>

@@ -37,23 +37,42 @@ class HomeController extends Controller
         return view('frontend.index', compact('title', 'user', 'siswa', 'artikelCount', 'konselingCount', 'guruBKCount', 'siswaTerbantu'));
     }
 
-    public function artikelSiswa()
+    public function artikelSiswa(Request $request)
     {
         $title = 'Artikel';
-        $artikel = Artikel::with('artikelKategori', 'user')->where('status', 'publish')->latest()->get();
-        $user = Auth::user();
+        $perPage = $request->get('perPage', 6);
+        $search = $request->get('search');
 
-        // Default nilai
+        $query = Artikel::with('artikelKategori', 'user')
+            ->where('status', 'publish');
+
+        // Jika ada input pencarian
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', '%' . $search . '%')
+                    ->orWhere('isi', 'like', '%' . $search . '%')
+                    ->orWhereHas('artikelKategori', function ($q) use ($search) {
+                        $q->where('nama', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        $artikel = $query->latest()->paginate($perPage)
+            ->appends([
+                'perPage' => $perPage,
+                'search' => $search,
+            ]);
+
+        $user = Auth::user();
         $siswa = null;
 
-        // Cek apakah user sudah login
         if (Auth::check()) {
-            // Baru akses jika user tidak null
             $siswa = $user->userable_type === 'App\Models\Siswa' ? $user->userable : null;
         }
 
         return view('frontend.artikel.index', compact('title', 'artikel', 'siswa', 'user'));
     }
+
 
     public function siswaKonseling()
     {

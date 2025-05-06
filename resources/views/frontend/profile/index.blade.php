@@ -77,6 +77,10 @@
                         <a class="nav-link {{ request()->routeIs('siswa.profile.edit') ? 'active' : '' }}"
                             href="{{ route('siswa.profile.edit') }}">Edit Profil</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('siswa.profile.newPassword') ? 'active' : '' }}"
+                            href="{{ route('siswa.profile.newPassword') }}">New Password</a>
+                    </li>
                 </ul>
             </div>
 
@@ -88,6 +92,8 @@
                     @include('frontend.profile.view')
                 @elseif (Route::is('siswa.profile.edit'))
                     @include('frontend.profile.edit')
+                @elseif (Route::is('siswa.profile.newPassword'))
+                    @include('frontend.profile.edit_password')
                 @endif
 
             </div>
