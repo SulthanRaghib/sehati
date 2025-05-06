@@ -37,20 +37,34 @@
         <!-- End Section Title -->
 
         <div class="container">
+            @php
+                $onlyFotoIncomplete = count($missingFields) === 1 && in_array('Foto', $missingFields);
+            @endphp
+
             @if (!$siswa->is_completed)
                 <div class="alert alert-warning">
                     <strong>Data Anda belum lengkap.</strong>
-                    Silakan lengkapi <a href="{{ route('siswa.profile.edit') }}">di sini</a>.
 
-                    <br>
-                    <small><strong>Field yang belum diisi:</strong></small>
-                    <ul class="mb-0">
-                        @foreach ($missingFields as $field)
-                            <li>{{ $field }}</li>
-                        @endforeach
-                    </ul>
+                    @if ($onlyFotoIncomplete)
+                        Silakan unggah foto Anda dengan menekan ikon <i class="bi bi-pencil-fill text-primary"></i> <a
+                            href="{{ route('siswa.profile.show') }}">di sini</a>, di atas
+                        foto profil Anda.
+                    @else
+                        Silakan lengkapi <a href="{{ route('siswa.profile.edit') }}">di sini</a>.
+                    @endif
+
+                    @if (!$onlyFotoIncomplete)
+                        <br>
+                        <small><strong>Field yang belum diisi:</strong></small>
+                        <ul class="mb-0">
+                            @foreach ($missingFields as $field)
+                                <li>{{ $field }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
             @endif
+
 
             <!-- Tabs -->
             <div class="d-flex flex-column align-items-center">
