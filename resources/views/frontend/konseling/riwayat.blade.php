@@ -16,8 +16,8 @@
                     <thead class="table-light">
                         <tr>
                             <th>No</th>
-                            <th>Judul</th>
-                            <th>Isi Konseling</th>
+                            <th>Topik yang Disampaikan</th>
+                            <th style="width: 50%">Cerita Lengkapmu</th>
                             <th>Status</th>
                             <th>Tanggal Konseling</th>
                             <th>Action</th>
@@ -106,12 +106,22 @@
                                                     </div>
                                                     <div class="modal-body"
                                                         style="word-break: break-word; overflow-wrap: break-word;">
-                                                        {{ $k->jawaban->isi_jawaban }}
+                                                        <strong>Topik yang Disampaikan:</strong>
+                                                        <p>{{ $k->judul }}</p>
+
+                                                        <strong>Cerita Lengkap:</strong>
+                                                        <p>{!! $k->isi_konseling !!}</p>
+
+                                                        <strong>Balasan dari Guru BK:</strong>
+                                                        <p>{!! $k->jawaban->isi_jawaban !!}</p>
 
                                                         <hr>
                                                         <!-- Peringatan Rating -->
                                                         <div class="alert alert-warning mt-3">
-                                                            Silakan berikan rating atas balasan ini.
+                                                            Silakan berikan rating atas balasan ini pada halaman ini. <a
+                                                                href="{{ route('siswa.konselingJawabanUnread') }}"
+                                                                class="alert-link">Klik di sini</a> untuk memberikan
+                                                            rating.
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -140,6 +150,13 @@
                                                     </div>
                                                     <div class="modal-body"
                                                         style="word-break: break-word; overflow-wrap: break-word;">
+                                                        <strong>Topik yang Disampaikan:</strong>
+                                                        <p>{{ $k->judul }}</p>
+
+                                                        <strong>Cerita Lengkap:</strong>
+                                                        <p>{!! $k->isi_konseling !!}</p>
+
+                                                        <strong>Balasan dari Guru BK:</strong>
                                                         <p>{!! $k->jawaban->isi_jawaban !!}</p>
 
                                                         <hr>
@@ -151,19 +168,19 @@
 
                                                         @if ($rating)
                                                             <div class="mt-4">
-                                                                <h6>Rating Anda:</h6>
-                                                                <p>
+                                                                <h6>Rating yang anda berikan</h6>
+                                                                <div>
                                                                     @for ($i = 1; $i <= 5; $i++)
-                                                                        @if ($i <= $rating->rating)
-                                                                            <i class="bi bi-star-fill text-warning"></i>
-                                                                        @else
-                                                                            <i class="bi bi-star text-secondary"></i>
-                                                                        @endif
+                                                                        <i
+                                                                            class="bi {{ $i <= $rating->rating ? 'bi-star-fill text-warning' : 'bi-star text-secondary' }}"></i>
                                                                     @endfor
-                                                                    <br>
-                                                                    <small>Komentar:
-                                                                        {{ $rating->komentar ?? 'Tidak ada komentar.' }}</small>
-                                                                </p>
+                                                                </div>
+                                                                <div class="mt-2">
+                                                                    <strong>Komentar:</strong>
+                                                                    <p class="mb-0">
+                                                                        {{ $rating->komentar ?? 'Tidak ada komentar.' }}
+                                                                    </p>
+                                                                </div>
                                                             </div>
                                                         @else
                                                             <div class="alert alert-warning mt-3" role="alert">

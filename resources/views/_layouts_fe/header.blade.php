@@ -11,10 +11,10 @@
                 <li><a href="{{ route('home') }}"
                         class="{{ Route::is('home') ? 'active fw-bold' : '' }} text-decoration-none">Home</a></li>
                 <li><a href="{{ route('siswa.konseling') }}"
-                        class="{{ Route::is('siswa.konseling') ? 'active fw-bold' : '' }} text-decoration-none">Konseling</a>
+                        class="{{ Route::is('siswa.konseling*') ? 'active fw-bold' : '' }} text-decoration-none">Konseling</a>
                 </li>
                 <li><a href="{{ route('siswa.artikel') }}"
-                        class="{{ Route::is('siswa.artikel') ? 'active fw-bold' : '' }} text-decoration-none">Artikel</a>
+                        class="{{ Route::is('siswa.artikel*') ? 'active fw-bold' : '' }} text-decoration-none">Artikel</a>
                 </li>
                 @if (Auth::check() && Auth::user()->role == 'siswa')
                     <li><a href="{{ route('siswa.dashboard') }}"

@@ -1,6 +1,6 @@
 <div id="sidebar" class="active">
     <div class="sidebar-wrapper active">
-        <div class="sidebar-header">
+        <div class="sidebar-header" style="color: #156796">
             <img src="{{ url('mine/img/logo_tanpa_text_png.png') }}" alt="" srcset="" width="30%" />Sehati
         </div>
         <div class="sidebar-menu">
@@ -10,7 +10,7 @@
                 <li class="sidebar-item {{ Route::is('admin.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard') }}" class="sidebar-link">
                         <i data-feather="home" width="20"></i>
-                        <span>Dashboard</span>
+                        <span style="color: black; font-weight:500">Dashboard</span>
                     </a>
                 </li>
 
@@ -18,14 +18,14 @@
                 <li class="sidebar-item {{ Route::is('admin.konseling') ? 'active' : '' }}">
                     <a href="{{ route('admin.konseling') }}" class="sidebar-link" onclick="markAsRead()">
                         <i data-feather="book" width="20"></i>
-                        <span>Konseling</span>
+                        <span style="color: black; font-weight:500">Konseling</span>
                     </a>
                 </li>
 
                 <li class="sidebar-item {{ Route::is('artikel') ? 'active' : '' }}">
                     <a href="{{ route('artikel') }}" class="sidebar-link">
                         <i data-feather="file-text" width="20"></i>
-                        <span>Artikel</span>
+                        <span style="color: black; font-weight:500">Artikel</span>
                     </a>
                 </li>
 
@@ -34,7 +34,7 @@
                     <li class="sidebar-item {{ Route::is('admin.guru') ? 'active' : '' }}">
                         <a href="{{ route('admin.guru') }}" class="sidebar-link">
                             <i data-feather="user" width="20"></i>
-                            <span>Guru</span>
+                            <span style="color: black; font-weight:500">Guru</span>
                         </a>
                     </li>
                 @endif
@@ -42,14 +42,14 @@
                 <li class="sidebar-item {{ Route::is('admin.siswa') ? 'active' : '' }}">
                     <a href="{{ route('admin.siswa') }}" class="sidebar-link">
                         <i data-feather="user" width="20"></i>
-                        <span>Siswa</span>
+                        <span style="color: black; font-weight:500">Siswa</span>
                     </a>
                 </li>
 
                 <li class="sidebar-item {{ Route::is('admin.tahunAkademik') ? 'active' : '' }}">
                     <a href="{{ route('admin.tahunAkademik') }}" class="sidebar-link">
                         <i data-feather="calendar" width="20"></i>
-                        <span>Tahun Akademik</span>
+                        <span style="color: black; font-weight:500">Tahun Akademik</span>
                     </a>
                 </li>
 
@@ -57,7 +57,7 @@
                 <li class="sidebar-item {{ Route::is('admin.users') ? 'active' : '' }}">
                     <a href="{{ route('admin.users') }}" class="sidebar-link">
                         <i data-feather="user" width="20"></i>
-                        <span>User</span>
+                        <span style="color: black; font-weight:500">User</span>
                     </a>
                 </li>
 
@@ -65,7 +65,7 @@
                     <li class="sidebar-item has-sub {{ Route::is('admin.*') || Route::is('guru.*') ? 'active' : '' }}">
                         <a href="#" class="sidebar-link">
                             <i data-feather="layers" width="20"></i>
-                            <span>Data Master</span>
+                            <span style="color: black; font-weight:500">Data Master</span>
                         </a>
 
                         @php

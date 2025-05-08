@@ -151,6 +151,7 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
 
     // Bimbingan Konseling
     Route::get('/konseling', [KonselingController::class, 'adminIndex'])->name('admin.konseling');
+    Route::get('/konseling/{id}/balas-konseling', [JawabanController::class, 'adminBalas'])->name('admin.konseling.balas');
     Route::post('/konseling/reply', [JawabanController::class, 'adminReply'])->name('admin.konseling.reply');
     Route::get('/konseling/create', [KonselingController::class, 'adminCreate'])->name('admin.konseling.create');
     Route::post('/konseling', [KonselingController::class, 'adminStore'])->name('admin.konseling.store');

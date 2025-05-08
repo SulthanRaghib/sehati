@@ -149,13 +149,9 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                {{-- update a reply jadi modal --}}
                                                 @if ($a->status_id == '1')
-                                                    <a href="javascript:void(0)" class="btn-reply btn btn-sm btn-primary"
-                                                        data-toggle="modal" data-target="#replyModal"
-                                                        data-id="{{ $a->id }}" data-judul="{{ $a->judul }}"
-                                                        data-konseling="{{ $a->isi_konseling }}"
-                                                        data-nama="{{ $a->siswa->nama }}">
+                                                    <a href="{{ route('admin.konseling.balas', $a->id) }}"
+                                                        class="btn btn-sm btn-primary">
                                                         Balas
                                                     </a>
                                                 @elseif($a->status_id == '2')
@@ -198,7 +194,7 @@
                                                                         <tr>
                                                                             <th>Jawaban</th>
                                                                             <td>
-                                                                                {{ $a->jawaban->isi_jawaban }}</td>
+                                                                                {!! $a->jawaban->isi_jawaban !!}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Tanggal Jawaban</th>
@@ -261,7 +257,7 @@
                                                                         <tr>
                                                                             <th>Jawaban</th>
                                                                             <td>
-                                                                                {{ $a->jawaban->isi_jawaban }}</td>
+                                                                                {!! $a->jawaban->isi_jawaban !!}</td>
                                                                         </tr>
                                                                         @php
                                                                             $rating = $a->jawaban->ratings ?? null;
@@ -307,130 +303,9 @@
                 </div>
         </section>
 
-        <!-- Modal Reply -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const replyButtons = document.querySelectorAll('.btn-reply');
-
-                replyButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const id = this.getAttribute('data-id');
-                        const judul = this.getAttribute('data-judul');
-                        const isiKonseling = this.getAttribute('data-konseling');
-                        const nama = this.getAttribute('data-nama');
-
-                        document.getElementById('konseling_id').value = id;
-                        document.getElementById('judul').textContent = judul;
-                        document.getElementById('isi_konseling').textContent = isiKonseling;
-                        document.getElementById('nama').textContent = nama;
-                    });
-                });
-            });
-        </script>
-
-        <div class="modal fade text-left" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
-            aria-hidden="true" data-backdrop="static">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel33">
-                            Balas Pesan Konseling | {{ $a->siswa->nama }}
-                        </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cancel">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-
-                    </div>
-                    <form action="{{ route('admin.konseling.reply') }}" method="POST">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="col-md-12">
-                                <div class="form-group row align-items-center">
-                                    <input type="hidden" name="konseling_id" id="konseling_id">
-
-                                    <div class="col-lg-3 col-3">
-                                        <label class="col-form-label">Judul</label>
-                                    </div>
-                                    <div class="col-lg-9 col-9">
-                                        : <span id="judul">{{ $a->judul }}</span>
-                                    </div>
-
-                                    <div class="col-lg-3 col-3">
-                                        <label class="col-form-label">Pesan Konseling</label>
-                                    </div>
-                                    <div class="col-lg-9 col-9">
-                                        : <span id="isi_konseling">{{ $a->isi_konseling }}</span>
-                                    </div>
-                                    <div class="col-lg-12 col-12">
-                                        <label class="col-form-label">Balas Pesan</label>
-                                        <textarea name="isi_jawaban" id="isi_jawaban" class="form-control  @error('isi_jawaban') is-invalid @enderror"
-                                            placeholder="Balas Pesan Konseling" rows="10" cols="100" style="resize: none;">{{ old('isi_jawaban') }}</textarea>
-                                        @error('isi_jawaban')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Kirim Jawaban</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        {{-- /End Modal Reply --}}
-        <script>
-            document.getElementById('tutupModal').addEventListener('click', function(e) {
-                e.preventDefault(); // Mencegah modal langsung tertutup
-
-                Swal.fire({
-                    title: 'Apakah Anda Yakin?',
-                    text: "Anda akan kehilangan data yang sudah diinput!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#FDAC41',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, Lanjutkan!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Menghapus event listener yang mencegah modal tertutup
-                        $('#replyModal').off('hide.bs.modal.preventClose');
-
-                        // Menghapus inputan dalam form sebelum menutup modal
-                        document.querySelectorAll('.modal input, .modal textarea, .modal select').forEach(
-                            input => input.value = null);
-
-                        // Menutup modal setelah konfirmasi
-                        $('#replyModal').modal('hide');
-                    }
-                });
-            });
-
-            // Mencegah modal tertutup saat tombol close diklik tanpa konfirmasi
-            $('#replyModal').one('hide.bs.modal.preventClose', function(e) {
-                if (Swal.isVisible()) {
-                    e.preventDefault();
-                }
-            });
-
-            // Mendaftarkan ulang event hanya saat modal dibuka kembali
-            $('#replyModal').on('show.bs.modal', function() {
-                $('#replyModal').one('hide.bs.modal.preventClose', function(e) {
-                    if (Swal.isVisible()) {
-                        e.preventDefault();
-                    }
-                });
-            });
-        </script>
-
-
         {{-- Modal Add Konseling --}}
-        <div class="modal fade text-left" id="konselingModal" tabindex="-1" role="dialog"
-            aria-labelledby="myModalLabel33" aria-hidden="true" data-backdrop="static">
+        <div class="modal fade text-left" id="konselingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+            aria-hidden="true" data-backdrop="static">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

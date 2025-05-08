@@ -106,4 +106,12 @@ class JawabanController extends Controller
 
         return redirect()->back()->with('success', 'Rating berhasil diberikan');
     }
+
+    public function adminBalas($id)
+    {
+        $title = 'Balas Konseling';
+        $konseling = Konseling::findOrFail($id);
+
+        return view('dashboard.konseling.balas', compact('title', 'konseling'));
+    }
 }

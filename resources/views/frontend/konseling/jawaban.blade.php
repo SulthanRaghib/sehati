@@ -75,8 +75,8 @@
                         <thead class="table-light">
                             <tr>
                                 <th>No</th>
-                                <th>Judul Konseling</th>
-                                <th>Isi Jawaban</th>
+                                <th>Topik yang Disampaikan</th>
+                                <th>Balasan dari Guru BK</th>
                                 <th>Tanggal Jawaban</th>
                                 <th>Aksi</th>
                             </tr>
@@ -90,7 +90,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $konseling ? Str::limit($konseling->judul, 50) : '-' }}</td>
-                                    <td>{{ Str::limit($jawaban->isi_jawaban ?? '-', 90) }}</td>
+                                    <td>{!! Str::limit($jawaban->isi_jawaban ?? '-', 90) !!}</td>
                                     <td>{{ \Carbon\Carbon::parse($jawaban->tanggal_jawaban)->format('d M Y H:i') }}</td>
                                     <td>
                                         <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
@@ -112,20 +112,21 @@
                                                     </div>
                                                     <div class="modal-body"
                                                         style="word-break: break-word; overflow-wrap: break-word;">
-                                                        <strong>Judul Konseling:</strong>
+                                                        <strong>Topik yang Disampaikan:</strong>
                                                         <p>{{ $konseling->judul ?? '-' }}</p>
-                                                        <strong>Isi Konseling:</strong>
+                                                        <strong>Cerita Lengkap:</strong>
                                                         <p>{{ $konseling->isi_konseling ?? '-' }}</p>
 
                                                         <hr>
 
-                                                        <strong>Isi Jawaban:</strong>
-                                                        <p>{{ $jawaban->isi_jawaban ?? '-' }}</p>
+                                                        <strong>Balasan dari Guru BK:</strong>
+                                                        <p>{!! $jawaban->isi_jawaban ?? '-' !!}</p>
 
                                                         <hr>
 
                                                         <!-- Rating Section -->
-                                                        <h6 class="mb-0 mt-4">Beri Penilaian Jawaban Ini</h6>
+                                                        <h6 class="mb-0 mt-4">Silakan berikan rating jika Anda merasa
+                                                            jawaban ini membantu:</h6>
                                                         <form method="POST" action="{{ route('jawaban.rating') }}"
                                                             class="w-100">
                                                             @csrf

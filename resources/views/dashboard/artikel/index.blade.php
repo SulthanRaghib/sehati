@@ -52,7 +52,6 @@
                                         <th class="col-1">No</th>
                                         <th>Kategori Artikel</th>
                                         <th>Judul</th>
-                                        <th>Penulis</th>
                                         <th>Tanggal Dibuat</th>
                                         <th class="col-1">Status</th>
                                         <th>Action</th>
@@ -65,7 +64,6 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $a->artikelKategori->nama }}</td>
                                             <td>{{ $a->judul }}</td>
-                                            <td>{{ $a->user->name }}</td>
                                             @php
                                                 $date = \Carbon\Carbon::parse($a->tanggal_terbit);
                                                 $formattedDate = $date->translatedFormat('l, d F Y');

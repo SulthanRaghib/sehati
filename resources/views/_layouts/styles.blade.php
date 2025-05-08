@@ -22,6 +22,29 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
+    * {
+        font-family: 'Inter', sans-serif;
+    }
+
+    body,
+    p,
+    span,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    li,
+    label,
+    small,
+    strong,
+    em,
+    td,
+    th {
+        color: rgba(0, 0, 0, 0.733);
+    }
+
     /* Memberi border pada tabel */
     table.dataTable {
         /* border: 2px solid #dee2e6; */
