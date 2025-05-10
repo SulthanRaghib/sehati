@@ -93,9 +93,10 @@
                                     <td>{!! Str::limit($jawaban->isi_jawaban ?? '-', 90) !!}</td>
                                     <td>{{ \Carbon\Carbon::parse($jawaban->tanggal_jawaban)->format('d M Y H:i') }}</td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                                            data-bs-target="#jawabanModal{{ $n->id }}">
-                                            Lihat Detail
+                                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" title="Detail Jawaban"
+                                            onclick="new bootstrap.Modal(document.getElementById('jawabanModal{{ $n->id }}')).show()">
+                                            <i class="bi bi-eye"></i>
                                         </button>
 
                                         <!-- Modal Jawaban -->

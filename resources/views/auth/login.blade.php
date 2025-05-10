@@ -2,6 +2,17 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    @if (session('message'))
+        <script>
+            Swal.fire({
+                icon: 'warning',
+                title: 'Session Expired',
+                text: '{{ session('message') }}',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
 

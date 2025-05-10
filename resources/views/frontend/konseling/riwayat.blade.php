@@ -55,8 +55,10 @@
                                             class="d-inline form-delete">
                                             @csrf
                                             @method('delete')
-                                            <button type="button"
-                                                class="btn btn-sm btn-outline-danger btn-delete">Delete</button>
+                                            <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus Konseling">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
 
                                             <script>
                                                 // Seleksi semua tombol hapus
@@ -88,9 +90,10 @@
                                             </script>
                                         </form>
                                     @elseif ($k->status_id == 2)
-                                        <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
-                                            data-bs-target="#balasanModal{{ $k->id }}">
-                                            Lihat Balasan
+                                        <button class="btn btn-sm btn-info" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Lihat Balasan"
+                                            onclick="new bootstrap.Modal(document.getElementById('balasanModal{{ $k->id }}')).show()">
+                                            <i class="bi bi-eye"></i>
                                         </button>
 
                                         <!-- Modal Balasan -->
@@ -132,9 +135,10 @@
                                             </div>
                                         </div>
                                     @elseif($k->status_id == 3)
-                                        <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal"
-                                            data-bs-target="#balasanModal{{ $k->id }}">
-                                            Lihat
+                                        <button class="btn btn-sm btn-success" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" data-bs-title="Lihat Balasan"
+                                            onclick="new bootstrap.Modal(document.getElementById('balasanModal{{ $k->id }}')).show()">
+                                            <i class="bi bi-eye"></i>
                                         </button>
 
                                         <!-- Modal Balasan dengan Rating -->

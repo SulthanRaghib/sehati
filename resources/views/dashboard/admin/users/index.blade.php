@@ -68,17 +68,23 @@
                                             <td>
                                                 @if ($u->canReset)
                                                     <a href="{{ route('admin.users.password.edit', $u->id) }}"
-                                                        class="btn btn-sm btn-info">Reset Password</a>
+                                                        class="btn btn-sm btn-info" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Reset Password"><i
+                                                            class="bi bi-key"></i></a>
                                                 @endif
                                                 {{-- edit user --}}
                                                 <a href="{{ route('admin.users.edit', $u->id) }}"
-                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                    class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Edit User"><i
+                                                        class="bi bi-pencil"></i></a>
                                                 <form action="{{ route('admin.users.destroy', $u->id) }}" method="post"
                                                     class="d-inline form-delete">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="button" class="btn btn-sm btn-danger btn-delete"
-                                                        data-role="{{ $u->role ?? '' }}">Delete</button>
+                                                        data-role="{{ $u->role ?? '' }}" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Delete User"><i
+                                                            class="bi bi-trash"></i></button>
 
                                                     <script>
                                                         document.querySelectorAll('.btn-delete').forEach(button => {

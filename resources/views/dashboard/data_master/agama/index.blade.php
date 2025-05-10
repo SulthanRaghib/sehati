@@ -61,13 +61,19 @@
                                             <td>{{ $a->nama }}</td>
                                             <td>
                                                 <a href="{{ route('admin.agama.edit', $a->id) }}"
-                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                    class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Edit">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
                                                 <form action="{{ route('admin.agama.destroy', $a->id) }}" method="POST"
                                                     class="d-inline form-delete">
                                                     @csrf
                                                     @method('delete')
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-danger btn-delete">Delete</button>
+                                                    <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Hapus Agama">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
 
                                                     <script>
                                                         // Seleksi semua tombol hapus

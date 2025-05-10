@@ -48,7 +48,7 @@ class JawabanController extends Controller
             'status_id' => 2,
         ]);
 
-        return redirect()->back()->with('success', 'Konseling berhasil dibalas');
+        return redirect()->route('admin.konseling')->with('success', 'Jawaban berhasil dikirim');
     }
 
     public function siswaJawabanUnread()

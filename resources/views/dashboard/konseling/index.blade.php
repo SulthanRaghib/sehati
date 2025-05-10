@@ -151,13 +151,22 @@
                                             <td>
                                                 @if ($a->status_id == '1')
                                                     <a href="{{ route('admin.konseling.balas', $a->id) }}"
-                                                        class="btn btn-sm btn-primary">
-                                                        Balas
+                                                        class="btn btn-sm btn-primary" data-toggle="tooltip"
+                                                        data-placement="top" title="Balas Konseling">
+                                                        <i class="bi bi-reply-fill"></i>
                                                     </a>
                                                 @elseif($a->status_id == '2')
-                                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                                        data-bs-target="#detailModal{{ $a->id }}">
-                                                        Detail
+                                                    <a href="{{ route('admin.konseling.edit', $a->id) }}"
+                                                        class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" data-bs-title="Edit Konseling">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
+
+                                                    <button type="button" class="btn btn-sm btn-info"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Lihat Detail"
+                                                        onclick="new bootstrap.Modal(document.getElementById('detailModal{{ $a->id }}')).show()">
+                                                        <i class="bi bi-eye-fill"></i>
                                                     </button>
 
                                                     <!-- Modal Detail -->
@@ -218,9 +227,10 @@
                                                         </div>
                                                     </div>
                                                 @elseif ($a->status_id == '3')
-                                                    <button class="btn btn-sm btn-success" data-bs-toggle="modal"
-                                                        data-bs-target="#ratingModal{{ $a->id }}">
-                                                        Detail
+                                                    <button class="btn btn-sm btn-success" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Lihat Detail"
+                                                        onclick="new bootstrap.Modal(document.getElementById('ratingModal{{ $a->id }}')).show()">
+                                                        <i class="bi bi-eye-fill"></i>
                                                     </button>
 
                                                     <!-- Modal Rating -->
@@ -304,8 +314,8 @@
         </section>
 
         {{-- Modal Add Konseling --}}
-        <div class="modal fade text-left" id="konselingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
-            aria-hidden="true" data-backdrop="static">
+        <div class="modal fade text-left" id="konselingModal" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel33" aria-hidden="true" data-backdrop="static">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

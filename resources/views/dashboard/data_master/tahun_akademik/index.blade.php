@@ -75,18 +75,25 @@
                                                     {{-- Tombol Set Aktif / Aktif --}}
                                                     @if (!$a->is_active)
                                                         <form action="{{ route('admin.setTahunAkademik', $a->id) }}"
-                                                            method="POST" class="d-inline">
+                                                            method="POST" class="d-inline form-set-akademik">
                                                             @csrf
-                                                            <button type="submit" class="btn btn-sm btn-primary">Set
-                                                                Aktif</button>
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-primary btn-set-akademik"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="Set Tahun Aktif">
+                                                                <i class="bi bi-check"></i>
+                                                            </button>
                                                         </form>
                                                     @else
-                                                        <button class="btn btn-sm btn-success" disabled>Aktif</button>
+                                                        <button class="btn btn-sm btn-success"
+                                                            style="pointer-events: none">Aktif</button>
                                                     @endif
 
                                                     {{-- Tombol Edit --}}
                                                     <a href="{{ route('admin.tahunAkademik.edit', $a->id) }}"
-                                                        class="btn btn-sm btn-warning">Edit</a>
+                                                        class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Edit Tahun Akademik"><i
+                                                            class="bi bi-pencil-square"></i></a>
 
                                                     {{-- Tombol Delete atau Lock --}}
                                                     @if (!$a->is_active && $a->siswa->isEmpty())
@@ -94,8 +101,10 @@
                                                             method="POST" class="d-inline form-delete">
                                                             @csrf
                                                             @method('delete')
-                                                            <button type="button"
-                                                                class="btn btn-sm btn-danger btn-delete">Delete</button>
+                                                            <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="Hapus Tahun Akademik"><i
+                                                                    class="bi bi-trash"></i></button>
 
                                                             <script>
                                                                 // Seleksi semua tombol hapus
@@ -140,3 +149,30 @@
         </section>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // SweetAlert for Set Tahun Akademik
+            document.querySelectorAll('.btn-set-akademik').forEach(button => {
+                button.addEventListener('click', function() {
+                    const form = button.closest('form');
+
+                    Swal.fire({
+                        title: 'Set Tahun Akademik Aktif?',
+                        text: "Tahun akademik lainnya akan dinonaktifkan.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, Set Aktif'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+@endpush

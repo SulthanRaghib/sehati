@@ -79,16 +79,19 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('artikel.show', $a->id) }}"
-                                                    class="btn btn-sm btn-info">Detail</a>
-                                                <a href="{{ route('artikel.edit', $a->id) }}"
-                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                <a href="{{ route('artikel.show', $a->id) }}" class="btn btn-sm btn-info"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    title="Detail Artikel"><i data-feather="eye"></i></a>
+                                                <a href="{{ route('artikel.edit', $a->id) }}" class="btn btn-sm btn-warning"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Artikel"><i
+                                                        data-feather="edit"></i></a>
                                                 <form action="{{ route('artikel.destroy', $a->id) }}" method="POST"
                                                     class="d-inline form-delete">
                                                     @csrf
                                                     @method('delete')
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-danger btn-delete">Delete</button>
+                                                    <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Delete Artikel"><i data-feather="trash"></i></button>
 
                                                     <script>
                                                         // Seleksi semua tombol hapus

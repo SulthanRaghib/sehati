@@ -65,15 +65,24 @@
                                             <td>{{ $guru->alamat }}</td>
                                             <td>
                                                 <a href="{{ route('admin.guru.show', $guru->id) }}"
-                                                    class="btn btn-sm btn-info">Detail</a>
+                                                    class="btn btn-sm btn-info" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Lihat Detail Guru">
+                                                    <i class="bi bi-eye-fill"></i>
+                                                </a>
                                                 <a href="{{ route('admin.guru.edit', $guru->id) }}"
-                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                    class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Edit Guru">
+                                                    <i class="bi bi-pencil-fill"></i>
+                                                </a>
                                                 <form action="{{ route('admin.guru.destroy', $guru->id) }}" method="post"
                                                     class="d-inline form-delete">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="button" class="btn btn-sm btn-danger btn-delete"
-                                                        data-role="{{ $guru->user->role ?? '' }}">Delete</button>
+                                                        data-role="{{ $guru->user->role ?? '' }}" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Hapus Guru">
+                                                        <i class="bi bi-trash-fill"></i>
+                                                    </button>
 
                                                     <script>
                                                         document.querySelectorAll('.btn-delete').forEach(button => {

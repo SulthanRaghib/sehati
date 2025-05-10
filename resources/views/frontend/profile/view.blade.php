@@ -29,17 +29,17 @@
                             style="display: none; width: 120px; height: 120px;">
                     </div>
 
-                    <h5 class="mb-1">{{ $siswa->nama }}</h5>
-                    <p class="text-muted mb-1">{{ $siswa->nisn }}</p>
-                    <p class="text-muted mb-2">{{ $siswa->user->email }}</p>
-                    <p class="text-muted"><small>{{ $siswa->alamat }}</small></p>
+                    <h5 class="mb-1"> {!! $siswa->nama ?? '<span class="badge bg-danger">Nama belum diisi</span>' !!}</h5>
+                    <p class="text-muted mb-1">{!! $siswa->nisn ?? '<span class="badge bg-danger">NISN belum tersedia</span>' !!}</p>
+                    <p class="text-muted mb-2">{!! $siswa->user->email ?? '<span class="badge bg-danger">Email belum diisi</span>' !!}</p>
+                    <p class="text-muted"><small>{!! $siswa->alamat ?? '<span class="badge bg-danger">Alamat belum diisi</span>' !!}</small></p>
 
-                    <h6 class="mt-4 text-primary fw-bold">Social Links</h6>
+                    {{-- <h6 class="mt-4 text-primary fw-bold">Social Links</h6>
                     <div class="d-flex justify-content-center gap-2">
                         <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-facebook"></i></a>
                         <a href="#" class="btn btn-sm btn-outline-info"><i class="bi bi-twitter-x"></i></a>
                         <a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-instagram"></i></a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -69,31 +69,31 @@
                         <table class="table table-sm table-borderless">
                             <tr>
                                 <th width="30%">Nama</th>
-                                <td>: {{ $siswa->nama }}</td>
+                                <td>: {!! $siswa->nama ?? '<span class="badge bg-danger">Nama belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>NISN</th>
-                                <td>: {{ $siswa->nisn }}</td>
+                                <td>: {!! $siswa->nisn ?? '<span class="badge bg-danger">NISN belum tersedia</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Tempat, Tanggal Lahir</th>
-                                <td>: {{ $siswa->tempat_lahir }}, {{ $siswa->tanggal_lahir }}</td>
+                                <td>: {!! $siswa->tempat_lahir ?? '<span class="badge bg-danger">Tempat Lahir belum diisi</span>' !!}, {!! $siswa->tanggal_lahir ?? '<span class="badge bg-danger">Tanggal Lahir belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Jenis Kelamin</th>
-                                <td>: {{ $siswa->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
+                                <td>: {!! $siswa->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' !!}</td>
                             </tr>
                             <tr>
                                 <th>No HP</th>
-                                <td>: {{ $siswa->no_hp }}</td>
+                                <td>: {!! $siswa->no_hp ?? '<span class="badge bg-danger">No HP belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Kelas</th>
-                                <td>: {{ $siswa->kelas->tingkat }}</td>
+                                <td>: {!! $siswa->kelas->tingkat ?? '<span class="badge bg-danger">Kelas belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Agama</th>
-                                <td>: {{ $siswa->agama->nama ?? '-' }}</td>
+                                <td>: {!! $siswa->agama->nama ?? '<span class="badge bg-danger">Agama belum diisi</span>' !!}</td>
                             </tr>
                         </table>
                     </div>
@@ -103,19 +103,19 @@
                         <table class="table table-sm table-borderless">
                             <tr>
                                 <th>NIK Ayah</th>
-                                <td>: {{ $siswa->nik_ayah ?? '-' }}</td>
+                                <td>: {!! $siswa->nik_ayah ?? '<span class="badge bg-danger">NIK Ayah belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Nama Ayah</th>
-                                <td>: {{ $siswa->nama_ayah ?? '-' }}</td>
+                                <td>: {!! $siswa->nama_ayah ?? '<span class="badge bg-danger">Nama Ayah belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Tempat, Tgl Lahir</th>
-                                <td>: {{ $siswa->tempat_lahir_ayah }}, {{ $siswa->tanggal_lahir_ayah }}</td>
+                                <td>: {!! $siswa->tempat_lahir_ayah ?? '<span class="badge bg-danger">Tempat Lahir belum diisi</span>' !!}, {!! $siswa->tanggal_lahir_ayah ?? '<span class="badge bg-danger">Tanggal Lahir belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Pekerjaan</th>
-                                <td>: {{ $siswa->pekerjaanAyah->nama ?? '-' }}</td>
+                                <td>: {!! $siswa->pekerjaanAyah->nama ?? '<span class="badge bg-danger">Pekerjaan belum diisi</span>' !!}</td>
                             </tr>
                         </table>
                     </div>
@@ -125,19 +125,19 @@
                         <table class="table table-sm table-borderless">
                             <tr>
                                 <th>NIK Ibu</th>
-                                <td>: {{ $siswa->nik_ibu ?? '-' }}</td>
+                                <td>: {!! $siswa->nik_ibu ?? '<span class="badge bg-danger">NIK Ibu belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Nama Ibu</th>
-                                <td>: {{ $siswa->nama_ibu ?? '-' }}</td>
+                                <td>: {!! $siswa->nama_ibu ?? '<span class="badge bg-danger">Nama Ibu belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Tempat, Tgl Lahir</th>
-                                <td>: {{ $siswa->tempat_lahir_ibu }}, {{ $siswa->tanggal_lahir_ibu }}</td>
+                                <td>: {!! $siswa->tempat_lahir_ibu ?? '<span class="badge bg-danger">Tempat Lahir belum diisi</span>' !!}, {!! $siswa->tanggal_lahir_ibu ?? '<span class="badge bg-danger">Tanggal Lahir belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Pekerjaan</th>
-                                <td>: {{ $siswa->pekerjaanIbu->nama ?? '-' }}</td>
+                                <td>: {!! $siswa->pekerjaanIbu->nama ?? '<span class="badge bg-danger">Pekerjaan belum diisi</span>' !!}</td>
                             </tr>
                         </table>
                     </div>
@@ -147,16 +147,7 @@
     </div>
 </div>
 
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            tooltipTriggerList.forEach(function(tooltipTriggerEl) {
-                new bootstrap.Tooltip(tooltipTriggerEl)
-            })
-        });
-    </script>
-
+@push('script')
     <script>
         // Validasi ukuran sebelum upload
         $('#avatar').on('change', function() {

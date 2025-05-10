@@ -81,17 +81,27 @@
                                             <td>{{ $s->kelas->tingkat }}</td>
                                             <td>
                                                 <a href="{{ route('admin.siswa.detailKonseling', $s->id) }}"
-                                                    class="btn btn-sm btn-primary">Konseling</a>
+                                                    class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Lihat Riwayat Konseling">
+                                                    <i class="bi bi-chat-left-text-fill"></i>
+                                                </a>
                                                 <a href="{{ route('admin.siswa.show', $s->id) }}"
-                                                    class="btn btn-sm btn-info">Detail</a>
+                                                    class="btn btn-sm btn-info" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Lihat Detail Siswa">
+                                                    <i class="bi bi-eye-fill"></i>
+                                                </a>
                                                 <a href="{{ route('admin.siswa.edit', $s->id) }}"
-                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                    class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Edit Siswa">
+                                                    <i class="bi bi-pencil-fill"></i>
+                                                </a>
                                                 <form action="{{ route('admin.siswa.destroy', $s->id) }}" method="post"
                                                     class="d-inline form-delete">
                                                     @csrf
                                                     @method('delete')
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-danger btn-delete">Delete</button>
+                                                    <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Hapus Siswa"><i class="bi bi-trash-fill"></i></button>
 
                                                     <script>
                                                         // Seleksi semua tombol hapus
