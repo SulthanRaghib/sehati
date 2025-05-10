@@ -100,185 +100,189 @@
                             <a href="{{ route('admin.siswa') }}" class="btn btn-secondary mt-3">Kembali</a>
                         </div>
                     @else
-                        <table class="table table-striped" id="table1">
-                            <thead>
-                                <tr>
-                                    <th class="col-1">No</th>
-                                    <th>Tanggal</th>
-                                    <th>Topik Konseling</th>
-                                    <th>Pesan Konseling</th>
-                                    <th>Status</th>
-                                    <th>Jawaban</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($siswa->konseling as $k)
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="table1">
+                                <thead>
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($k->created_at)->translatedFormat('d F Y') }}
-                                        </td>
-                                        <td>{{ $k->judul }}</td>
-                                        <td>{{ $k->isi_konseling }}</td>
-                                        <td>
-                                            @if ($k->status_id == 1)
-                                                <span class="badge bg-warning text-dark">Belum Dijawab</span>
-                                            @elseif($k->status_id == 2)
-                                                <span class="badge bg-info">Dijawab</span>
-                                            @elseif($k->status_id == 3)
-                                                <span class="badge bg-success">Selesai</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($k->status_id == '1')
-                                                <a href="javascript:void(0)" class="btn-reply btn btn-sm btn-primary"
-                                                    data-toggle="modal" data-target="#replyModal"
-                                                    data-id="{{ $k->id }}" data-judul="{{ $k->judul }}"
-                                                    data-konseling="{{ $k->isi_konseling }}"
-                                                    data-nama="{{ $k->siswa->nama }}">
-                                                    Balas
-                                                </a>
-                                            @elseif($k->status_id == '2')
-                                                <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                                    data-bs-target="#detailModal{{ $k->id }}">
-                                                    Detail
-                                                </button>
+                                        <th class="col-1">No</th>
+                                        <th>Tanggal</th>
+                                        <th>Topik Konseling</th>
+                                        <th>Pesan Konseling</th>
+                                        <th>Status</th>
+                                        <th>Jawaban</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($siswa->konseling as $k)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($k->created_at)->translatedFormat('d F Y') }}
+                                            </td>
+                                            <td>{{ $k->judul }}</td>
+                                            <td>{{ $k->isi_konseling }}</td>
+                                            <td>
+                                                @if ($k->status_id == 1)
+                                                    <span class="badge bg-warning text-dark">Belum Dijawab</span>
+                                                @elseif($k->status_id == 2)
+                                                    <span class="badge bg-info">Dijawab</span>
+                                                @elseif($k->status_id == 3)
+                                                    <span class="badge bg-success">Selesai</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($k->status_id == '1')
+                                                    <a href="javascript:void(0)" class="btn-reply btn btn-sm btn-primary"
+                                                        data-toggle="modal" data-target="#replyModal"
+                                                        data-id="{{ $k->id }}" data-judul="{{ $k->judul }}"
+                                                        data-konseling="{{ $k->isi_konseling }}"
+                                                        data-nama="{{ $k->siswa->nama }}">
+                                                        Balas
+                                                    </a>
+                                                @elseif($k->status_id == '2')
+                                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                                        data-bs-target="#detailModal{{ $k->id }}">
+                                                        Detail
+                                                    </button>
 
-                                                <!-- Modal Detail -->
-                                                <div class="modal fade" id="detailModal{{ $k->id }}" tabindex="-1"
-                                                    aria-labelledby="detailLabel{{ $k->id }}" aria-hidden="true">
-                                                    <div class="modal-dialog modal-lg">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title"
-                                                                    id="detailLabel{{ $k->id }}">Detail
-                                                                    Konseling</h5>
-                                                                <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close" id="cancel">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body"
-                                                                style="word-break: break-word; overflow-wrap: break-word;">
-                                                                <table class="table table-borderless">
-                                                                    <tr>
-                                                                        <th style="width: 25%;">Nama</th>
-                                                                        <td>{{ $k->siswa->nama }}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th>Judul</th>
-                                                                        <td>{{ $k->judul }}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th>Pesan Konseling</th>
-                                                                        <td>{{ $k->isi_konseling }}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th>Jawaban</th>
-                                                                        <td>
-                                                                            {{ $k->jawaban->isi_jawaban }}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th>Tanggal Jawaban</th>
-                                                                        <td>{{ \Carbon\Carbon::parse($k->jawaban->tanggal_jawaban)->format('d-m-Y') }}
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
+                                                    <!-- Modal Detail -->
+                                                    <div class="modal fade" id="detailModal{{ $k->id }}"
+                                                        tabindex="-1" aria-labelledby="detailLabel{{ $k->id }}"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title"
+                                                                        id="detailLabel{{ $k->id }}">Detail
+                                                                        Konseling</h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close"
+                                                                        id="cancel">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body"
+                                                                    style="word-break: break-word; overflow-wrap: break-word;">
+                                                                    <table class="table table-borderless">
+                                                                        <tr>
+                                                                            <th style="width: 25%;">Nama</th>
+                                                                            <td>{{ $k->siswa->nama }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Judul</th>
+                                                                            <td>{{ $k->judul }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Pesan Konseling</th>
+                                                                            <td>{{ $k->isi_konseling }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Jawaban</th>
+                                                                            <td>
+                                                                                {{ $k->jawaban->isi_jawaban }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Tanggal Jawaban</th>
+                                                                            <td>{{ \Carbon\Carbon::parse($k->jawaban->tanggal_jawaban)->format('d-m-Y') }}
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
 
-                                                                {{-- alert rating belom ada --}}
-                                                                <div class="alert alert-warning mt-3">
-                                                                    Siswa belum memberikan rating
+                                                                    {{-- alert rating belom ada --}}
+                                                                    <div class="alert alert-warning mt-3">
+                                                                        Siswa belum memberikan rating
+                                                                    </div>
+
                                                                 </div>
 
-                                                            </div>
-
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Tutup</button>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Tutup</button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            @elseif ($k->status_id == '3')
-                                                <button class="btn btn-sm btn-success" data-bs-toggle="modal"
-                                                    data-bs-target="#ratingModal{{ $k->id }}">
-                                                    Detail
-                                                </button>
+                                                @elseif ($k->status_id == '3')
+                                                    <button class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                                        data-bs-target="#ratingModal{{ $k->id }}">
+                                                        Detail
+                                                    </button>
 
-                                                <!-- Modal Rating -->
-                                                <div class="modal fade" id="ratingModal{{ $k->id }}"
-                                                    tabindex="-1" aria-labelledby="ratingLabel{{ $k->id }}"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog modal-lg">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title"
-                                                                    id="ratingLabel{{ $k->id }}">Detail
-                                                                    Konseling</h5>
-                                                                <button type="button" class="close"
-                                                                    data-dismiss="modal" aria-label="Close"
-                                                                    id="cancel">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <table class="table table-borderless">
-                                                                    <tr>
-                                                                        <th style="width: 25%;">Nama</th>
-                                                                        <td>{{ $k->siswa->nama }}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th>Judul</th>
-                                                                        <td>{{ $k->judul }}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th>Pesan Konseling</th>
-                                                                        <td>
-                                                                            {{ $k->isi_konseling }}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th>Jawaban</th>
-                                                                        <td>
-                                                                            {{ $k->jawaban->isi_jawaban }}</td>
-                                                                    </tr>
-                                                                    @php
-                                                                        $rating = $k->jawaban->ratings ?? null;
-                                                                    @endphp
-                                                                    @if ($rating)
+                                                    <!-- Modal Rating -->
+                                                    <div class="modal fade" id="ratingModal{{ $k->id }}"
+                                                        tabindex="-1" aria-labelledby="ratingLabel{{ $k->id }}"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title"
+                                                                        id="ratingLabel{{ $k->id }}">Detail
+                                                                        Konseling</h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close"
+                                                                        id="cancel">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <table class="table table-borderless">
                                                                         <tr>
-                                                                            <th>Rating</th>
+                                                                            <th style="width: 25%;">Nama</th>
+                                                                            <td>{{ $k->siswa->nama }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Judul</th>
+                                                                            <td>{{ $k->judul }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Pesan Konseling</th>
                                                                             <td>
-                                                                                @for ($i = 1; $i <= 5; $i++)
-                                                                                    @if ($i <= $rating->rating)
-                                                                                        <i
-                                                                                            class="bi bi-star-fill text-warning"></i>
-                                                                                    @else
-                                                                                        <i
-                                                                                            class="bi bi-star text-secondary"></i>
-                                                                                    @endif
-                                                                                @endfor
-                                                                            </td>
+                                                                                {{ $k->isi_konseling }}</td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <th>Komentar</th>
-                                                                            <td>{{ $rating->komentar ?? 'Tidak ada komentar' }}
-                                                                            </td>
+                                                                            <th>Jawaban</th>
+                                                                            <td>
+                                                                                {{ $k->jawaban->isi_jawaban }}</td>
                                                                         </tr>
-                                                                    @endif
-                                                                </table>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Tutup</button>
+                                                                        @php
+                                                                            $rating = $k->jawaban->ratings ?? null;
+                                                                        @endphp
+                                                                        @if ($rating)
+                                                                            <tr>
+                                                                                <th>Rating</th>
+                                                                                <td>
+                                                                                    @for ($i = 1; $i <= 5; $i++)
+                                                                                        @if ($i <= $rating->rating)
+                                                                                            <i
+                                                                                                class="bi bi-star-fill text-warning"></i>
+                                                                                        @else
+                                                                                            <i
+                                                                                                class="bi bi-star text-secondary"></i>
+                                                                                        @endif
+                                                                                    @endfor
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Komentar</th>
+                                                                                <td>{{ $rating->komentar ?? 'Tidak ada komentar' }}
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endif
+                                                                    </table>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Tutup</button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="d-flex justify-content-end">
                             <a href="{{ route('admin.siswa') }}" class="btn btn-secondary mt-3">Kembali</a>
                         </div>
