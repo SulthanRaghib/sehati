@@ -24,6 +24,26 @@
                 text: '{{ session('warning') }}',
             });
         </script>
+    @elseif (session('success-password'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success-password') }}',
+                showCancelButton: true,
+                confirmButtonText: 'Login Ulang',
+                cancelButtonText: 'Batal',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect ke logout
+                    window.location.href = "{{ route('logout-redirect') }}";
+                } else {
+                    window.location.href = "{{ route('siswa.profile.show') }}";
+                }
+            });
+        </script>
     @endif
 
     <!-- Services Section -->

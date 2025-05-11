@@ -283,7 +283,7 @@ class SiswaController extends Controller
             'remember_token' => Str::random(60),
         ]);
 
-        return redirect()->route('siswa.profile.show')->with('success', 'Password berhasil diperbarui');
+        return redirect()->route('siswa.profile.show')->with('success-password', 'Password berhasil diperbarui');
     }
 
     public function deleteFoto()
