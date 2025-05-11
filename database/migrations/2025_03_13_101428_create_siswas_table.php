@@ -27,13 +27,13 @@ return new class extends Migration
             $table->string('nama_ayah', 100)->nullable();
             $table->string('tempat_lahir_ayah', 100)->nullable();
             $table->date('tanggal_lahir_ayah')->nullable();
-            $table->foreignId('pekerjaan_ayah_id')->nullable()->constrained('pekerjaans');
+            $table->foreignId('pekerjaan_ayah_id')->nullable()->constrained('pekerjaans')->nullOnDelete();
             $table->string('nik_ibu', 20)->nullable();
             $table->string('nama_ibu', 100)->nullable();
             $table->string('tempat_lahir_ibu', 100)->nullable();
             $table->date('tanggal_lahir_ibu')->nullable();
-            $table->foreignId('pekerjaan_ibu_id')->nullable()->constrained('pekerjaans');
-            $table->foreignId('tahun_akademik_id')->nullable()->constrained('tahun_akademiks');
+            $table->foreignId('pekerjaan_ibu_id')->nullable()->constrained('pekerjaans')->nullOnDelete();
+            $table->foreignId('tahun_akademik_id')->nullable()->constrained('tahun_akademiks')->nullOnDelete();
             $table->string('tahun_masuk', 4)->nullable();
             $table->string('status')->default('Aktif');
             $table->boolean('is_completed')->default(false);

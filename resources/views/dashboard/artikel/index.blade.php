@@ -62,7 +62,7 @@
                                         <tr>
                                             {{-- @dd($a) --}}
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $a->artikelKategori->nama }}</td>
+                                            <td>{!! $a->artikelKategori->nama ?? '<span class="badge bg-danger">Tidak ada kategori</span>' !!}</td>
                                             <td>{{ $a->judul }}</td>
                                             @php
                                                 $date = \Carbon\Carbon::parse($a->tanggal_terbit);
@@ -82,8 +82,20 @@
                                                 <a href="{{ route('artikel.show', $a->id) }}" class="btn btn-sm btn-info"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="Detail Artikel"><i data-feather="eye"></i></a>
-                                                <a href="{{ route('artikel.edit', $a->id) }}" class="btn btn-sm btn-warning"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Artikel"><i
+                                                @if ($a->status == 'draft')
+                                                    <a href="{{ route('artikel.publish', $a->id) }}"
+                                                        class="btn btn-sm btn-success" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Publish Artikel"><i
+                                                            class="bi bi-cloud-upload-fill"></i></a>
+                                                @elseif($a->status == 'publish')
+                                                    <a href="{{ route('artikel.draft', $a->id) }}"
+                                                        class="btn btn-sm btn-secondary" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Unpublish Artikel"> <i
+                                                            class="bi bi-file-earmark-text-fill"></i></a>
+                                                @endif
+                                                <a href="{{ route('artikel.edit', $a->id) }}"
+                                                    class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Edit Artikel"><i
                                                         data-feather="edit"></i></a>
                                                 <form action="{{ route('artikel.destroy', $a->id) }}" method="POST"
                                                     class="d-inline form-delete">

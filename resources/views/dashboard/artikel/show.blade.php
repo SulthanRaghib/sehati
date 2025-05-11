@@ -42,21 +42,25 @@
 
                                 {{-- Gambar Artikel --}}
                                 <div class="text-center mb-4">
-                                    <img src="{{ $artikel->gambar ? asset('storage/' . $artikel->gambar) : asset('images/default.jpg') }}"
-                                        alt="Gambar Artikel" class="img-fluid"
-                                        style="max-height: 400px; object-fit: cover;">
+                                    @if ($artikel->gambar)
+                                        <img src="{{ Str::startsWith($artikel->gambar, 'http') ? $artikel->gambar : asset('storage/' . $artikel->gambar) }}"
+                                            alt="Gambar Artikel" class="img-fluid"
+                                            style="max-height: 400px; object-fit: cover;">
+                                    @else
+                                        <span class="badge bg-danger">Tidak ada gambar</span>
+                                    @endif
                                 </div>
 
                                 {{-- Metadata Artikel --}}
-                                <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+                                <div class="d-flex flex-wrap justify-content-center gap-3 mb-4 align-items-center">
                                     <span class="badge bg-success">
-                                        <i class="bi bi-tag-fill me-1"></i> {{ $artikel->artikelKategori->nama }}
+                                        <i class="bi bi-tag-fill me-1"></i> {!! $artikel->artikelKategori->nama ?? '<span class="badge bg-danger">Tidak ada kategori</span>' !!}
                                     </span>
                                     <span class="badge bg-primary">
-                                        <i class="bi bi-person-fill me-1"></i> {{ $artikel->user->name }}
+                                        <i class="bi bi-person-fill me-1"></i> {!! $artikel->user->name ?? '<span class="badge bg-info">Tidak ada penulis</span>' !!}
                                     </span>
                                     <span class="badge bg-secondary">
-                                        <i class="bi bi-globe2 me-1"></i> {{ $artikel->sumber ?? 'Tidak ada sumber' }}
+                                        <i class="bi bi-globe2 me-1"></i> {!! $artikel->sumber ?? '<span class="text-danger">Tidak ada sumber</span>' !!}
                                     </span>
                                     <span class="badge bg-info text-dark">
                                         <i class="bi bi-calendar-event-fill me-1"></i>
@@ -79,15 +83,15 @@
                                             class="d-inline">
                                             @csrf
                                             <button type="submit" class="btn btn-success">
-                                                <i class="bi bi-upload"></i> Publikasikan
+                                                <i class="bi bi-cloud-upload-fill"></i> Publikasikan
                                             </button>
                                         </form>
                                     @elseif($artikel->status === 'publish')
                                         <form action="{{ route('artikel.draft', $artikel->id) }}" method="POST"
                                             class="d-inline">
                                             @csrf
-                                            <button type="submit" class="btn btn-warning text-dark">
-                                                <i class="bi bi-eye-slash"></i> Kembalikan ke Draf
+                                            <button type="submit" class="btn btn-secondary text-dark">
+                                                <i class="bi bi-file-earmark-text-fill"></i> Kembalikan ke Draf
                                             </button>
                                         </form>
                                     @endif

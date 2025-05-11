@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('tempat_lahir', 50);
             $table->date('tanggal_lahir');
             $table->string('alamat');
-            $table->foreignId('agama_id')->constrained('agamas');
-            $table->foreignId('pendidikan_terakhir_id')->constrained('pendidikan_terakhirs');
+            $table->foreignId('agama_id')->nullable()->constrained('agamas')->nullOnDelete();
+            $table->foreignId('pendidikan_terakhir_id')->nullable()->constrained('pendidikan_terakhirs')->nullOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });

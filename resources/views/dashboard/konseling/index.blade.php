@@ -25,65 +25,6 @@
         </script>
     @endpush
 
-    {{-- <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
-    <script>
-        Pusher.logToConsole = true;
-
-        var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
-            cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
-            forceTLS: true
-        });
-
-        var channel = pusher.subscribe('konseling-baru');
-        channel.bind('konseling-baru', function(data) {
-            console.log("Data Pusher masuk:", data);
-
-            // 1. Tambahkan ke tabel (jika ada)
-            const body = document.getElementById('konselingBody');
-            if (body) {
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                <td>${data.konseling.judul}</td>
-                <td>${data.konseling.isi_konseling}</td>
-                <td>${data.konseling.tanggal_konseling}</td>
-            `;
-                body.prepend(newRow);
-            }
-
-            // 2. Update badge notifikasi
-            const notifBadge = document.getElementById('notif-count');
-            if (notifBadge) {
-                let currentCount = parseInt(notifBadge.innerText) || 0;
-                notifBadge.innerText = currentCount + data.konseling.jumlah_inbox;
-            }
-
-            // 3. Tambahkan notifikasi baru ke list
-            const notifList = document.querySelector('.dropdown-menu ul.list-group');
-            if (notifList) {
-                const newNotif = document.createElement('li');
-                newNotif.classList.add('list-group-item', 'border-0', 'align-items-start');
-                newNotif.innerHTML = `
-                <div class="avatar bg-primary mr-3">
-                    <span class="avatar-content"><i data-feather="message-circle"></i></span>
-                </div>
-                <div>
-                    <h6 class="text-bold">Konseling Baru</h6>
-                    <p class="text-xs">
-                        ${data.konseling.judul}: ${data.konseling.isi_konseling}
-                    </p>
-                </div>
-            `;
-                notifList.prepend(newNotif);
-            }
-
-            // 4. Refresh feather icon jika pakai feather
-            if (typeof feather !== 'undefined') {
-                feather.replace();
-            }
-        });
-    </script> --}}
-
-
     <div class="main-content container-fluid">
         <div class="page-title">
             <div class="row">
@@ -133,7 +74,7 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $a->judul }}</td>
                                             <td>{{ Str::limit($a->isi_konseling, 40, '...') }}</td>
-                                            <td>{{ $a->siswa->nama }}</td>
+                                            <td>{!! $a->siswa->nama ?? '<span class="badge bg-danger">Tidak ada siswa</span>' !!}</td>
                                             @php
                                                 $date = \Carbon\Carbon::parse($a->tanggal_konseling);
                                                 $formattedDate = $date->format('d-m-Y');
@@ -151,8 +92,8 @@
                                             <td>
                                                 @if ($a->status_id == '1')
                                                     <a href="{{ route('admin.konseling.balas', $a->id) }}"
-                                                        class="btn btn-sm btn-primary" data-toggle="tooltip"
-                                                        data-placement="top" title="Balas Konseling">
+                                                        class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" data-bs-title="Balas Konseling">
                                                         <i class="bi bi-reply-fill"></i>
                                                     </a>
                                                 @elseif($a->status_id == '2')
@@ -190,7 +131,7 @@
                                                                     <table class="table table-borderless">
                                                                         <tr>
                                                                             <th style="width: 25%;">Nama</th>
-                                                                            <td>{{ $a->siswa->nama }}</td>
+                                                                            <td>{!! $a->siswa->nama ?? '<span class="badge bg-danger">Tidak ada siswa</span>' !!}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Judul</th>

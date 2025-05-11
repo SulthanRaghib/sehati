@@ -62,7 +62,7 @@
                                         <tr>
                                             <td>Agama</td>
                                             <td>:</td>
-                                            <td>{{ $guru->agama->nama }}</td>
+                                            <td>{!! $guru->agama->nama ?? '<span class="badge bg-danger">Data Tidak Ada</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <td>Alamat</td>
@@ -72,7 +72,7 @@
                                         <tr>
                                             <td>Pendidikan Terakhir</td>
                                             <td>:</td>
-                                            <td>{{ $guru->pendidikanTerakhir->nama }}</td>
+                                            <td>{!! $guru->pendidikanTerakhir->nama ?? '<span class="badge bg-danger">Data Tidak Ada</span>' !!}</td>
                                         </tr>
                                     </table>
                                 </div>

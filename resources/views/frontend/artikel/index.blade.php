@@ -44,7 +44,7 @@
                                         $tanggalTerbit = $tanggal->locale('id_ID')->translatedFormat('l, d F Y');
                                     @endphp
                                     {{ $tanggalTerbit }} | Kategori:
-                                    {{ $a->artikelKategori->nama ?? '-' }}
+                                    {!! $a->artikelKategori->nama ?? '<span class="badge bg-info">Tidak ada kategori</span>' !!}
                                 </p>
                                 <p class="card-text">
                                     {!! Str::limit(strip_tags($a->isi), 100) !!}

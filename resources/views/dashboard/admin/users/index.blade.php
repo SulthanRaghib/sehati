@@ -62,7 +62,7 @@
                                     @foreach ($user as $u)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $u->userable->nama }}</td>
+                                            <td>{!! $u->userable->nama ?? '<span class="badge bg-danger">Tidak ada</span>' !!}</td>
                                             <td>{{ $u->email }}</td>
                                             <td>{{ ucfirst($u->role) }}</td>
                                             <td>

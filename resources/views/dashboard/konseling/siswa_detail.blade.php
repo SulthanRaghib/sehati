@@ -131,17 +131,16 @@
                                             </td>
                                             <td>
                                                 @if ($k->status_id == '1')
-                                                    <a href="javascript:void(0)" class="btn-reply btn btn-sm btn-primary"
-                                                        data-toggle="modal" data-target="#replyModal"
-                                                        data-id="{{ $k->id }}" data-judul="{{ $k->judul }}"
-                                                        data-konseling="{{ $k->isi_konseling }}"
-                                                        data-nama="{{ $k->siswa->nama }}">
-                                                        Balas
+                                                    <a href="{{ route('admin.konseling.balas', $k->id) }}"
+                                                        class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Balas Pesan">
+                                                        <i class="bi bi-reply-fill"></i>
                                                     </a>
                                                 @elseif($k->status_id == '2')
-                                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                                        data-bs-target="#detailModal{{ $k->id }}">
-                                                        Detail
+                                                    <button class="btn btn-sm btn-info" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Detail Jawaban"
+                                                        onclick="new bootstrap.Modal(document.getElementById('detailModal{{ $k->id }}')).show()">
+                                                        <i class="bi bi-eye-fill"></i>
                                                     </button>
 
                                                     <!-- Modal Detail -->
@@ -165,7 +164,7 @@
                                                                     <table class="table table-borderless">
                                                                         <tr>
                                                                             <th style="width: 25%;">Nama</th>
-                                                                            <td>{{ $k->siswa->nama }}</td>
+                                                                            <td>{!! $k->siswa->nama ?? '<span class="text-danger">Tidak ada</span>' !!}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Judul</th>
@@ -178,7 +177,7 @@
                                                                         <tr>
                                                                             <th>Jawaban</th>
                                                                             <td>
-                                                                                {{ $k->jawaban->isi_jawaban }}</td>
+                                                                                {!! $k->jawaban->isi_jawaban !!}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Tanggal Jawaban</th>
@@ -202,9 +201,10 @@
                                                         </div>
                                                     </div>
                                                 @elseif ($k->status_id == '3')
-                                                    <button class="btn btn-sm btn-success" data-bs-toggle="modal"
-                                                        data-bs-target="#ratingModal{{ $k->id }}">
-                                                        Detail
+                                                    <button class="btn btn-sm btn-success" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Detail Jawaban"
+                                                        onclick="new bootstrap.Modal(document.getElementById('ratingModal{{ $k->id }}')).show()">
+                                                        <i class="bi bi-eye-fill"></i>
                                                     </button>
 
                                                     <!-- Modal Rating -->
@@ -227,7 +227,7 @@
                                                                     <table class="table table-borderless">
                                                                         <tr>
                                                                             <th style="width: 25%;">Nama</th>
-                                                                            <td>{{ $k->siswa->nama }}</td>
+                                                                            <td>{!! $k->siswa->nama ?? '<span class="text-danger">Tidak ada</span>' !!}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Judul</th>
@@ -241,7 +241,7 @@
                                                                         <tr>
                                                                             <th>Jawaban</th>
                                                                             <td>
-                                                                                {{ $k->jawaban->isi_jawaban }}</td>
+                                                                                {!! $k->jawaban->isi_jawaban !!}</td>
                                                                         </tr>
                                                                         @php
                                                                             $rating = $k->jawaban->ratings ?? null;

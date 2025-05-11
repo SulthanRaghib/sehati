@@ -78,7 +78,7 @@
                                                 @else
                                                     Perempuan
                                                 @endif
-                                            <td>{{ $s->kelas->tingkat }}</td>
+                                            <td>{!! $s->kelas->tingkat ?? '<span class="text-danger">Belum ada kelas</span>' !!}</td>
                                             <td>
                                                 <a href="{{ route('admin.siswa.detailKonseling', $s->id) }}"
                                                     class="btn btn-sm btn-primary" data-bs-toggle="tooltip"

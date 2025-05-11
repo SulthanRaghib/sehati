@@ -49,13 +49,9 @@
                                         <div class="card-body text-center px-0">
                                             <h5 class="card-title">{{ $siswa->nama }}</h5>
                                             <p class="card-text mb-0">NISN : {{ $siswa->nisn }}</p>
-                                            @if ($siswa->tahunAkademik == null)
-                                                <p class="card-text">Tahun Akademik: -
-                                                </p>
-                                            @else
-                                                <p class="card-text">Tahun Akademik: {{ $siswa->tahunAkademik->periode }}
-                                                    ({{ $siswa->tahunAkademik->semester }})</p>
-                                            @endif
+                                            <p class="card-text">Tahun Akademik:
+                                                {!! $siswa->tahunAkademik->periode ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -65,19 +61,19 @@
                                             <td>Email</td>
                                             <td>:</td>
                                             <td>
-                                                <input type="text" class="form-control"
-                                                    value="{{ $siswa->user->email }}" disabled>
+                                                <input type="text" class="form-control" value="{!! $siswa->user->email ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}"
+                                                    disabled>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>NISN</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->nisn }}</td>
+                                            <td>{!! $siswa->nisn ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <td>Nama</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->nama }}</td>
+                                            <td>{!! $siswa->nama ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
                                         </tr>
                                         @php
                                             $tingkat = $siswa->kelas->tingkat;
@@ -92,7 +88,7 @@
                                         <tr>
                                             <td>Kelas</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->kelas->tingkat }} ({{ $kelas }}) </td>
+                                            <td>{!! $siswa->kelas->tingkat ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!} ({{ $kelas }}) </td>
                                         </tr>
                                         <tr>
                                             <td>Tempat, Tanggal Lahir</td>
@@ -107,12 +103,12 @@
                                         <tr>
                                             <td>Agama</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->agama->nama ?? '-' }}</td>
+                                            <td>{!! $siswa->agama->nama ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <td>Alamat</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->alamat ?? '-' }}</td>
+                                            <td>{!! $siswa->alamat ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -126,23 +122,23 @@
                                         <tr>
                                             <td>NIK</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->nik_ayah ?? '-' }}</td>
+                                            <td>{!! $siswa->nik_ayah ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <td>Nama</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->nama_ayah ?? '-' }}</td>
+                                            <td>{!! $siswa->nama_ayah ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <td>Tempat, Tanggal Lahir</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->tempat_lahir_ayah ?? '-' }},
-                                                {{ $siswa->tanggal_lahir_ayah ?? '-' }}</td>
+                                            <td>{!! $siswa->tempat_lahir_ayah ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!},
+                                                {!! $siswa->tanggal_lahir_ayah ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <td>Pekerjaan Ayah</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->pekerjaanAyah->nama ?? '-' }}</td>
+                                            <td>{!! $siswa->pekerjaanAyah->nama ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -152,23 +148,23 @@
                                         <tr>
                                             <td>NIK</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->nik_ibu ?? '-' }}</td>
+                                            <td>{!! $siswa->nik_ibu ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <td>Nama</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->nama_ibu ?? '-' }}</td>
+                                            <td>{!! $siswa->nama_ibu ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <td>Tempat, Tanggal Lahir</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->tempat_lahir_ibu ?? '-' }},
-                                                {{ $siswa->tanggal_lahir_ibu ?? '-' }}</td>
+                                            <td>{!! $siswa->tempat_lahir_ibu ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!},
+                                                {!! $siswa->tanggal_lahir_ibu ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <td>Pekerjaan Ibu</td>
                                             <td>:</td>
-                                            <td>{{ $siswa->pekerjaanIbu->nama ?? '-' }}</td>
+                                            <td>{!! $siswa->pekerjaanIbu->nama ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
                                         </tr>
                                     </table>
                                 </div>

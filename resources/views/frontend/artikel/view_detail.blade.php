@@ -28,7 +28,7 @@
                                 @endphp
                                 <span>Dipublikasikan: {{ $tanggalTerbit }}</span>
                                 <span class="mx-2">|</span>
-                                <span>Ditulis oleh <strong>{{ $artikel->user->name ?? '-' }}</strong></span>
+                                <span>Ditulis oleh <strong>{!! $artikel->user->name ?? '<span class="badge bg-info">Admin</span>' !!}</strong></span>
                                 <span class="mx-2">|</span>
                                 <span>Kategori: <span
                                         class="badge bg-primary">{{ $artikel->artikelKategori->nama ?? '-' }}</span>

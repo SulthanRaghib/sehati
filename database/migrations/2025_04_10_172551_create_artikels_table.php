@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('slug', 100)->unique();
             $table->text('isi');
             $table->string('gambar')->nullable();
-            $table->foreignId('artikel_kategori_id')->constrained('artikel_kategoris')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('artikel_kategori_id')->nullable()->constrained('artikel_kategoris')->nullOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('sumber', 255)->nullable();
             $table->dateTime('tanggal_terbit');
             $table->enum('status', ['draft', 'publish'])->default('draft');
