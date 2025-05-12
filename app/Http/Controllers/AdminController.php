@@ -277,30 +277,43 @@ class AdminController extends Controller
                 'email',
                 Rule::unique('users', 'email')->ignore($id),
             ],
-            'role' => 'required|string',
+            'role' => [
+                'required',
+                Rule::in(['admin', 'gurubk', 'siswa']),
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->userable_type === 'App\Models\Guru' && !in_array($value, ['admin', 'gurubk'])) {
+                        $fail('Role harus Guru BK jika Tipe Pemilik User adalah Guru.');
+                    }
+                    if ($request->userable_type === 'App\Models\Siswa' && $value !== 'siswa') {
+                        $fail('Role harus Siswa jika Tipe Pemilik User adalah Siswa.');
+                    }
+                }
+            ],
             'userable_type' => [
                 'required',
                 Rule::in(['App\Models\Guru', 'App\Models\Siswa']),
             ],
             'userable_id' => [
                 'required',
-                Rule::unique('users', 'userable_id')->where(function ($query) use ($request) {
-                    if ($request->filled('userable_type')) {
-                        $query->where('userable_type', $request->userable_type);
-                    }
+                'integer',
+                Rule::unique('users')->where(function ($query) use ($request) {
+                    return $query->where('userable_id', $request->userable_id)
+                        ->where('userable_type', $request->userable_type);
                 })->ignore($id),
             ],
+        ], [
+            'userable_id.unique' => 'Pemilik user ini sudah terdaftar untuk tipe data yang sama.',
         ]);
 
         $user = User::findOrFail($id);
 
-        $user->fill([
+        $user->update([
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
             'userable_id' => $request->userable_id,
             'userable_type' => $request->userable_type,
-        ])->save();
+        ]);
 
         return redirect()->route('admin.users')->with('success', 'Pengguna berhasil diperbarui');
     }

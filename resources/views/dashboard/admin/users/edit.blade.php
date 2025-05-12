@@ -65,10 +65,11 @@
                                                         <input type="text"
                                                             class="form-control @error('name') is-invalid @enderror"
                                                             id="name" placeholder="Nama" name="name"
-                                                            value="{{ $user->name }}">
+                                                            value="{{ $user->name }}" readonly>
                                                         @error('name')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
+
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -92,9 +93,9 @@
                                                         <select class="form-control @error('role') is-invalid @enderror"
                                                             id="role" name="role">
                                                             <option value="">-- Pilih Role --</option>
-                                                            <option value="admin"
+                                                            {{-- <option value="admin"
                                                                 {{ $user->role == 'admin' ? 'selected' : '' }}>
-                                                                Admin</option>
+                                                                Admin</option> --}}
                                                             <option value="gurubk"
                                                                 {{ $user->role == 'gurubk' ? 'selected' : '' }}>
                                                                 Guru BK</option>
@@ -115,7 +116,7 @@
                                                             <option value="">-- Pilih Tipe Pemilik --</option>
                                                             <option value="App\Models\Guru"
                                                                 {{ $user->userable_type == 'App\Models\Guru' ? 'selected' : '' }}>
-                                                                Guru</option>
+                                                                Guru BK</option>
                                                             <option value="App\Models\Siswa"
                                                                 {{ $user->userable_type == 'App\Models\Siswa' ? 'selected' : '' }}>
                                                                 Siswa</option>
@@ -153,43 +154,60 @@
                                                     </div>
                                                 </div>
 
-                                                <script>
-                                                    document.addEventListener("DOMContentLoaded", function() {
-                                                        let userableTypeSelect = document.getElementById("userable_type");
-                                                        let userableIdSelect = document.getElementById("userable_id");
+                                                @push('scripts')
+                                                    <script>
+                                                        document.addEventListener("DOMContentLoaded", function() {
+                                                            let userableTypeSelect = document.getElementById("userable_type");
+                                                            let userableIdSelect = document.getElementById("userable_id");
+                                                            let nameInput = document.getElementById("name");
 
-                                                        function updateUserableOptions() {
-                                                            let selectedType = userableTypeSelect.value;
+                                                            function updateUserableOptions() {
+                                                                let selectedType = userableTypeSelect.value;
 
-                                                            // Sembunyikan semua opsi terlebih dahulu
-                                                            document.querySelectorAll("#userable_id option").forEach(option => {
-                                                                option.style.display = "none";
-                                                            });
-
-                                                            // Tampilkan opsi sesuai tipe yang dipilih
-                                                            if (selectedType === "App\\Models\\Guru") {
-                                                                document.querySelectorAll(".guru-option").forEach(option => {
-                                                                    option.style.display = "block";
+                                                                // Sembunyikan semua opsi
+                                                                document.querySelectorAll("#userable_id option").forEach(option => {
+                                                                    option.style.display = "none";
                                                                 });
-                                                            } else if (selectedType === "App\\Models\\Siswa") {
-                                                                document.querySelectorAll(".siswa-option").forEach(option => {
-                                                                    option.style.display = "block";
-                                                                });
+
+                                                                // Tampilkan opsi sesuai tipe yang dipilih
+                                                                if (selectedType === "App\\Models\\Guru") {
+                                                                    document.querySelectorAll(".guru-option").forEach(option => {
+                                                                        option.style.display = "block";
+                                                                    });
+                                                                } else if (selectedType === "App\\Models\\Siswa") {
+                                                                    document.querySelectorAll(".siswa-option").forEach(option => {
+                                                                        option.style.display = "block";
+                                                                    });
+                                                                }
+
+                                                                // Reset nilai jika yang dipilih tidak cocok
+                                                                let selectedOption = userableIdSelect.options[userableIdSelect.selectedIndex];
+                                                                if (selectedOption && selectedOption.style.display === "none") {
+                                                                    userableIdSelect.value = "";
+                                                                    nameInput.value = "";
+                                                                }
+
+                                                                updateNameFromSelection(); // perbarui nama saat filter berubah
                                                             }
 
-                                                            // Reset nilai userable_id jika tidak sesuai
-                                                            if (userableIdSelect.querySelector("option[selected]")) {
-                                                                let selectedOption = userableIdSelect.querySelector("option[selected]");
-                                                                if (selectedOption.style.display === "none") {
-                                                                    userableIdSelect.value = "";
+                                                            function updateNameFromSelection() {
+                                                                let selectedOption = userableIdSelect.options[userableIdSelect.selectedIndex];
+                                                                if (selectedOption && selectedOption.style.display !== "none") {
+                                                                    nameInput.value = selectedOption.text.trim();
+                                                                } else {
+                                                                    nameInput.value = "";
                                                                 }
                                                             }
-                                                        }
 
-                                                        userableTypeSelect.addEventListener("change", updateUserableOptions);
-                                                        updateUserableOptions(); // Panggil saat halaman dimuat
-                                                    });
-                                                </script>
+                                                            // Event listeners
+                                                            userableTypeSelect.addEventListener("change", updateUserableOptions);
+                                                            userableIdSelect.addEventListener("change", updateNameFromSelection);
+
+                                                            // Inisialisasi saat halaman dimuat
+                                                            updateUserableOptions();
+                                                        });
+                                                    </script>
+                                                @endpush
 
                                             </div>
                                         </div>
