@@ -78,6 +78,38 @@ class KonselingController extends Controller
         return redirect()->back()->with('success', 'Konseling berhasil dibuat');
     }
 
+    public function adminEdit($id)
+    {
+        $title = 'Edit Jawaban Konseling';
+        $jawaban = Jawaban::where('konseling_id', $id)->first();
+
+        if (!$jawaban) {
+            abort(404, "Jawaban tidak ditemukan");
+        }
+
+        return view('dashboard.konseling.edit', compact('title', 'jawaban'));
+    }
+
+    public function adminUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'isi_jawaban' => 'required',
+        ]);
+
+        $jawaban = Jawaban::where('konseling_id', $id)->first();
+
+        if (!$jawaban) {
+            abort(404, "Jawaban tidak ditemukan");
+        }
+
+        $jawaban->update([
+            'isi_jawaban' => $request->isi_jawaban,
+            'tanggal_jawaban' => now(),
+        ]);
+
+        return redirect()->route('admin.konseling')->with('success', 'Jawaban berhasil diperbarui');
+    }
+
     public function adminDestroy($id)
     {
         $konseling = Konseling::find($id);

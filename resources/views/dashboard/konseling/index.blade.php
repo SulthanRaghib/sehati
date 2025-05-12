@@ -99,7 +99,7 @@
                                                 @elseif($a->status_id == '2')
                                                     <a href="{{ route('admin.konseling.edit', $a->id) }}"
                                                         class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" data-bs-title="Edit Konseling">
+                                                        data-bs-placement="top" data-bs-title="Edit Jawaban">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
 

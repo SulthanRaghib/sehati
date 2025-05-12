@@ -155,6 +155,7 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::post('/konseling/reply', [JawabanController::class, 'adminReply'])->name('admin.konseling.reply');
     Route::get('/konseling/create', [KonselingController::class, 'adminCreate'])->name('admin.konseling.create');
     Route::post('/konseling', [KonselingController::class, 'adminStore'])->name('admin.konseling.store');
+    Route::get('/konseling/{id}/edit-jawaban', [KonselingController::class, 'adminEdit'])->name('admin.konseling.edit');
     Route::put('/konseling/{id}/update', [KonselingController::class, 'adminUpdate'])->name('admin.konseling.update');
     Route::get('/konseling/{id}/show', [KonselingController::class, 'adminShow'])->name('admin.konseling.show');
     Route::delete('/konseling/{id}', [KonselingController::class, 'adminDestroy'])->name('admin.konseling.destroy');

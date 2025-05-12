@@ -37,32 +37,37 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <div class="card justify-content-center align-items-center p-3">
-                                        @if ($siswa->avatar)
-                                            <img src="{{ asset('') }}"
-                                                class="card-img-top card rounded-circle mb-0 mt-4" alt="avatar-siswa">
-                                        @else
-                                            <img src="{{ asset('mine/img/user_default.png') }}"
-                                                class="card-img-top card rounded-circle mb-0 mt-4" alt="avatar-siswa">
-                                        @endif
-                                        <div class="card-body text-center px-0">
-                                            <h5 class="card-title">{{ $siswa->nama }}</h5>
-                                            <p class="card-text mb-0">NISN : {{ $siswa->nisn }}</p>
-                                            <p class="card-text">Tahun Akademik:
-                                                {!! $siswa->tahunAkademik->periode ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}
-                                            </p>
+                                <!-- Avatar & Identitas -->
+                                <div class="col-12 col-md-4 mb-3">
+                                    <div class="card h-100 text-center p-3" style="justify-content: center;">
+                                        <h5 class="card-title">Identitas Siswa</h5>
+                                        <div class="d-flex justify-content-center">
+                                            @if ($siswa->avatar)
+                                                <img src="{{ asset('storage/' . $siswa->avatar) }}"
+                                                    class="rounded-circle mb-3" alt="avatar-siswa"
+                                                    style="width: 150px; height: 150px; object-fit: cover;">
+                                            @else
+                                                <img src="{{ asset('mine/img/user_default.png') }}"
+                                                    class="rounded-circle mb-3" alt="avatar-siswa"
+                                                    style="width: 150px; height: 150px; object-fit: cover;">
+                                            @endif
                                         </div>
+                                        <h5 class="card-title">{{ $siswa->nama }}</h5>
+                                        <p class="card-text mb-1">NISN: {{ $siswa->nisn }}</p>
+                                        <p class="card-text">Tahun Akademik:
+                                            {!! $siswa->tahunAkademik->periode ?? '<span class="badge bg-danger">Tahun Akademik tidak tersedia</span>' !!}
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <table class="table table-borderles">
+
+                                <!-- Data Detail -->
+                                <div class="col-12 col-md-8">
+                                    <table class="table table-borderless">
                                         <tr>
                                             <td>Email</td>
                                             <td>:</td>
                                             <td>
-                                                <input type="text" class="form-control" value="{!! $siswa->user->email ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}"
-                                                    disabled>
+                                                {!! $siswa->user->email ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}
                                             </td>
                                         </tr>
                                         <tr>
@@ -76,19 +81,21 @@
                                             <td>{!! $siswa->nama ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
                                         </tr>
                                         @php
-                                            $tingkat = $siswa->kelas->tingkat;
-                                            if ($tingkat == '10') {
-                                                $kelas = 'Sepuluh';
-                                            } elseif ($tingkat == '11') {
-                                                $kelas = 'Sebelas';
-                                            } else {
-                                                $kelas = 'Dua Belas';
-                                            }
+                                            $tingkat = $siswa->kelas->tingkat ?? null;
+                                            $kelasText = match ($tingkat) {
+                                                '10' => 'Sepuluh',
+                                                '11' => 'Sebelas',
+                                                '12' => 'Dua Belas',
+                                                default => '-',
+                                            };
                                         @endphp
                                         <tr>
                                             <td>Kelas</td>
                                             <td>:</td>
-                                            <td>{!! $siswa->kelas->tingkat ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!} ({{ $kelas }}) </td>
+                                            <td>
+                                                {!! $tingkat ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}
+                                                ({{ $kelasText }})
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Tempat, Tanggal Lahir</td>
@@ -113,6 +120,7 @@
                                     </table>
                                 </div>
                             </div>
+
                             <hr>
 
                             <div class="row">
