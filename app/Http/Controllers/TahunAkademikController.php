@@ -11,7 +11,9 @@ class TahunAkademikController extends Controller
     public function tahunAkademik()
     {
         $title = 'Tahun Akademik';
-        $tahunAkademik = TahunAkademik::orderBy('periode', 'desc')->get();
+        $tahunAkademik = TahunAkademik::orderByDesc('is_active')
+            ->orderByDesc('periode')
+            ->get();
 
         return view('dashboard.data_master.tahun_akademik.index', compact('title', 'tahunAkademik'));
     }
