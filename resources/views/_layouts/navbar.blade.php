@@ -111,9 +111,15 @@
             @endpush
 
             <li class="dropdown">
+                @php
+                    $name = Auth::user()->name;
+                    $words = explode(' ', $name);
+                    $initials = strtoupper(substr($words[0], 0, 1) . (isset($words[1]) ? substr($words[1], 0, 1) : ''));
+                @endphp
                 <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                    <div class="avatar mr-1">
-                        <img src="{{ url('_partials/images/avatar/avatar-s-1.png') }}" alt="" srcset="" />
+                    <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 40px; height: 40px; font-weight: bold;">
+                        {{ $initials }}
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
