@@ -10,7 +10,7 @@
         </script>
     @endif
 
-    @push('scripts')
+    {{-- @push('scripts')
         <script>
             // Kirim request tandai sebagai dibaca saat user buka halaman konseling
             fetch('/notifikasi/baca/konseling', {
@@ -23,7 +23,7 @@
                 console.log('Semua notifikasi ditandai sebagai dibaca.');
             });
         </script>
-    @endpush
+    @endpush --}}
 
     <div class="main-content container-fluid">
         <div class="page-title">
