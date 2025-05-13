@@ -43,6 +43,7 @@
 
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-large"
                             aria-labelledby="notifDropdownToggle" id="notifDropdownMenu" style="width: 200px;">
+                            <h6 class="py-2 px-4" id="notif-header">Jawaban belum Dirating</h6>
                             <ul class="list-group rounded-0" id="notif-list">
                                 <!-- Notifikasi akan muncul di sini -->
                             </ul>

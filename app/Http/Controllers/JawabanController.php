@@ -42,6 +42,12 @@ class JawabanController extends Controller
         ]);
         event(new NewJawaban($notifikasi));
 
+        // Update notifikasi konseling terkait jadi terbaca
+        Notifikasi::where('is_read', false)
+            ->where('related_type', Konseling::class)
+            ->where('related_id', $request->konseling_id)
+            ->update(['is_read' => true]);
+
 
         // Update status konseling
         $getKonselingID->update([
@@ -100,8 +106,8 @@ class JawabanController extends Controller
 
         // Update notifikasi terkait jadi terbaca
         Notifikasi::where('is_read', false)
-            ->where('user_id', $siswaId)
-            ->where('related_id', $jawaban->id)
+            ->where('related_type', Jawaban::class)
+            ->where('related_id', $request->jawaban_id)
             ->update(['is_read' => true]);
 
         return redirect()->back()->with('success', 'Rating berhasil diberikan');

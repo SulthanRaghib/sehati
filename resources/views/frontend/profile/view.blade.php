@@ -31,7 +31,7 @@
 
                     <h5 class="mb-1"> {!! $siswa->nama ?? '<span class="badge bg-danger">Nama belum diisi</span>' !!}</h5>
                     <p class="text-muted mb-1">{!! $siswa->nisn ?? '<span class="badge bg-danger">NISN belum tersedia</span>' !!}</p>
-                    <p class="text-muted mb-2">{!! $siswa->user->email ?? '<span class="badge bg-danger">Email belum diisi</span>' !!}</p>
+                    <p class="text-muted mb-2 fw-bold">{!! $siswa->user->email ?? '<span class="badge bg-danger">Email belum diisi</span>' !!}</p>
                     <p class="text-muted"><small>{!! $siswa->alamat ?? '<span class="badge bg-danger">Alamat belum diisi</span>' !!}</small></p>
 
                     {{-- <h6 class="mt-4 text-primary fw-bold">Social Links</h6>

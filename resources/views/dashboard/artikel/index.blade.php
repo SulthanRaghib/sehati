@@ -83,15 +83,25 @@
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="Detail Artikel"><i data-feather="eye"></i></a>
                                                 @if ($a->status == 'draft')
-                                                    <a href="{{ route('artikel.publish', $a->id) }}"
-                                                        class="btn btn-sm btn-success" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" title="Publish Artikel"><i
-                                                            class="bi bi-cloud-upload-fill"></i></a>
-                                                @elseif($a->status == 'publish')
-                                                    <a href="{{ route('artikel.draft', $a->id) }}"
-                                                        class="btn btn-sm btn-secondary" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" title="Unpublish Artikel"> <i
-                                                            class="bi bi-file-earmark-text-fill"></i></a>
+                                                    <form action="{{ route('artikel.publish', $a->id) }}" method="POST"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-success"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="Publish Artikel">
+                                                            <i class="bi bi-cloud-upload-fill"></i>
+                                                        </button>
+                                                    </form>
+                                                @elseif ($a->status == 'publish')
+                                                    <form action="{{ route('artikel.draft', $a->id) }}" method="POST"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-secondary"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="Unpublish Artikel">
+                                                            <i class="bi bi-file-earmark-text-fill"></i>
+                                                        </button>
+                                                    </form>
                                                 @endif
                                                 <a href="{{ route('artikel.edit', $a->id) }}"
                                                     class="btn btn-sm btn-warning" data-bs-toggle="tooltip"

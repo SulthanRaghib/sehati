@@ -16,7 +16,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-large" aria-labelledby="notifDropdownToggle"
                     id="notifDropdownMenu">
-                    <h6 class="py-2 px-4">Notifications</h6>
+                    <h6 class="py-2 px-4" id="notif-header">Konseling Belum Dijawab</h6>
                     <ul class="list-group rounded-none" id="notif-list">
                         <!-- Notifikasi akan dimasukkan di sini -->
                     </ul>
@@ -27,6 +27,7 @@
                 <script>
                     const notifCount = document.getElementById('notif-count');
                     const notifList = document.getElementById('notif-list');
+                    const notifHeader = document.getElementById('notif-header');
 
                     function fetchNotif() {
                         fetch('/notifikasi/fetch/konseling')
@@ -44,6 +45,14 @@
                                 // Hanya tampilkan notifikasi yang belum dibaca
                                 const unreadNotifs = data.filter(notif => !notif.is_read);
 
+                                // Update header sesuai kondisi
+                                if (unread === 0) {
+                                    notifHeader.textContent = 'Konseling Sudah Dijawab Semua';
+                                } else {
+                                    notifHeader.textContent = 'Konseling Belum Dijawab';
+                                }
+
+                                // Tampilkan notifikasi (max 3)
                                 unreadNotifs.slice(0, maxDisplay).forEach(notif => {
                                     notifList.innerHTML += `
                                     <li class="list-group-item border-0 align-items-start">
@@ -60,6 +69,7 @@
                                 `;
                                 });
 
+                                // Tombol "Lihat Semua"
                                 if (unreadNotifs.length > maxDisplay) {
                                     notifList.innerHTML += `
                                     <li class="list-group-item text-center border-top">
@@ -78,8 +88,7 @@
                     // Inisialisasi pertama
                     fetchNotif();
 
-                    // Pusher listener
-                    Pusher.logToConsole = true;
+                    // Pusher setup
                     const pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
                         cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
                         forceTLS: true
@@ -89,24 +98,15 @@
                     const channelKonselingBaru = pusher.subscribe('konseling-baru');
                     channelKonselingBaru.bind('konseling-baru', function(data) {
                         console.log('✅ Dapat data dari Pusher (konseling baru):', data);
-                        if (typeof fetchNotif === 'function') {
-                            fetchNotif();
-                        }
+                        fetchNotif();
                     });
 
                     // Subscribe ke channel jawaban konseling
                     const channelJawabanKonseling = pusher.subscribe('jawaban-konseling');
                     channelJawabanKonseling.bind('jawaban-konseling', function(data) {
                         console.log('✅ Dapat data dari Pusher (jawaban konseling):', data);
-                        if (typeof fetchNotif === 'function') {
-                            fetchNotif();
-                        }
-                    });
-
-                    // Optional: auto-fetch saat page load
-                    if (typeof fetchNotif === 'function') {
                         fetchNotif();
-                    }
+                    });
                 </script>
             @endpush
 

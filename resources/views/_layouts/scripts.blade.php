@@ -19,7 +19,22 @@
 
 <script>
     ClassicEditor
-        .create(document.querySelector('#wordArtikel'))
+        .create(document.querySelector('#wordArtikel'), {
+            toolbar: {
+                items: [
+                    'undo', 'redo', '|',
+                    'heading', '|',
+                    'bold', 'italic', 'underline', 'strikethrough', 'highlight', '|',
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                    'alignment', '|',
+                    'link', 'blockQuote', '|',
+                    'numberedList', 'bulletedList', '|',
+                    'outdent', 'indent', '|',
+                    'codeBlock', 'removeFormat'
+                ]
+            },
+            language: 'id',
+        })
         .catch(error => {
             console.error(error);
         });
