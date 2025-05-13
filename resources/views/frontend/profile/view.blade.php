@@ -147,7 +147,7 @@
     </div>
 </div>
 
-@push('script')
+@push('scripts')
     <script>
         // Validasi ukuran sebelum upload
         $('#avatar').on('change', function() {
