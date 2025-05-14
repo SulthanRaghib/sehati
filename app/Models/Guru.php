@@ -17,6 +17,7 @@ class Guru extends Model
         'tempat_lahir',
         'tanggal_lahir',
         'alamat',
+        'foto',
         'agama_id',
         'pendidikan_terakhir_id',
     ];

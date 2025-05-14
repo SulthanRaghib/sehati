@@ -112,20 +112,39 @@
 
             <li class="dropdown">
                 @php
-                    $name = Auth::user()->name;
+                    $user = Auth::user();
+
+                    // Ambil data guru berdasarkan userable
+                    $guru = null;
+                    if ($user->userable_type === \App\Models\Guru::class) {
+                        $guru = \App\Models\Guru::find($user->userable_id);
+                    }
+
+                    // Buat inisial dari nama user
+                    $name = $user->name;
                     $words = explode(' ', $name);
                     $initials = strtoupper(substr($words[0], 0, 1) . (isset($words[1]) ? substr($words[1], 0, 1) : ''));
                 @endphp
+
                 <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                    <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px; font-weight: bold;">
-                        {{ $initials }}
-                    </div>
+                    @if ($guru && $guru->foto)
+                        <img alt="image" src="{{ asset('storage/img/guru/' . $guru->foto) }}" class="rounded-circle"
+                            style="width: 40px; height: 40px;">
+                    @else
+                        <div class="avatar bg-primary text-white rounded-circle d-flex
+                            align-items-center justify-content-center"
+                            style="width: 40px; height: 40px; font-weight: bold;">
+                            {{ $initials }}
+                        </div>
+                    @endif
                 </a>
+
                 <div class="dropdown-menu dropdown-menu-right">
-                    {{-- <a class="dropdown-item" href="#"><i data-feather="user"></i> Account</a>
-                    <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a> --}}
-                    {{-- <div class="dropdown-divider"></div> --}}
+                    <a class="dropdown-item" href="{{ route('admin.guru.profile') }}"><i data-feather="user"></i>
+                        Profile
+                    </a>
+                    {{-- <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a> --}}
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">

@@ -92,6 +92,8 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
 
     Route::get('/guru', [AdminController::class, 'guru'])->name('admin.guru');
     Route::get('/guru/create', [AdminController::class, 'createGuru'])->name('admin.guru.create');
+    Route::get('/guru/profile', [GuruController::class, 'profileGuru'])->name('admin.guru.profile');
+    Route::post('/upload/foto/guru', [GuruController::class, 'uploadFoto'])->name('guru.upload.foto');
     Route::get('/guru/{id}', [AdminController::class, 'showGuru'])->name('admin.guru.show');
     Route::post('/guru', [AdminController::class, 'storeGuru'])->name('admin.guru.store');
     Route::get('/guru/{id}/edit', [AdminController::class, 'editGuru'])->name('admin.guru.edit');

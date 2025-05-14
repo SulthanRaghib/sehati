@@ -166,4 +166,5 @@
     }
 </style>
 
+@kropifyStyles
 @stack('styles')

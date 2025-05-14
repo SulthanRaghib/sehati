@@ -127,4 +127,5 @@
     });
 </script>
 
+@kropifyScripts
 @stack('scripts')
