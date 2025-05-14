@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agama;
 use App\Models\Guru;
+use App\Models\KategoriKonseling;
 use App\Models\Kelas;
 use App\Models\Konseling;
 use App\Models\Pekerjaan;
@@ -124,12 +125,14 @@ class AdminController extends Controller
             });
 
         // TOPIK POPULER
-        $topikPopuler = Konseling::select('kategori_konseling', DB::raw('COUNT(*) as total'))
-            ->groupBy('kategori_konseling')
+        $topikPopuler = Konseling::join('kategori_konselings', 'konselings.kategori_konseling_id', '=', 'kategori_konselings.id')
+            ->select('kategori_konselings.nama_kategori', DB::raw('COUNT(*) as total'))
+            ->groupBy('kategori_konselings.nama_kategori')
             ->orderByDesc('total')
             ->limit(4)
-            ->pluck('total', 'kategori_konseling')
+            ->pluck('total', 'kategori_konselings.nama_kategori')
             ->toArray();
+
 
         // Ambil total data Guru BK, validasi dari user role gurubk
         $guruCount = User::where('role', 'gurubk')->count();
