@@ -194,6 +194,7 @@ class KonselingController extends Controller
         $konseling->update([
             'judul' => $request->judul,
             'isi_konseling' => $request->isi_konseling,
+            'kategori_konseling' => $request->kategori_konseling,
             'tanggal_konseling' => now(),
         ]);
 

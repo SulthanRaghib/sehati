@@ -91,7 +91,8 @@
                                                         @csrf
                                                         @method('PUT')
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="editModalLabel{{ $k->id }}">
+                                                            <h5 class="modal-title fw-bold"
+                                                                id="editModalLabel{{ $k->id }}">
                                                                 Perbarui Ceritamu</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Tutup"></button>
@@ -101,6 +102,35 @@
                                                                 Tidak apa-apa jika kamu ingin mengubah ceritamu. Kami tetap
                                                                 di sini untuk mendengarkan dan menemani.
                                                             </p>
+
+                                                            <div class="mb-3">
+                                                                <label for="kategori_konseling{{ $k->id }}"
+                                                                    class="form-label fw-semibold">Topik Ceritamu</label>
+                                                                <select class="form-select" name="kategori_konseling"
+                                                                    id="kategori_konseling{{ $k->id }}">
+                                                                    <option value="">-- Pilih topik yang paling sesuai
+                                                                        --</option>
+                                                                    <option value="akademik"
+                                                                        {{ $k->kategori_konseling == 'akademik' ? 'selected' : '' }}>
+                                                                        Akademik (tugas, nilai, pelajaran)</option>
+                                                                    <option value="non-akademik"
+                                                                        {{ $k->kategori_konseling == 'non-akademik' ? 'selected' : '' }}>
+                                                                        Non-Akademik (organisasi, kegiatan, minat)</option>
+                                                                    <option value="keluarga"
+                                                                        {{ $k->kategori_konseling == 'keluarga' ? 'selected' : '' }}>
+                                                                        Keluarga (hubungan dengan orang tua atau saudara)
+                                                                    </option>
+                                                                    <option value="pertemanan"
+                                                                        {{ $k->kategori_konseling == 'pertemanan' ? 'selected' : '' }}>
+                                                                        Pertemanan (konflik, merasa dijauhi, dll)</option>
+                                                                    <option value="pribadi"
+                                                                        {{ $k->kategori_konseling == 'pribadi' ? 'selected' : '' }}>
+                                                                        Pribadi (perasaan atau hal-hal pribadi lainnya)
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+
+
                                                             <div class="mb-3">
                                                                 <label for="judul{{ $k->id }}" class="form-label">
                                                                     Kalimat singkat tentang apa yang kamu rasakan saat ini
