@@ -155,7 +155,7 @@
                                     @foreach ($kategoriKonseling as $kk)
                                         <option value="{{ $kk->id }}"
                                             {{ old('kategori_konseling') == $kk->id ? 'selected' : '' }}>
-                                            {{ $kk->nama_kategori }} ({{ $kk->contoh_kategori }})
+                                            {{ $kk->nama_kategori }} ({{ strtolower($kk->contoh_kategori) }})
                                     @endforeach
                                 </select>
                                 @error('kategori_konseling')

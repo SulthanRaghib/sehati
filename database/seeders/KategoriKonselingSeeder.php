@@ -38,6 +38,10 @@ class KategoriKonselingSeeder extends Seeder
                 'nama_kategori' => 'Karir',
                 'contoh_kategori' => 'Pekerjaan, Cita-cita, Rencana Masa Depan',
             ],
+            [
+                'nama_kategori' => 'Kesehatan Mental',
+                'contoh_kategori' => 'Kecemasan, Depresi, Stres',
+            ]
         ]);
     }
 }

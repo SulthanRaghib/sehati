@@ -7,6 +7,7 @@ use App\Http\Controllers\ArtikelKategoriController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JawabanController;
+use App\Http\Controllers\KategoriKonselingController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\KonselingController;
 use App\Http\Controllers\NotifikasiController;
@@ -151,6 +152,13 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::get('/artikel-kategori/{id}/edit', [ArtikelKategoriController::class, 'edit'])->name('admin.artikelKategori.edit');
     Route::put('/artikel-kategori/{id}', [ArtikelKategoriController::class, 'update'])->name('admin.artikelKategori.update');
     Route::delete('/artikel-kategori/{id}', [ArtikelKategoriController::class, 'destroy'])->name('admin.artikelKategori.destroy');
+
+    Route::get('/kategori-konseling', [KategoriKonselingController::class, 'index'])->name('admin.kategoriKonseling');
+    Route::get('/kategori-konseling/create', [KategoriKonselingController::class, 'create'])->name('admin.kategoriKonseling.create');
+    Route::post('/kategori-konseling', [KategoriKonselingController::class, 'store'])->name('admin.kategoriKonseling.store');
+    Route::get('/kategori-konseling/{id}/edit', [KategoriKonselingController::class, 'edit'])->name('admin.kategoriKonseling.edit');
+    Route::put('/kategori-konseling/{id}', [KategoriKonselingController::class, 'update'])->name('admin.kategoriKonseling.update');
+    Route::delete('/kategori-konseling/{id}', [KategoriKonselingController::class, 'destroy'])->name('admin.kategoriKonseling.destroy');
 
     // Bimbingan Konseling
     Route::get('/konseling', [KonselingController::class, 'adminIndex'])->name('admin.konseling');

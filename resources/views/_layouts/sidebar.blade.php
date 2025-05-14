@@ -74,12 +74,16 @@
                                 Route::is('admin.kelas*') ||
                                 Route::is('admin.pendidikanTerakhir*') ||
                                 Route::is('admin.pekerjaan*') ||
-                                Route::is('admin.artikelKategori*');
+                                Route::is('admin.artikelKategori*') ||
+                                Route::is('admin.kategoriKonseling*');
                         @endphp
 
                         <ul class="submenu {{ $activeDataMaster ? 'active' : '' }}">
                             <li>
                                 <a href="{{ route('admin.kelas') }}">Kelas</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.kategoriKonseling') }}">Kategori Konseling</a>
                             </li>
                             <li>
                                 <a href="{{ route('admin.agama') }}">Agama</a>
