@@ -17,9 +17,9 @@ class GuruSeeder extends Seeder
             // Guru BK
             [
                 'nip' => '1234567890',
-                'nama' => 'Ida Ayu Putu',
+                'nama' => 'Sari Hartini',
                 'jenis_kelamin' => 'P',
-                'tempat_lahir' => 'Jakarta',
+                'tempat_lahir' => 'Bogor',
                 'tanggal_lahir' => '1990-01-01',
                 'alamat' => 'Jl. Kebayoran Lama No. 1',
                 'agama_id' => 1,
