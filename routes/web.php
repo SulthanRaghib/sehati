@@ -59,6 +59,7 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::post('/siswa-konseling/store', [KonselingController::class, 'siswaKonselingStore'])->name('siswa.konselingStore');
     Route::get('/siswa-konseling/history', [KonselingController::class, 'siswaKonselingRiwayat'])->name('siswa.konselingRiwayat');
     Route::get('/siswa-konseling/jawaban-unread', [JawabanController::class, 'siswaJawabanUnread'])->name('siswa.konselingJawabanUnread');
+    Route::put('/siswa-konseling/update/{id}', [KonselingController::class, 'siswaUpdateKonseling'])->name('siswa.konselingUpdate');
     Route::delete('/siswa-konseling/{id}', [KonselingController::class, 'siswaKonselingDestroy'])->name('siswa.konseling.destroy');
 
     Route::get('/notifikasi/fetch/jawaban', [NotifikasiController::class, 'fetchNotifikasiJawaban']);

@@ -64,6 +64,12 @@
         </div>
         <!-- End Section Title -->
 
+        <div class="mb-4 text-center">
+            <a href="{{ route('siswa.konseling') }}" class="btn btn-outline-secondary">
+                ← Kembali ke Konseling
+            </a>
+        </div>
+
         <div class="container">
             @if ($notifikasi->isEmpty())
                 <div class="alert alert-info" role="alert">

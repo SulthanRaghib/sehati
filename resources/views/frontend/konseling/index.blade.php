@@ -140,12 +140,17 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                         </div>
                         <div class="modal-body">
+                            <p class="text-muted mb-3">
+                                Kamu tidak sendiri. Kami di sini untuk mendengarkan dengan sepenuh hati. Tuliskan apa pun
+                                yang kamu rasakan hari ini, tidak harus sempurna.
+                            </p>
+
                             <div class="mb-3">
-                                <label for="judul" class="form-label">Kalimat Singkat Tentang Apa yang Ingin Kamu
-                                    Ceritakan</label>
+                                <label for="judul" class="form-label">Kalimat singkat tentang apa yang kamu rasakan saat
+                                    ini</label>
                                 <input type="text" class="form-control @error('judul') is-invalid @enderror"
                                     id="judul" name="judul" value="{{ old('judul') }}"
-                                    placeholder="Contoh: Aku merasa tertekan di sekolah akhir-akhir ini">
+                                    placeholder="Contoh: Aku merasa kewalahan dengan semuanya akhir-akhir ini">
                                 @error('judul')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -154,15 +159,18 @@
                                 <label for="isi_konseling" class="form-label">Ceritakan Lebih Lengkap di Sini, Kami Siap
                                     Mendengarkan</label>
                                 <textarea class="form-control @error('isi_konseling') is-invalid @enderror" id="isi_konseling" name="isi_konseling"
-                                    rows="5" placeholder="Tulis semua yang kamu rasakan, kamu tidak sendiri...">{{ old('isi_konseling') }}</textarea>
+                                    rows="5" placeholder="Tulis saja semua yang kamu rasakan. Kami siap mendengarkan, tanpa menghakimi...">{{ old('isi_konseling') }}</textarea>
                                 @error('isi_konseling')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Kirim Cerita Saya</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <small class="text-muted">Cerita kamu sangat berarti. Terima kasih sudah mau berbagi.</small>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Kirim Cerita Saya</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            </div>
                         </div>
                     </form>
                 </div>

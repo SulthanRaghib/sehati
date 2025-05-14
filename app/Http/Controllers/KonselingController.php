@@ -168,6 +168,28 @@ class KonselingController extends Controller
         return view('frontend.konseling.riwayat', compact('title', 'konseling'));
     }
 
+    public function siswaUpdateKonseling(Request $request, $id)
+    {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'isi_konseling' => 'required|string',
+        ]);
+
+        $konseling = Konseling::find($id);
+
+        if (!$konseling) {
+            abort(404, "Konseling tidak ditemukan");
+        }
+
+        $konseling->update([
+            'judul' => $request->judul,
+            'isi_konseling' => $request->isi_konseling,
+            'tanggal_konseling' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Konseling berhasil diperbarui');
+    }
+
     public function siswaKonselingDestroy($id)
     {
         $konseling = Konseling::find($id);

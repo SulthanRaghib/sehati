@@ -1,5 +1,22 @@
 @extends('home')
 @section('main-content')
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+            });
+        </script>
+    @elseif (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: '{{ session('error') }}',
+            });
+        </script>
+    @endif
     <!-- Services Section -->
     <section id="services" class="services section">
         <!-- Section Title -->
@@ -9,6 +26,12 @@
             </div>
         </div>
         <!-- End Section Title -->
+
+        <div class="mb-4 text-center">
+            <a href="{{ route('siswa.konseling') }}" class="btn btn-outline-secondary">
+                ← Kembali ke Konseling
+            </a>
+        </div>
 
         <div class="container">
             <div class="table-responsive">
@@ -50,6 +73,70 @@
                                 <td>{{ \Carbon\Carbon::parse($k->tanggal_konseling)->format('d M Y H:i') }}</td>
                                 <td>
                                     @if ($k->status_id == 1)
+                                        {{-- Tombol Edit Konseling --}}
+                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" title="Edit Konseling"
+                                            onclick="new bootstrap.Modal(document.getElementById('editModal{{ $k->id }}')).show()">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+
+                                        <!-- Modal Edit Konseling -->
+                                        <div class="modal fade" id="editModal{{ $k->id }}" tabindex="-1"
+                                            aria-labelledby="editModalLabel{{ $k->id }}" aria-hidden="true"
+                                            data-bs-backdrop="static" data-bs-keyboard="false">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <form action="{{ route('siswa.konselingUpdate', $k->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editModalLabel{{ $k->id }}">
+                                                                Perbarui Ceritamu</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Tutup"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="text-muted mb-3">
+                                                                Tidak apa-apa jika kamu ingin mengubah ceritamu. Kami tetap
+                                                                di sini untuk mendengarkan dan menemani.
+                                                            </p>
+                                                            <div class="mb-3">
+                                                                <label for="judul{{ $k->id }}" class="form-label">
+                                                                    Kalimat singkat tentang apa yang kamu rasakan saat ini
+                                                                </label>
+                                                                <input type="text" class="form-control"
+                                                                    id="judul{{ $k->id }}" name="judul"
+                                                                    value="{{ $k->judul }}"
+                                                                    placeholder="Contoh: Aku sedang kewalahan dengan tugas-tugas sekolah">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="isi_konseling{{ $k->id }}"
+                                                                    class="form-label">
+                                                                    Ceritakan kembali Lebih Lengkap di Sini, Kami Siap
+                                                                    Mendengarkan
+                                                                </label>
+                                                                <textarea class="form-control" id="isi_konseling{{ $k->id }}" name="isi_konseling" rows="5"
+                                                                    placeholder="Kamu boleh menuliskan semua yang kamu rasakan. Kami siap mendengarkan dengan sepenuh hati...">{{ $k->isi_konseling }}</textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer d-flex justify-content-between">
+                                                            <small class="text-muted">Cerita kamu sangat berarti. Terima
+                                                                kasih sudah mau berbagi.</small>
+                                                            <div>
+                                                                <button type="submit" class="btn btn-warning">Simpan
+                                                                    Perubahan</button>
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Batal</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
                                         {{-- delete --}}
                                         <form action="{{ route('siswa.konseling.destroy', $k->id) }}" method="POST"
                                             class="d-inline form-delete">
@@ -102,7 +189,8 @@
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="balasanLabel{{ $k->id }}">Balasan
+                                                        <h5 class="modal-title" id="balasanLabel{{ $k->id }}">
+                                                            Balasan
                                                             Konseling</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Tutup"></button>
