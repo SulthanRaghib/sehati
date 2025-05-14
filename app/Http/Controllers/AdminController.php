@@ -124,25 +124,12 @@ class AdminController extends Controller
             });
 
         // TOPIK POPULER
-        $keywords = [];
-        $judulList = Konseling::pluck('judul')->toArray();
-
-
-        foreach ($judulList as $judul) {
-            $judul = strtolower($judul);
-            $judul = preg_replace('/[^a-z0-9\s]/', '', $judul); // hilangkan tanda baca
-            $words = explode(' ', $judul);
-
-            foreach ($words as $word) {
-                if (strlen($word) > 3 && !in_array($word, ['yang', 'dari', 'dan', 'untuk', 'pada'])) {
-                    $keywords[$word] = ($keywords[$word] ?? 0) + 1;
-                }
-            }
-        }
-
-        // Ambil 4 teratas
-        arsort($keywords);
-        $topikPopuler = array_slice($keywords, 0, 4, true);
+        $topikPopuler = Konseling::select('kategori_konseling', DB::raw('COUNT(*) as total'))
+            ->groupBy('kategori_konseling')
+            ->orderByDesc('total')
+            ->limit(4)
+            ->pluck('total', 'kategori_konseling')
+            ->toArray();
 
         // Ambil total data Guru BK, validasi dari user role gurubk
         $guruCount = User::where('role', 'gurubk')->count();

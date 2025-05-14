@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $guruBk = Guru::where('nama', 'Ida Ayu Putu')->first();
-        $kepalaSekolah = Guru::where('nama', 'Joko')->first();
+        $kepalaSekolah = Guru::where('nama', 'Developer')->first();
         $siswa = Siswa::where('nama', 'Syamil')->first();
 
         // User untuk Guru BK

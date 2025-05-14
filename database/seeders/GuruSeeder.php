@@ -27,10 +27,10 @@ class GuruSeeder extends Seeder
             ],
             // Admin
             [
-                'nip' => '1268761455',
-                'nama' => 'Joko',
+                'nip' => '0110221007',
+                'nama' => 'Developer',
                 'jenis_kelamin' => 'L',
-                'tempat_lahir' => 'Jakarta',
+                'tempat_lahir' => 'Cilegon',
                 'tanggal_lahir' => '1990-01-01',
                 'alamat' => 'Jl. Kebayoran Lama No. 1',
                 'agama_id' => 1,
