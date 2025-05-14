@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\NewKonseling;
 use App\Models\Jawaban;
+use App\Models\KategoriKonseling;
 use App\Models\Konseling;
 use App\Models\Notifikasi;
 use App\Models\Siswa;
@@ -123,6 +124,16 @@ class KonselingController extends Controller
     }
 
     // Siswa ==========================================================================
+    public function siswaKonseling()
+    {
+        $title = 'Konseling';
+        $user = Auth::user();
+        $siswa = $user->userable;
+        $konseling = $siswa->konseling()->with('status')->latest()->get();
+        $kategoriKonseling = KategoriKonseling::all();
+
+        return view('frontend.konseling.index', compact('title', 'konseling', 'siswa', 'user', 'kategoriKonseling'));
+    }
 
     public function siswaKonselingStore(Request $request)
     {

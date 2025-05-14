@@ -18,6 +18,23 @@
             })
         </script>
     @endif
+    @if (session('tahun-akademik-not-found'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('tahun-akademik-not-found') }}',
+                showCancelButton: true,
+                confirmButtonText: 'Atur Sekarang',
+                cancelButtonText: 'Nanti Saja'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ route('admin.tahunAkademik') }}";
+                }
+            });
+        </script>
+    @endif
+
 
     <div class="main-content container-fluid">
         <div class="page-title">

@@ -152,20 +152,11 @@
                                 <select class="form-select @error('kategori_konseling') is-invalid @enderror"
                                     name="kategori_konseling" id="kategori_konseling">
                                     <option value="">-- Pilih topik yang paling sesuai --</option>
-                                    <option value="akademik"
-                                        {{ old('kategori_konseling') == 'akademik' ? 'selected' : '' }}>Akademik (tugas,
-                                        nilai, pelajaran)</option>
-                                    <option value="non-akademik"
-                                        {{ old('kategori_konseling') == 'non-akademik' ? 'selected' : '' }}>Non-Akademik
-                                        (organisasi, kegiatan, minat)</option>
-                                    <option value="keluarga"
-                                        {{ old('kategori_konseling') == 'keluarga' ? 'selected' : '' }}>Keluarga (hubungan
-                                        dengan orang tua atau saudara)</option>
-                                    <option value="pertemanan"
-                                        {{ old('kategori_konseling') == 'pertemanan' ? 'selected' : '' }}>Pertemanan
-                                        (konflik, merasa dijauhi, dll)</option>
-                                    <option value="pribadi" {{ old('kategori_konseling') == 'pribadi' ? 'selected' : '' }}>
-                                        Pribadi (perasaan atau hal-hal pribadi lainnya)</option>
+                                    @foreach ($kategoriKonseling as $kk)
+                                        <option value="{{ $kk->id }}"
+                                            {{ old('kategori_konseling') == $kk->id ? 'selected' : '' }}>
+                                            {{ $kk->nama_kategori }} ({{ $kk->contoh_kategori }})
+                                    @endforeach
                                 </select>
                                 @error('kategori_konseling')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -254,7 +245,7 @@
                                         input.checked = false; // Reset radio/checkbox
                                     } else {
                                         input.value =
-                                        ''; // Hapus nilai untuk input dan textarea
+                                            ''; // Hapus nilai untuk input dan textarea
                                     }
                                 });
 
@@ -267,7 +258,7 @@
                                 const csrfToken = form.querySelector('input[name="_token"]');
                                 if (csrfToken) {
                                     csrfToken.value =
-                                    '{{ csrf_token() }}'; // Reset CSRF token jika hilang
+                                        '{{ csrf_token() }}'; // Reset CSRF token jika hilang
                                 }
                             } else {
                                 modalInstance.show(); // Balik lagi kalau batalin konfirmasi

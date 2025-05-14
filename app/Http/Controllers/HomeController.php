@@ -72,15 +72,4 @@ class HomeController extends Controller
 
         return view('frontend.artikel.index', compact('title', 'artikel', 'siswa', 'user'));
     }
-
-
-    public function siswaKonseling()
-    {
-        $title = 'Konseling';
-        $user = Auth::user();
-        $siswa = $user->userable;
-        $konseling = $siswa->konseling()->with('status')->latest()->get();
-
-        return view('frontend.konseling.index', compact('title', 'konseling', 'siswa', 'user'));
-    }
 }

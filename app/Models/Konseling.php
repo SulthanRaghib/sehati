@@ -9,7 +9,7 @@ class Konseling extends Model
     protected $fillable = [
         'siswa_id',
         'judul',
-        'kategori_konseling',
+        'kategori_konseling_id',
         'isi_konseling',
         'status_id',
         'tanggal_konseling',
@@ -28,5 +28,10 @@ class Konseling extends Model
     public function jawaban()
     {
         return $this->hasOne(Jawaban::class);
+    }
+
+    public function kategoriKonseling()
+    {
+        return $this->belongsTo(KategoriKonseling::class);
     }
 }

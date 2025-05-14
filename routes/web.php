@@ -55,7 +55,7 @@ Route::get('/artikels', [HomeController::class, 'artikelSiswa'])->name('siswa.ar
 Route::get('/detail-artikel/{slug}', [ArtikelController::class, 'viewArtikel'])->name('siswa.artikel.show');
 
 Route::middleware(['auth', 'role:siswa'])->group(function () {
-    Route::get('/siswa-konseling', [HomeController::class, 'siswaKonseling'])->name('siswa.konseling');
+    Route::get('/siswa-konseling', [KonselingController::class, 'siswaKonseling'])->name('siswa.konseling');
     Route::post('/siswa-konseling/store', [KonselingController::class, 'siswaKonselingStore'])->name('siswa.konselingStore');
     Route::get('/siswa-konseling/history', [KonselingController::class, 'siswaKonselingRiwayat'])->name('siswa.konselingRiwayat');
     Route::get('/siswa-konseling/jawaban-unread', [JawabanController::class, 'siswaJawabanUnread'])->name('siswa.konselingJawabanUnread');

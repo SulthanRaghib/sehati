@@ -486,7 +486,7 @@ class AdminController extends Controller
 
         if (!$tahunAkademikAktif) {
             return redirect()->route('admin.siswa')->with([
-                'error' => 'Tahun akademik aktif belum tersedia. Silakan tambahkan terlebih dahulu.',
+                'tahun-akademik-not-found' => 'Tahun akademik aktif belum tersedia. Silakan tambahkan terlebih dahulu.',
             ]);
         }
 
