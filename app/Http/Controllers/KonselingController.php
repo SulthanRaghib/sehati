@@ -122,22 +122,27 @@ class KonselingController extends Controller
         }
     }
 
+    // Siswa ==========================================================================
+
     public function siswaKonselingStore(Request $request)
     {
         $request->validate(
             [
                 'judul' => 'required|string|max:255',
                 'isi_konseling' => 'required|string',
+                'kategori_konseling' => 'required',
             ],
             [
-                'judul.required' => 'Judul konseling tidak boleh kosong',
-                'isi_konseling.required' => 'Isi konseling tidak boleh kosong',
+                'judul.required' => 'Yuk, tulis dulu kalimat singkat tentang apa yang kamu rasakan.',
+                'isi_konseling.required' => 'Bagikan ceritamu lebih lengkap, kami siap mendengarkan sepenuh hati.',
+                'kategori_konseling.required' => 'Pilih topik yang paling menggambarkan isi hatimu, ya.',
             ]
         );
 
         $konseling = Konseling::create([
             'judul' => $request->judul,
             'isi_konseling' => $request->isi_konseling,
+            'kategori_konseling' => $request->kategori_konseling,
             'siswa_id' => Auth::user()->userable->id,
             'status_id' => 1,
             'tanggal_konseling' => now(),
@@ -173,6 +178,11 @@ class KonselingController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'isi_konseling' => 'required|string',
+            'kategori_konseling' => 'required',
+        ], [
+            'judul.required' => 'Yuk, tulis dulu kalimat singkat tentang apa yang kamu rasakan.',
+            'isi_konseling.required' => 'Bagikan ceritamu lebih lengkap, kami siap mendengarkan sepenuh hati.',
+            'kategori_konseling.required' => 'Pilih topik yang paling menggambarkan isi hatimu, ya.',
         ]);
 
         $konseling = Konseling::find($id);

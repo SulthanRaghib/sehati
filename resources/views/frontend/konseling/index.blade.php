@@ -129,25 +129,52 @@
         </div>
 
         <!-- Modal Mulai Konseling -->
-        <div class="modal fade @if ($errors->any()) show d-block @endif" id="konselingModal" tabindex="-1"
-            aria-labelledby="konselingModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal fade" id="konselingModal" tabindex="-1" aria-labelledby="konselingModalLabel" aria-hidden="true"
+            data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <form action="{{ route('siswa.konselingStore') }}" method="POST">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="konselingModalLabel">Cerita Yuk, Ada Apa Hari Ini?</h5>
+                            <h5 class="modal-title fw-bold" id="konselingModalLabel">Cerita Yuk, Ada Apa Hari Ini?</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                         </div>
                         <div class="modal-body">
                             <p class="text-muted mb-3">
-                                Kamu tidak sendiri. Kami di sini untuk mendengarkan dengan sepenuh hati. Tuliskan apa pun
-                                yang kamu rasakan hari ini, tidak harus sempurna.
+                                Kamu nggak sendirian kok. Kami ada di sini buat mendengarkan ceritamu dengan sepenuh hati.
+                                Sebelum kamu mulai bercerita, coba pilih dulu ya topik yang paling menggambarkan isi hatimu
+                                saat ini.
+                                Ini bakal bantu kami memahami dan menemani kamu dengan lebih baik. 😊
                             </p>
 
                             <div class="mb-3">
-                                <label for="judul" class="form-label">Kalimat singkat tentang apa yang kamu rasakan saat
-                                    ini</label>
+                                <label for="kategori_konseling" class="form-label fw-semibold">Topik Ceritamu</label>
+                                <select class="form-select @error('kategori_konseling') is-invalid @enderror"
+                                    name="kategori_konseling" id="kategori_konseling">
+                                    <option value="">-- Pilih topik yang paling sesuai --</option>
+                                    <option value="akademik"
+                                        {{ old('kategori_konseling') == 'akademik' ? 'selected' : '' }}>Akademik (tugas,
+                                        nilai, pelajaran)</option>
+                                    <option value="non-akademik"
+                                        {{ old('kategori_konseling') == 'non-akademik' ? 'selected' : '' }}>Non-Akademik
+                                        (organisasi, kegiatan, minat)</option>
+                                    <option value="keluarga"
+                                        {{ old('kategori_konseling') == 'keluarga' ? 'selected' : '' }}>Keluarga (hubungan
+                                        dengan orang tua atau saudara)</option>
+                                    <option value="pertemanan"
+                                        {{ old('kategori_konseling') == 'pertemanan' ? 'selected' : '' }}>Pertemanan
+                                        (konflik, merasa dijauhi, dll)</option>
+                                    <option value="pribadi" {{ old('kategori_konseling') == 'pribadi' ? 'selected' : '' }}>
+                                        Pribadi (perasaan atau hal-hal pribadi lainnya)</option>
+                                </select>
+                                @error('kategori_konseling')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="judul" class="form-label fw-semibold">Kalimat Singkat Tentang Apa yang Kamu
+                                    Rasakan</label>
                                 <input type="text" class="form-control @error('judul') is-invalid @enderror"
                                     id="judul" name="judul" value="{{ old('judul') }}"
                                     placeholder="Contoh: Aku merasa kewalahan dengan semuanya akhir-akhir ini">
@@ -156,7 +183,9 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="isi_konseling" class="form-label">Ceritakan Lebih Lengkap di Sini, Kami Siap
+                                <label for="isi_konseling" class="form-label fw-semibold">Ceritakan Lebih Lengkap di Sini,
+                                    Kami
+                                    Siap
                                     Mendengarkan</label>
                                 <textarea class="form-control @error('isi_konseling') is-invalid @enderror" id="isi_konseling" name="isi_konseling"
                                     rows="5" placeholder="Tulis saja semua yang kamu rasakan. Kami siap mendengarkan, tanpa menghakimi...">{{ old('isi_konseling') }}</textarea>
@@ -166,10 +195,13 @@
                             </div>
                         </div>
                         <div class="modal-footer d-flex justify-content-between">
-                            <small class="text-muted">Cerita kamu sangat berarti. Terima kasih sudah mau berbagi.</small>
+                            <small class="text-muted">Terima kasih sudah mempercayakan ceritamu. Kamu nggak sendirian,
+                                ya.</small>
                             <div>
                                 <button type="submit" class="btn btn-primary">Kirim Cerita Saya</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="button" class="btn btn-secondary" id="btn-batal-konseling">Batal</button>
+
+
                             </div>
                         </div>
                     </form>
@@ -182,13 +214,67 @@
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function() {
+                const modalEl = document.getElementById('konselingModal');
+                const modalInstance = new bootstrap.Modal(modalEl);
+
+                // Jika ada error validasi dari server, tampilkan modal otomatis
                 @if ($errors->any())
-                    var myModal = new bootstrap.Modal(document.getElementById('konselingModal'), {
-                        backdrop: 'static',
-                        keyboard: false
-                    });
-                    myModal.show();
+                    modalInstance.show();
                 @endif
+
+                // Event tombol batal
+                const batalBtn = document.getElementById('btn-batal-konseling');
+                if (batalBtn) {
+                    batalBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+
+                        // Tampilkan konfirmasi SweetAlert
+                        Swal.fire({
+                            title: 'Yakin ingin membatalkan?',
+                            text: "Ceritamu belum tersimpan. Tapi nggak apa-apa, kamu bisa cerita nanti juga kok. 😊",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Ya, batalkan',
+                            cancelButtonText: 'Kembali ke cerita',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Tutup modal
+                                modalInstance.hide();
+
+                                // Hapus backdrop sisa jika ada
+                                document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+
+                                // Reset form dan kosongkan semua input (tanpa reset CSRF token)
+                                const form = modalEl.querySelector('form');
+
+                                // Reset semua input selain CSRF token
+                                form.querySelectorAll('input, textarea, select').forEach(input => {
+                                    if (input.type === 'radio' || input.type === 'checkbox') {
+                                        input.checked = false; // Reset radio/checkbox
+                                    } else {
+                                        input.value =
+                                        ''; // Hapus nilai untuk input dan textarea
+                                    }
+                                });
+
+                                // Hapus validasi error class dan pesan
+                                form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove(
+                                    'is-invalid'));
+                                form.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+
+                                // Pastikan CSRF token tetap ada
+                                const csrfToken = form.querySelector('input[name="_token"]');
+                                if (csrfToken) {
+                                    csrfToken.value =
+                                    '{{ csrf_token() }}'; // Reset CSRF token jika hilang
+                                }
+                            } else {
+                                modalInstance.show(); // Balik lagi kalau batalin konfirmasi
+                            }
+                        });
+                    });
+                }
             });
         </script>
     @endpush

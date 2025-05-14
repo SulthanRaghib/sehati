@@ -9,6 +9,7 @@ class Konseling extends Model
     protected $fillable = [
         'siswa_id',
         'judul',
+        'kategori_konseling',
         'isi_konseling',
         'status_id',
         'tanggal_konseling',
