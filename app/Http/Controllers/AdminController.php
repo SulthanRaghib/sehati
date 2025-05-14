@@ -453,6 +453,13 @@ class AdminController extends Controller
             'pendidikan_terakhir_id' => $request->pendidikan_terakhir_id,
         ]);
 
+        // Update nama di tabel user terkait
+        if ($guru->user) {
+            $guru->user->update([
+                'name' => ucwords(strtolower($request->nama)),
+            ]);
+        }
+
         return redirect()->route('admin.guru')->with('success', 'Guru berhasil diperbarui');
     }
 
