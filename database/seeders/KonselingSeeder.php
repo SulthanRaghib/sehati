@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Konseling;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,13 +14,17 @@ class KonselingSeeder extends Seeder
      */
     public function run(): void
     {
-        Konseling::create([
-            'siswa_id' => 1,
-            'status_id' => 1,
-            'kategori_konseling_id' => 1,
-            'judul' => 'Konseling Akademik',
-            'isi_konseling' => 'Saya merasa cemas dan tidak percaya diri saat ujian.',
-            'tanggal_konseling' => now(),
-        ]);
+        for ($i = 1; $i <= 20; $i++) {
+            $statusId = rand(1, 3); // acak antara Menunggu, Dijawab, Selesai
+
+            Konseling::create([
+                'siswa_id' => $i, // pastikan siswa dengan id 1-20 ada
+                'status_id' => $statusId,
+                'kategori_konseling_id' => rand(1, 7),
+                'judul' => 'Konseling Dummy ' . $i,
+                'isi_konseling' => 'Ini adalah isi konseling dummy ke-' . $i,
+                'tanggal_konseling' => Carbon::now()->subDays(rand(0, 30)),
+            ]);
+        }
     }
 }

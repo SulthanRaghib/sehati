@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
     {
         $guruBk = Guru::where('nama', 'Sari Hartini')->first();
         $devloper = Guru::where('nama', 'Developer')->first();
-        $siswa = Siswa::where('nama', 'Syamil')->first();
+        $siswa = Siswa::all();
 
         // User untuk Guru BK
         User::create([
@@ -34,16 +34,18 @@ class UserSeeder extends Seeder
         ]);
 
         // User untuk Siswa
-        User::create([
-            'name' => $siswa->nama,
-            'email' => 'siswa@gmail.com',
-            'password' => Hash::make('123456'),
-            'role' => 'siswa',
-            'added_by_role' => 'gurubk',
-            'userable_id' => $siswa->id,
-            'userable_type' => Siswa::class,
-            'remember_token' => Str::random(60),
-        ]);
+        foreach ($siswa as $index => $s) {
+            User::create([
+                'name' => $s->nama,
+                'email' => 'siswa' . ($index + 1) . '@gmail.com',
+                'password' => Hash::make('123456'),
+                'role' => 'siswa',
+                'added_by_role' => 'gurubk',
+                'userable_id' => $s->id,
+                'userable_type' => Siswa::class,
+                'remember_token' => Str::random(60),
+            ]);
+        }
 
         // User untuk Kepala Sekolah (Admin)
         User::create([
