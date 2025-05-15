@@ -130,19 +130,9 @@
                                                         id="kelas" name="kelas_id">
                                                         <option value="">-- Pilih Kelas --</option>
                                                         @foreach ($kelas as $k)
-                                                            @php
-                                                                $namaTingkat = $k->tingkat;
-                                                                if ($namaTingkat == 'X') {
-                                                                    $kelas = 'Sepuluh';
-                                                                } elseif ($namaTingkat == 'XI') {
-                                                                    $kelas = 'Sebelas';
-                                                                } else {
-                                                                    $kelas = 'Dua Belas';
-                                                                }
-                                                            @endphp
                                                             <option value="{{ $k->id }}"
                                                                 {{ old('kelas_id') == $k->id ? 'selected' : '' }}>
-                                                                {{ $k->tingkat }} ({{ $kelas }})</option>
+                                                                {{ $k->tingkat }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('kelas_id')

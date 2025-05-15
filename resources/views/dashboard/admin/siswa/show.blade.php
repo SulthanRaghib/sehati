@@ -111,16 +111,7 @@
                                                         </tr>
                                                         <tr>
                                                             <th>Kelas</th>
-                                                            @php
-                                                                $tingkat = $siswa->kelas->tingkat ?? null;
-                                                                $kelasText = match ($tingkat) {
-                                                                    '10' => 'Sepuluh',
-                                                                    '11' => 'Sebelas',
-                                                                    '12' => 'Dua Belas',
-                                                                    default => '-',
-                                                                };
-                                                            @endphp
-                                                            <td>: {!! $tingkat ?? '<span class="text-danger m-0">Kelas belum diisi</span>' !!} ({{ $kelasText }})</td>
+                                                            <td>: {!! $siswa->kelas->tingkat ?? '<span class="text-danger m-0">Kelas belum diisi</span>' !!}</td>
                                                         </tr>
                                                         <tr>
                                                             <th>Tempat, Tanggal Lahir</th>

@@ -57,19 +57,8 @@
                                 <tbody>
                                     @foreach ($kelas as $a)
                                         <tr>
-                                            @php
-                                                if ($a->tingkat == '10') {
-                                                    $kelas = '1 SMA';
-                                                } elseif ($a->tingkat == '11') {
-                                                    $kelas = '2 SMA';
-                                                } elseif ($a->tingkat == '12') {
-                                                    $kelas = '3 SMA';
-                                                } else {
-                                                    $kelas = 'Tidak Diketahui';
-                                                }
-                                            @endphp
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $a->tingkat }} ({{ $kelas }})</td>
+                                            <td>{{ $a->tingkat }}</td>
                                             <td>
                                                 <a href="{{ route('admin.kelas.edit', $a->id) }}"
                                                     class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
