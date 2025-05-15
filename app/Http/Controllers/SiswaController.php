@@ -149,28 +149,66 @@ class SiswaController extends Controller
     {
         $siswa = Siswa::find($request->id);
 
-        $request->validate([
-            'nisn' => 'required|numeric|unique:siswas,nisn,' . $siswa->id,
-            'nama' => 'required',
-            'tempat_lahir' => 'required',
-            'tanggal_lahir' => 'required|date|before:today',
-            'jenis_kelamin' => 'required|in:L,P',
-            'agama_id' => 'required',
-            'alamat' => 'required',
-            'no_hp' => 'required|numeric',
-            // ayah
-            'nik_ayah' => 'required|numeric',
-            'nama_ayah' => 'required',
-            'tempat_lahir_ayah' => 'required',
-            'tanggal_lahir_ayah' => 'required|date|before:today',
-            'pekerjaan_ayah_id' => 'required',
-            // ibu
-            'nik_ibu' => 'required|numeric',
-            'nama_ibu' => 'required',
-            'tempat_lahir_ibu' => 'required',
-            'tanggal_lahir_ibu' => 'required|date|before:today',
-            'pekerjaan_ibu_id' => 'required',
-        ]);
+        $request->validate(
+            [
+                'nisn' => 'required|numeric|unique:siswas,nisn,' . $siswa->id,
+                'nama' => 'required',
+                'tempat_lahir' => 'required',
+                'tanggal_lahir' => 'required|date|before:today',
+                'jenis_kelamin' => 'required|in:L,P',
+                'agama_id' => 'required',
+                'alamat' => 'required',
+                'no_hp' => 'required|numeric',
+                // ayah
+                'nik_ayah' => 'required|numeric|unique:siswas,nik_ayah,' . $siswa->id,
+                'nama_ayah' => 'required',
+                'tempat_lahir_ayah' => 'required',
+                'tanggal_lahir_ayah' => 'required|date|before:today',
+                'pekerjaan_ayah_id' => 'required',
+                // ibu
+                'nik_ibu' => 'required|numeric|unique:siswas,nik_ibu,' . $siswa->id,
+                'nama_ibu' => 'required',
+                'tempat_lahir_ibu' => 'required',
+                'tanggal_lahir_ibu' => 'required|date|before:today',
+                'pekerjaan_ibu_id' => 'required',
+            ],
+            [
+                'nisn.required' => 'NISN tidak boleh kosong',
+                'nisn.numeric' => 'NISN harus berupa angka',
+                'nisn.unique' => 'NISN sudah terdaftar',
+                'nama.required' => 'Nama tidak boleh kosong',
+                'tempat_lahir.required' => 'Tempat lahir tidak boleh kosong',
+                'tanggal_lahir.required' => 'Tanggal lahir tidak boleh kosong',
+                'tanggal_lahir.date' => 'Tanggal lahir tidak valid',
+                'tanggal_lahir.before' => 'Tanggal lahir harus sebelum hari ini',
+                'jenis_kelamin.required' => 'Jenis kelamin tidak boleh kosong',
+                'jenis_kelamin.in' => 'Jenis kelamin tidak valid',
+                'agama_id.required' => 'Agama tidak boleh kosong',
+                'alamat.required' => 'Alamat tidak boleh kosong',
+                'no_hp.required' => 'No HP tidak boleh kosong',
+                'no_hp.numeric' => 'No HP harus berupa angka',
+                // ayah
+                'nik_ayah.required' => 'NIK Ayah tidak boleh kosong',
+                'nik_ayah.numeric' => 'NIK Ayah harus berupa angka',
+                'nik_ayah.unique' => 'NIK Ayah sudah terdaftar',
+                'nama_ayah.required' => 'Nama Ayah tidak boleh kosong',
+                'tempat_lahir_ayah.required' => 'Tempat lahir Ayah tidak boleh kosong',
+                'tanggal_lahir_ayah.required' => 'Tanggal lahir Ayah tidak boleh kosong',
+                'tanggal_lahir_ayah.date' => 'Tanggal lahir Ayah tidak valid',
+                'tanggal_lahir_ayah.before' => 'Tanggal lahir Ayah harus sebelum hari ini',
+                'pekerjaan_ayah_id.required' => 'Pekerjaan Ayah tidak boleh kosong',
+                // ibu
+                'nik_ibu.required' => 'NIK Ibu tidak boleh kosong',
+                'nik_ibu.numeric' => 'NIK Ibu harus berupa angka',
+                'nik_ibu.unique' => 'NIK Ibu sudah terdaftar',
+                'nama_ibu.required' => 'Nama Ibu tidak boleh kosong',
+                'tempat_lahir_ibu.required' => 'Tempat lahir Ibu tidak boleh kosong',
+                'tanggal_lahir_ibu.required' => 'Tanggal lahir Ibu tidak boleh kosong',
+                'tanggal_lahir_ibu.date' => 'Tanggal lahir Ibu tidak valid',
+                'tanggal_lahir_ibu.before' => 'Tanggal lahir Ibu harus sebelum hari ini',
+                'pekerjaan_ibu_id.required' => 'Pekerjaan Ibu tidak boleh kosong',
+            ]
+        );
 
         $siswa->update([
             'nisn' => $request->nisn,

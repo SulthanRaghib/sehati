@@ -20,9 +20,14 @@ class JawabanController extends Controller
         // Ambil siswa_id dari relasi
         $siswaId = $getKonselingID->siswa_id;
 
-        $request->validate([
-            'isi_jawaban' => 'required',
-        ]);
+        $request->validate(
+            [
+                'isi_jawaban' => 'required',
+            ],
+            [
+                'isi_jawaban.required' => 'Jawaban tidak boleh kosong.',
+            ]
+        );
 
         // Insert jawaban dulu
         $jawaban = Jawaban::create([
@@ -82,11 +87,22 @@ class JawabanController extends Controller
 
     public function rating(Request $request)
     {
-        $request->validate([
-            'jawaban_id' => 'required|exists:jawabans,id',
-            'rating' => 'required|integer|min:1|max:5',
-            'komentar' => 'nullable|string',
-        ]);
+        $request->validate(
+            [
+                'jawaban_id' => 'required|exists:jawabans,id',
+                'rating' => 'required|integer|min:1|max:5',
+                'komentar' => 'nullable|string',
+            ],
+            [
+                'jawaban_id.required' => 'Jawaban tidak boleh kosong.',
+                'jawaban_id.exists' => 'Jawaban tidak ditemukan.',
+                'rating.required' => 'Rating tidak boleh kosong.',
+                'rating.integer' => 'Rating harus berupa angka.',
+                'rating.min' => 'Rating minimal 1.',
+                'rating.max' => 'Rating maksimal 5.',
+                'komentar.string' => 'Komentar harus berupa teks.',
+            ]
+        );
 
         $siswaId = Auth::user()->userable->id;
 

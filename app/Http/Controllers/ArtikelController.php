@@ -30,23 +30,41 @@ class ArtikelController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'judul' => 'required|string|max:100',
-            'slug' => 'required|string|max:100|unique:artikels',
-            'isi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'artikel_kategori_id' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    if ($value !== 'add' && !\App\Models\ArtikelKategori::find($value)) {
-                        $fail('Kategori tidak valid.');
-                    }
-                },
+        $request->validate(
+            [
+                'judul' => 'required|string|max:100',
+                'slug' => 'required|string|max:100|unique:artikels',
+                'isi' => 'required|string',
+                'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'artikel_kategori_id' => [
+                    'required',
+                    function ($attribute, $value, $fail) {
+                        if ($value !== 'add' && !\App\Models\ArtikelKategori::find($value)) {
+                            $fail('Kategori tidak valid.');
+                        }
+                    },
+                ],
+                'kategori_baru' => 'required_if:artikel_kategori_id,add',
+                'sumber' => 'nullable|string|max:255',
+                'status' => 'required|in:draft,publish',
             ],
-            'kategori_baru' => 'required_if:artikel_kategori_id,add',
-            'sumber' => 'nullable|string|max:255',
-            'status' => 'required|in:draft,publish',
-        ]);
+            [
+                'judul.required' => 'Judul artikel tidak boleh kosong.',
+                'judul.string' => 'Judul artikel harus berupa teks.',
+                'slug.required' => 'Slug artikel tidak boleh kosong.',
+                'slug.string' => 'Slug artikel harus berupa teks.',
+                'slug.unique' => 'Slug artikel sudah terdaftar.',
+                'isi.required' => 'Isi artikel tidak boleh kosong.',
+                'isi.string' => 'Isi artikel harus berupa teks.',
+                'gambar.image' => 'File yang diunggah harus berupa gambar.',
+                'gambar.mimes' => 'Format gambar tidak valid. Hanya mendukung jpeg, png, jpg, gif.',
+                'gambar.max' => 'Ukuran gambar maksimal 2MB.',
+                'artikel_kategori_id.required' => 'Kategori artikel tidak boleh kosong.',
+                'kategori_baru.required_if' => 'Nama kategori baru tidak boleh kosong jika kategori baru dipilih.',
+                'sumber.string' => 'Sumber artikel harus berupa teks.',
+                'status.required' => 'Status artikel tidak boleh kosong.',
+            ]
+        );
 
         if ($request->artikel_kategori_id === 'add') {
             $kategoriBaru = ArtikelKategori::create([
@@ -93,23 +111,41 @@ class ArtikelController extends Controller
     {
         $artikel = Artikel::findOrFail($id);
 
-        $request->validate([
-            'judul' => 'required|string|max:100',
-            'slug' => 'required|string|max:100|unique:artikels,slug,' . $artikel->id,
-            'isi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'artikel_kategori_id' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    if ($value !== 'add' && !\App\Models\ArtikelKategori::find($value)) {
-                        $fail('Kategori tidak valid.');
-                    }
-                },
+        $request->validate(
+            [
+                'judul' => 'required|string|max:100',
+                'slug' => 'required|string|max:100|unique:artikels,slug,' . $artikel->id,
+                'isi' => 'required|string',
+                'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'artikel_kategori_id' => [
+                    'required',
+                    function ($attribute, $value, $fail) {
+                        if ($value !== 'add' && !\App\Models\ArtikelKategori::find($value)) {
+                            $fail('Kategori tidak valid.');
+                        }
+                    },
+                ],
+                'kategori_baru' => 'required_if:artikel_kategori_id,add',
+                'sumber' => 'nullable|string|max:255',
+                'status' => 'required|in:draft,publish',
             ],
-            'kategori_baru' => 'required_if:artikel_kategori_id,add',
-            'sumber' => 'nullable|string|max:255',
-            'status' => 'required|in:draft,publish',
-        ]);
+            [
+                'judul.required' => 'Judul artikel tidak boleh kosong.',
+                'judul.string' => 'Judul artikel harus berupa teks.',
+                'slug.required' => 'Slug artikel tidak boleh kosong.',
+                'slug.string' => 'Slug artikel harus berupa teks.',
+                'slug.unique' => 'Slug artikel sudah terdaftar.',
+                'isi.required' => 'Isi artikel tidak boleh kosong.',
+                'isi.string' => 'Isi artikel harus berupa teks.',
+                'gambar.image' => 'File yang diunggah harus berupa gambar.',
+                'gambar.mimes' => 'Format gambar tidak valid. Hanya mendukung jpeg, png, jpg, gif.',
+                'gambar.max' => 'Ukuran gambar maksimal 2MB.',
+                'artikel_kategori_id.required' => 'Kategori artikel tidak boleh kosong.',
+                'kategori_baru.required_if' => 'Nama kategori baru tidak boleh kosong jika kategori baru dipilih.',
+                'sumber.string' => 'Sumber artikel harus berupa teks.',
+                'status.required' => 'Status artikel tidak boleh kosong.',
+            ]
+        );
 
         if ($request->artikel_kategori_id === 'add') {
             $kategoriBaru = ArtikelKategori::create([

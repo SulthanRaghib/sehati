@@ -245,6 +245,8 @@ class AdminController extends Controller
                 'required',
                 Rule::in(['App\Models\Guru', 'App\Models\Siswa']),
             ],
+        ], [
+            'userable_id.unique' => 'Pemilik user ini sudah terdaftar untuk tipe data yang sama.',
         ]);
 
         User::create([
@@ -332,6 +334,11 @@ class AdminController extends Controller
         $request->validate([
             'password' => 'required|min:6|confirmed',
             'password_confirmation' => 'required|min:6|same:password',
+        ], [
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 6 karakter.',
+            'password_confirmation.required' => 'Konfirmasi password wajib diisi.',
+            'password_confirmation.same' => 'Konfirmasi password tidak sesuai.',
         ]);
 
         $user = User::findOrFail($id);
@@ -407,6 +414,23 @@ class AdminController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
             'role' => 'required|in:admin,gurubk',
+        ], [
+            'nip.unique' => 'NIP sudah terdaftar.',
+            'nip.required' => 'NIP wajib diisi.',
+            'nama.required' => 'Nama wajib diisi.',
+            'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib diisi.',
+            'agama_id.required' => 'Agama wajib diisi.',
+            'alamat.required' => 'Alamat wajib diisi.',
+            'pendidikan_terakhir_id.required' => 'Pendidikan terakhir wajib diisi.',
+
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 6 karakter.',
+            'role.required' => 'Role wajib diisi.',
         ]);
 
         $guru = Guru::create([
@@ -452,6 +476,16 @@ class AdminController extends Controller
             'agama_id' => 'required',
             'alamat' => 'required',
             'pendidikan_terakhir_id' => 'required',
+        ], [
+            'nip.unique' => 'NIP sudah terdaftar.',
+            'nip.required' => 'NIP wajib diisi.',
+            'nama.required' => 'Nama wajib diisi.',
+            'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib diisi.',
+            'agama_id.required' => 'Agama wajib diisi.',
+            'alamat.required' => 'Alamat wajib diisi.',
+            'pendidikan_terakhir_id.required' => 'Pendidikan terakhir wajib diisi.',
         ]);
 
         $guru = Guru::findOrFail($id);
@@ -533,6 +567,21 @@ class AdminController extends Controller
             // user
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
+        ], [
+            'nisn.unique' => 'NISN sudah terdaftar.',
+            'nisn.required' => 'NISN wajib diisi.',
+            'nama.required' => 'Nama wajib diisi.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib diisi.',
+            'agama_id.required' => 'Agama wajib diisi.',
+            'kelas_id.required' => 'Kelas wajib diisi.',
+            'tahun_masuk.required' => 'Tahun masuk wajib diisi.',
+
+            // user
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 6 karakter.',
         ]);
 
         $tahunAkademikAktif = TahunAkademik::where('is_active', 1)->first();
@@ -589,17 +638,30 @@ class AdminController extends Controller
             'alamat' => 'nullable',
             'no_hp' => 'nullable|numeric',
             // ayah
-            'nik_ayah' => 'numeric|nullable',
+            'nik_ayah' => 'nullable|numeric',
             'nama_ayah' => 'nullable',
             'tempat_lahir_ayah' => 'nullable',
             'tanggal_lahir_ayah' => 'date|before:today|nullable',
             'pekerjaan_ayah_id' => 'nullable|exists:pekerjaans,id',
             // ibu
-            'nik_ibu' => 'numeric|nullable',
+            'nik_ibu' => 'nullable|numeric',
             'nama_ibu' => 'nullable',
             'tempat_lahir_ibu' => 'nullable',
             'tanggal_lahir_ibu' => 'date|before:today|nullable',
             'pekerjaan_ibu_id' => 'nullable|exists:pekerjaans,id',
+        ], [
+            'nisn.unique' => 'NISN sudah terdaftar.',
+            'nisn.required' => 'NISN wajib diisi.',
+            'nama.required' => 'Nama wajib diisi.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib diisi.',
+            'agama_id.required' => 'Agama wajib diisi.',
+            'kelas_id.required' => 'Kelas wajib diisi.',
+            'tahun_masuk.required' => 'Tahun masuk wajib diisi.',
+
+            // ayah
+            'nik_ayah.numeric' => 'NIK Ayah harus berupa angka.',
+            // ibu
+            'nik_ibu.numeric' => 'NIK Ibu harus berupa angka.',
         ]);
 
         $siswa = Siswa::findOrFail($id);

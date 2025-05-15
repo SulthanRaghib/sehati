@@ -24,9 +24,16 @@ class KelasController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'tingkat' => 'required|numeric|unique:kelas',
-        ]);
+        $request->validate(
+            [
+                'tingkat' => 'required|numeric|unique:kelas',
+            ],
+            [
+                'tingkat.required' => 'Tingkat kelas tidak boleh kosong.',
+                'tingkat.numeric' => 'Tingkat kelas harus berupa angka.',
+                'tingkat.unique' => 'Tingkat kelas sudah terdaftar.',
+            ]
+        );
 
         Kelas::create($request->all());
 
@@ -45,6 +52,10 @@ class KelasController extends Controller
     {
         $request->validate([
             'tingkat' => 'required|numeric|unique:kelas,tingkat,' . $id,
+        ], [
+            'tingkat.required' => 'Tingkat kelas tidak boleh kosong.',
+            'tingkat.numeric' => 'Tingkat kelas harus berupa angka.',
+            'tingkat.unique' => 'Tingkat kelas sudah terdaftar.',
         ]);
 
         $kelas = Kelas::findOrFail($id);

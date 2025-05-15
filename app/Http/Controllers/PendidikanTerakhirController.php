@@ -24,9 +24,16 @@ class PendidikanTerakhirController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required|string|unique:pendidikan_terakhirs',
-        ]);
+        $request->validate(
+            [
+                'nama' => 'required|string|unique:pendidikan_terakhirs',
+            ],
+            [
+                'nama.required' => 'Nama pendidikan terakhir tidak boleh kosong.',
+                'nama.string' => 'Nama pendidikan terakhir harus berupa teks.',
+                'nama.unique' => 'Nama pendidikan terakhir sudah terdaftar.',
+            ]
+        );
 
         PendidikanTerakhir::create([
             'nama' => strtoupper($request->nama),
@@ -47,6 +54,10 @@ class PendidikanTerakhirController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|unique:pendidikan_terakhirs,nama,' . $id,
+        ], [
+            'nama.required' => 'Nama pendidikan terakhir tidak boleh kosong.',
+            'nama.string' => 'Nama pendidikan terakhir harus berupa teks.',
+            'nama.unique' => 'Nama pendidikan terakhir sudah terdaftar.',
         ]);
 
         $pendidikanTerakhir = PendidikanTerakhir::findOrFail($id);

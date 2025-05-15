@@ -24,9 +24,16 @@ class AgamaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required|string|max:50',
-        ]);
+        $request->validate(
+            [
+                'nama' => 'required|string|unique:agamas'
+            ],
+            [
+                'nama.required' => 'Nama agama tidak boleh kosong.',
+                'nama.string' => 'Nama agama harus berupa teks.',
+                'nama.unique' => 'Nama agama sudah terdaftar.',
+            ]
+        );
 
         Agama::create([
             'nama' => ucwords(strtolower($request->nama)),
@@ -46,7 +53,11 @@ class AgamaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama' => 'required|string|max:50',
+            'nama' => 'required|string|unique:agamas,nama,' . $id,
+        ], [
+            'nama.required' => 'Nama agama tidak boleh kosong.',
+            'nama.string' => 'Nama agama harus berupa teks.',
+            'nama.unique' => 'Nama agama sudah terdaftar.',
         ]);
 
         $agama = Agama::findOrFail($id);

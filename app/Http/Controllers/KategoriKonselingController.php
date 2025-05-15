@@ -25,10 +25,21 @@ class KategoriKonselingController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_kategori' => 'required|unique:kategori_konselings',
-            'contoh_kategori' => 'required',
-        ]);
+        $request->validate(
+            [
+                'nama_kategori' => 'required|unique:kategori_konselings',
+                'contoh_kategori' => [
+                    'required',
+                    'regex:/^([a-zA-Z\s]+,\s*)+[a-zA-Z\s]+$/'
+                ]
+            ],
+            [
+                'nama_kategori.required' => 'Nama kategori konseling tidak boleh kosong.',
+                'nama_kategori.unique' => 'Nama kategori konseling sudah terdaftar.',
+                'contoh_kategori.required' => 'Contoh kategori konseling tidak boleh kosong.',
+                'contoh_kategori.regex' => 'Contoh kategori harus berisi minimal dua kata yang dipisahkan koma. Contoh: Kecemasan, Depresi, Stres.',
+            ]
+        );
 
         KategoriKonseling::create([
             'nama_kategori' => ucwords(strtolower($request->nama_kategori)),
@@ -50,7 +61,15 @@ class KategoriKonselingController extends Controller
     {
         $request->validate([
             'nama_kategori' => 'required|unique:kategori_konselings,nama_kategori,' . $id,
-            'contoh_kategori' => 'required',
+            'contoh_kategori' => [
+                'required',
+                'regex:/^([a-zA-Z\s]+,\s*)+[a-zA-Z\s]+$/'
+            ]
+        ], [
+            'nama_kategori.required' => 'Nama kategori konseling tidak boleh kosong.',
+            'nama_kategori.unique' => 'Nama kategori konseling sudah terdaftar.',
+            'contoh_kategori.required' => 'Contoh kategori konseling tidak boleh kosong.',
+            'contoh_kategori.regex' => 'Contoh kategori harus berisi minimal dua kata yang dipisahkan koma. Contoh: Kecemasan, Depresi, Stres.',
         ]);
 
         $kategoriKonseling = KategoriKonseling::findOrFail($id);

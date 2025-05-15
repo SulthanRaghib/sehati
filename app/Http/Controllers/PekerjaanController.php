@@ -24,9 +24,16 @@ class PekerjaanController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required|string|unique:pekerjaans',
-        ]);
+        $request->validate(
+            [
+                'nama' => 'required|string|unique:pekerjaans',
+            ],
+            [
+                'nama.required' => 'Nama pekerjaan tidak boleh kosong.',
+                'nama.string' => 'Nama pekerjaan harus berupa teks.',
+                'nama.unique' => 'Nama pekerjaan sudah terdaftar.',
+            ]
+        );
 
         Pekerjaan::create([
             'nama' => ucwords(strtolower($request->nama)),
@@ -47,6 +54,10 @@ class PekerjaanController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|unique:pekerjaans,nama,' . $id,
+        ], [
+            'nama.required' => 'Nama pekerjaan tidak boleh kosong.',
+            'nama.string' => 'Nama pekerjaan harus berupa teks.',
+            'nama.unique' => 'Nama pekerjaan sudah terdaftar.',
         ]);
 
         $pekerjaan = Pekerjaan::findOrFail($id);

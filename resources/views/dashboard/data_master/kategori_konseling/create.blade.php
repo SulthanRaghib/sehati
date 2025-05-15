@@ -95,3 +95,30 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        const contohInput = document.getElementById('contoh');
+
+        contohInput.addEventListener('keydown', function(e) {
+            // Simpan apakah karakter yang diketik adalah koma
+            contohInput.isCommaKey = (e.key === ',');
+        });
+
+        contohInput.addEventListener('input', function(e) {
+            const input = e.target;
+            const cursor = input.selectionStart;
+            const value = input.value;
+
+            // Cek: hanya tambahkan spasi jika user baru mengetik koma (bukan karena edit/backspace)
+            if (input.isCommaKey) {
+                // Pastikan setelah koma tidak ada spasi
+                if (value[cursor - 1] === ',' && value[cursor] !== ' ') {
+                    input.value = value.slice(0, cursor) + ' ' + value.slice(cursor);
+                    input.setSelectionRange(cursor + 1, cursor + 1);
+                }
+            }
+
+            input.isCommaKey = false; // reset status setelah input
+        });
+    </script>
+@endpush

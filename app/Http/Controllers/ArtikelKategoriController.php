@@ -25,9 +25,16 @@ class ArtikelKategoriController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-        ]);
+        $request->validate(
+            [
+                'nama' => 'required|string|unique:artikel_kategoris'
+            ],
+            [
+                'nama.required' => 'Nama kategori tidak boleh kosong.',
+                'nama.string' => 'Nama kategori harus berupa teks.',
+                'nama.unique' => 'Nama kategori sudah terdaftar.',
+            ]
+        );
 
         $slug = Str::slug($request->nama, '-');
         // Check if slug already exists
@@ -55,7 +62,11 @@ class ArtikelKategoriController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
+            'nama' => 'required|string|unique:artikel_kategoris,nama,' . $id,
+        ], [
+            'nama.required' => 'Nama kategori tidak boleh kosong.',
+            'nama.string' => 'Nama kategori harus berupa teks.',
+            'nama.unique' => 'Nama kategori sudah terdaftar.',
         ]);
 
         $artikelKategori = ArtikelKategori::findOrFail($id);

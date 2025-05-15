@@ -85,10 +85,16 @@ class KonselingController extends Controller
 
     public function adminStore(Request $request)
     {
-        $request->validate([
-            'judul' => 'required',
-            'isi_konseling' => 'required',
-        ]);
+        $request->validate(
+            [
+                'judul' => 'required',
+                'isi_konseling' => 'required',
+            ],
+            [
+                'judul.required' => 'Judul konseling tidak boleh kosong.',
+                'isi_konseling.required' => 'Isi konseling tidak boleh kosong.',
+            ]
+        );
 
         Konseling::create([
             'judul' => $request->judul,
@@ -125,6 +131,8 @@ class KonselingController extends Controller
     {
         $request->validate([
             'isi_jawaban' => 'required',
+        ], [
+            'isi_jawaban.required' => 'Isi jawaban tidak boleh kosong.',
         ]);
 
         $jawaban = Jawaban::where('konseling_id', $id)->first();

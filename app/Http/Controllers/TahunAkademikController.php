@@ -33,14 +33,14 @@ class TahunAkademikController extends Controller
                 'regex:/^\d{4}\/\d{4}$/',
                 function ($attribute, $value, $fail) {
                     if (!str_contains($value, '/')) {
-                        $fail('Format periode harus dalam bentuk YYYY/YYYY.');
+                        $fail('Format periode harus dalam bentuk YYYY/YYYY. Contoh: 2023/2024');
                         return;
                     }
 
                     $tahun = explode('/', $value);
 
                     if (count($tahun) !== 2) {
-                        $fail('Format periode harus dalam bentuk YYYY/YYYY.');
+                        $fail('Format periode harus dalam bentuk YYYY/YYYY. Contoh: 2023/2024');
                         return;
                     }
 
@@ -53,7 +53,9 @@ class TahunAkademikController extends Controller
             ],
             'semester' => 'required|in:Ganjil,Genap',
         ], [
-            'periode.regex' => 'Format periode harus dalam bentuk YYYY/YYYY.',
+            'periode.regex' => 'Format periode harus dalam bentuk YYYY/YYYY. Contoh: 2023/2024',
+            'periode.required' => 'Periode tidak boleh kosong.',
+            'semester.required' => 'Semester tidak boleh kosong.',
             'semester.in' => 'Semester harus Ganjil atau Genap.',
         ]);
 
@@ -100,14 +102,14 @@ class TahunAkademikController extends Controller
                 'regex:/^\d{4}\/\d{4}$/',
                 function ($attribute, $value, $fail) {
                     if (!str_contains($value, '/')) {
-                        $fail('Format periode harus dalam bentuk YYYY/YYYY.');
+                        $fail('Format periode harus dalam bentuk YYYY/YYYY. Contoh: 2023/2024');
                         return;
                     }
 
                     $tahun = explode('/', $value);
 
                     if (count($tahun) !== 2) {
-                        $fail('Format periode harus dalam bentuk YYYY/YYYY.');
+                        $fail('Format periode harus dalam bentuk YYYY/YYYY. Contoh: 2023/2024');
                         return;
                     }
 
@@ -120,7 +122,9 @@ class TahunAkademikController extends Controller
             ],
             'semester' => 'required|in:Ganjil,Genap',
         ], [
-            'periode.regex' => 'Format periode harus dalam bentuk YYYY/YYYY.',
+            'periode.regex' => 'Format periode harus dalam bentuk YYYY/YYYY. Contoh: 2023/2024',
+            'periode.required' => 'Periode tidak boleh kosong.',
+            'semester.required' => 'Semester tidak boleh kosong.',
             'semester.in' => 'Semester harus Ganjil atau Genap.',
         ]);
 
@@ -129,6 +133,7 @@ class TahunAkademikController extends Controller
             ->where('semester', $request->semester)
             ->where('id', '<>', $id)
             ->first();
+
         if ($tahunAkademikExist) {
             return redirect()->back()->with('error', 'Tahun akademik sudah ada');
         }
