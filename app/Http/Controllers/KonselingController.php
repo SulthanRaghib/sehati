@@ -3,32 +3,62 @@
 namespace App\Http\Controllers;
 
 use App\Events\NewKonseling;
+use App\Exports\KonselingExport;
 use App\Models\Jawaban;
 use App\Models\KategoriKonseling;
+use App\Models\Kelas;
 use App\Models\Konseling;
 use App\Models\Notifikasi;
 use App\Models\Siswa;
 use App\Models\Status;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KonselingController extends Controller
 {
     // Admin ==========================================================================
-    public function adminIndex()
+    public function adminIndex(Request $request)
     {
         $title = 'Konseling';
-        $konseling = Konseling::with('siswa', 'status', 'jawaban')
+        $konseling = Konseling::with('siswa', 'status', 'jawaban', 'kategoriKonseling')
+            ->when($request->today, function ($query) use ($request) {
+                if ($request->today == '1') {
+                    $query->whereDate('tanggal_konseling', Carbon::today());
+                } elseif ($request->today == '7') {
+                    $query->whereDate('tanggal_konseling', '>=', Carbon::now()->subDays(7));
+                }
+            })
+            ->when($request->filled('bulan'), function ($query) use ($request) {
+                $query->whereMonth('tanggal_konseling', $request->bulan);
+            })
+            ->when($request->filled('tahun'), function ($query) use ($request) {
+                $query->whereYear('tanggal_konseling', $request->tahun);
+            })
+            ->when($request->filled('kelas'), function ($query) use ($request) {
+                $query->whereHas('siswa', function ($q) use ($request) {
+                    $q->where('kelas_id', $request->kelas);
+                });
+            })
+            ->when($request->filled('kategori'), function ($query) use ($request) {
+                $query->where('kategori_konseling_id', $request->kategori);
+            })
             ->orderByRaw('
-                CASE
-                    WHEN EXISTS (SELECT 1 FROM jawabans WHERE jawabans.konseling_id = konselings.id) THEN 1
-                    ELSE 0
-                END ASC
-            ') // Belum dibalas (0) dulu, yang sudah dibalas (1) belakangan
+            CASE
+                WHEN EXISTS (SELECT 1 FROM jawabans WHERE jawabans.konseling_id = konselings.id) THEN 1
+                ELSE 0
+            END ASC
+        ')
             ->orderBy('tanggal_konseling', 'desc')
             ->get();
 
-        return view('dashboard.konseling.index', compact('title', 'konseling'));
+        $kelasList = Kelas::all();
+        $kategoriList = KategoriKonseling::all();
+
+        return view('dashboard.konseling.index', compact('title', 'konseling', 'kelasList', 'kategoriList'));
     }
 
     public function siswaDetail($id)
@@ -123,6 +153,177 @@ class KonselingController extends Controller
         }
     }
 
+    public function downloadPdf(Request $request)
+    {
+        $konseling = Konseling::with(['siswa', 'kategoriKonseling', 'jawaban', 'jawaban.ratings'])
+            ->when($request->today, function ($q) use ($request) {
+                if ($request->today == '1') {
+                    $q->whereDate('tanggal_konseling', today());
+                } elseif ($request->today == '7') {
+                    $q->whereDate('tanggal_konseling', '>=', Carbon::now()->subDays(7));
+                }
+            })
+            ->when($request->bulan, fn($q) => $q->whereMonth('tanggal_konseling', (int) $request->bulan))
+            ->when($request->tahun, fn($q) => $q->whereYear('tanggal_konseling', (int) $request->tahun))
+            ->when($request->kelas, fn($q) => $q->whereHas('siswa', fn($q) => $q->where('kelas_id', $request->kelas)))
+            ->when($request->kategori, fn($q) => $q->where('kategori_konseling_id', $request->kategori))
+            ->get();
+
+        if ($konseling->isEmpty()) {
+            return redirect()->back()->with('no-data', 'Data tidak ditemukan berdasarkan filter yang dipilih.');
+        }
+
+        $kelasName = null;
+        $kategoriName = null;
+        $bulanName = null;
+        $tahunName = null;
+
+        if ($request->kelas) {
+            $kelasModel = Kelas::find($request->kelas);
+            $kelasName = $kelasModel ? "{$kelasModel->tingkat}" : null;
+        }
+
+        if ($request->kategori) {
+            $kategoriModel = KategoriKonseling::find($request->kategori);
+            $kategoriName = $kategoriModel ? Str::slug($kategoriModel->nama_kategori) : null;
+        }
+
+        if ($request->bulan) {
+            $bulanName = Carbon::create(null, (int) $request->bulan, 1)->translatedFormat('F');
+        }
+
+        if ($request->tahun) {
+            $tahunName = $request->tahun;
+        }
+
+        $tahun = $request->tahun ?? null;
+
+        $timestamp = now()->format('Ymd_His');
+        $filename = "{$timestamp}_konseling";
+
+        if ($request->today == '1') {
+            $filename .= '_hari-ini';
+        } elseif ($request->today == '7') {
+            $filename .= '_7-hari-terakhir';
+        }
+
+        if ($bulanName) {
+            $filename .= "_bulan-{$bulanName}";
+        }
+
+        if ($tahunName) {
+            $filename .= "_tahun-{$tahunName}";
+        }
+
+        if ($kelasName) {
+            $filename .= "_kelas-{$kelasName}";
+        }
+
+        if ($kategoriName) {
+            $filename .= "_kategori-{$kategoriName}";
+        }
+
+        $filename .= ".pdf";
+
+        $pdf = Pdf::loadView('dashboard.konseling.exports.konseling_pdf', compact('konseling', 'request', 'tahun'))
+            ->setPaper('A4', 'landscape');
+
+        return $pdf->download($filename);
+    }
+
+
+    public function downloadExcel(Request $request)
+    {
+        $konseling = Konseling::with(['siswa', 'kategoriKonseling', 'jawaban', 'jawaban.ratings'])
+            ->when($request->today, function ($q) use ($request) {
+                if ($request->today == '1') {
+                    $q->whereDate('tanggal_konseling', today());
+                } elseif ($request->today == '7') {
+                    $q->whereDate('tanggal_konseling', '>=', Carbon::now()->subDays(7));
+                }
+            })
+            ->when($request->bulan, fn($q) => $q->whereMonth('tanggal_konseling', (int) $request->bulan))
+            ->when($request->tahun, fn($q) => $q->whereYear('tanggal_konseling', (int) $request->tahun))
+            ->when($request->kelas, fn($q) => $q->whereHas('siswa', fn($q) => $q->where('kelas_id', $request->kelas)))
+            ->when($request->kategori, fn($q) => $q->where('kategori_konseling_id', $request->kategori))
+            ->get();
+
+        if ($konseling->isEmpty()) {
+            return redirect()->back()->with('no-data', 'Data tidak ditemukan berdasarkan filter yang dipilih.');
+        }
+
+        $kelasName = null;
+        $kategoriName = null;
+        $bulanName = null;
+        $tahunName = null;
+
+        $bulanIndo = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember',
+        ];
+
+        if ($request->kelas) {
+            $kelasModel = Kelas::find($request->kelas);
+            $kelasName = $kelasModel ? "{$kelasModel->tingkat}" : null;
+        }
+
+        if ($request->kategori) {
+            $kategoriModel = KategoriKonseling::find($request->kategori);
+            $kategoriName = $kategoriModel ? Str::slug($kategoriModel->nama_kategori) : null;
+        }
+
+        if ($request->bulan !== null && $request->bulan !== '') {
+            $bulan = (int) $request->bulan;
+            if ($bulan >= 1 && $bulan <= 12) {
+                $bulanName = $bulanIndo[$bulan];
+            }
+        }
+
+        if ($request->tahun !== null && $request->tahun !== '') {
+            $tahunName = (int) $request->tahun;
+        }
+
+        $timestamp = now()->format('Ymd_His');
+        $filename = "{$timestamp}_konseling";
+
+        if ($request->today == '1') {
+            $filename .= '_hari-ini';
+        } elseif ($request->today == '7') {
+            $filename .= '_7-hari-terakhir';
+        }
+
+        if ($bulanName) {
+            $filename .= "_bulan-{$bulanName}";
+        }
+
+        if ($tahunName) {
+            $filename .= "_tahun-{$tahunName}";
+        }
+
+        if ($kelasName) {
+            $filename .= "_kelas-{$kelasName}";
+        }
+
+        if ($kategoriName) {
+            $filename .= "_kategori-{$kategoriName}";
+        }
+
+        $filename .= ".xlsx";
+
+        return Excel::download(new KonselingExport($request->all()), $filename);
+    }
+
+
     // Siswa ==========================================================================
     public function siswaKonseling()
     {
@@ -177,11 +378,12 @@ class KonselingController extends Controller
     {
         $title = 'Riwayat Konseling';
         $konseling = Konseling::where('siswa_id', Auth::user()->userable->id)
-            ->with('status', 'jawaban', 'jawaban.ratings')
+            ->with('status', 'jawaban', 'jawaban.ratings', 'kategoriKonseling')
             ->orderBy('tanggal_konseling', 'desc')
             ->get();
+        $kategoriKonseling = KategoriKonseling::all();
 
-        return view('frontend.konseling.riwayat', compact('title', 'konseling'));
+        return view('frontend.konseling.riwayat', compact('title', 'konseling', 'kategoriKonseling'));
     }
 
     public function siswaUpdateKonseling(Request $request, $id)
@@ -205,7 +407,7 @@ class KonselingController extends Controller
         $konseling->update([
             'judul' => $request->judul,
             'isi_konseling' => $request->isi_konseling,
-            'kategori_konseling' => $request->kategori_konseling,
+            'kategori_konseling_id' => $request->kategori_konseling,
             'tanggal_konseling' => now(),
         ]);
 

@@ -170,6 +170,8 @@ Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
     Route::put('/konseling/{id}/update', [KonselingController::class, 'adminUpdate'])->name('admin.konseling.update');
     Route::get('/konseling/{id}/show', [KonselingController::class, 'adminShow'])->name('admin.konseling.show');
     Route::delete('/konseling/{id}', [KonselingController::class, 'adminDestroy'])->name('admin.konseling.destroy');
+    Route::get('/admin/konseling/download/excel', [KonselingController::class, 'downloadExcel'])->name('admin.konseling.download.excel');
+    Route::get('/admin/konseling/download/pdf', [KonselingController::class, 'downloadPdf'])->name('admin.konseling.download.pdf');
     Route::post('/siswa-konseling', [KonselingController::class, 'siswaKonseling'])->name('siswa.konseling.store');
 
     Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel');

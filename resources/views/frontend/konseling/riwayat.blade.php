@@ -155,8 +155,6 @@
                                             </div>
                                         </div>
 
-
-
                                         {{-- delete --}}
                                         <form action="{{ route('siswa.konseling.destroy', $k->id) }}" method="POST"
                                             class="d-inline form-delete">
@@ -219,6 +217,11 @@
                                                         style="word-break: break-word; overflow-wrap: break-word;">
                                                         <strong>Topik yang Disampaikan:</strong>
                                                         <p>{{ $k->judul }}</p>
+
+                                                        <strong>Topik Konseling:</strong>
+                                                        <p>{{ $k->kategoriKonseling->nama_kategori }}
+                                                            ({{ strtolower($k->kategoriKonseling->contoh_kategori) }})
+                                                        </p>
 
                                                         <strong>Cerita Lengkap:</strong>
                                                         <p>{!! $k->isi_konseling !!}</p>

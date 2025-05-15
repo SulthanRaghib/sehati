@@ -289,7 +289,7 @@
                         callbacks: {
                             title: function(tooltipItems) {
                                 // Tampilkan label kategori sesuai index
-                                return `Bulan: ${chartLabels[tooltipItems[0].dataIndex]}`;
+                                return `Tanggal : ${chartLabels[tooltipItems[0].dataIndex]}`;
                             },
                             label: function(tooltipItem) {
                                 return `Jumlah Konseling: ${tooltipItem.raw}`;
