@@ -42,11 +42,11 @@ class AdminController extends Controller
         $blokQuery = Konseling::query();
 
         if ($blok_bulan) {
-            $blokQuery->whereMonth('created_at', $blok_bulan);
+            $blokQuery->whereMonth('tanggal_konseling', $blok_bulan);
         }
 
         if ($blok_tahun) {
-            $blokQuery->whereYear('created_at', $blok_tahun);
+            $blokQuery->whereYear('tanggal_konseling', $blok_tahun);
         }
 
         $konselings = $blokQuery->get();
@@ -63,12 +63,12 @@ class AdminController extends Controller
                 $end = Carbon::create($blok_tahun, $blok_bulan, $day)->endOfDay();
 
                 $chartLabels[] = $day;
-                $chartData[] = $konselings->whereBetween('created_at', [$start, $end])->count();
+                $chartData[] = $konselings->whereBetween('tanggal_konseling', [$start, $end])->count();
             }
         } elseif ($blok_tahun && !$blok_bulan) {
             for ($m = 1; $m <= 12; $m++) {
                 $count = $konselings->filter(function ($item) use ($m) {
-                    return $item->created_at->month == $m;
+                    return $item->tanggal_konseling->month == $m;
                 })->count();
 
                 $chartLabels[] = DateTime::createFromFormat('!m', $m)->format('F');
@@ -83,7 +83,7 @@ class AdminController extends Controller
                 $end = Carbon::create($blok_tahun, $blok_bulan, $day)->endOfDay();
 
                 $chartLabels[] = $day;
-                $chartData[] = $konselings->whereBetween('created_at', [$start, $end])->count();
+                $chartData[] = $konselings->whereBetween('tanggal_konseling', [$start, $end])->count();
             }
         } else {
             // Default: bulan dan tahun saat ini
@@ -96,7 +96,7 @@ class AdminController extends Controller
                 $end = Carbon::create($blok_tahun, $blok_bulan, $day)->endOfDay();
 
                 $chartLabels[] = $day;
-                $chartData[] = Konseling::whereBetween('created_at', [$start, $end])->count();
+                $chartData[] = Konseling::whereBetween('tanggal_konseling', [$start, $end])->count();
             }
         }
 
@@ -104,11 +104,11 @@ class AdminController extends Controller
         $topQuery = Konseling::query();
 
         if ($donat_bulan) {
-            $topQuery->whereMonth('created_at', $donat_bulan);
+            $topQuery->whereMonth('tanggal_konseling', $donat_bulan);
         }
 
         if ($donat_tahun) {
-            $topQuery->whereYear('created_at', $donat_tahun);
+            $topQuery->whereYear('tanggal_konseling', $donat_tahun);
         }
 
         $topSiswa = $topQuery->with('siswa')
