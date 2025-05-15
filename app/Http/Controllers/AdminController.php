@@ -68,7 +68,8 @@ class AdminController extends Controller
         } elseif ($blok_tahun && !$blok_bulan) {
             for ($m = 1; $m <= 12; $m++) {
                 $count = $konselings->filter(function ($item) use ($m) {
-                    return $item->tanggal_konseling->month == $m;
+                    $tanggal = Carbon::parse($item->tanggal_konseling);
+                    return $tanggal->month == $m;
                 })->count();
 
                 $chartLabels[] = DateTime::createFromFormat('!m', $m)->format('F');

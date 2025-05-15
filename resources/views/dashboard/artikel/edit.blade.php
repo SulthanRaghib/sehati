@@ -112,7 +112,7 @@
                                                                     alt="Gambar Artikel" class="img-fluid"
                                                                     style="max-height: 300px; object-fit: cover; width: 100%;">
                                                             @else
-                                                                <span class="badge bg-danger">Tidak ada gambar</span>
+                                                                <span class="text-danger">Tidak ada gambar</span>
                                                             @endif
                                                         </div>
                                                     </div>

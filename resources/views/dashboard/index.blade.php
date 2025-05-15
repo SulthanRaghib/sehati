@@ -76,22 +76,22 @@
                             @endif
                         </h5>
 
-                        @php
-                            $selectedBulan = request('blok_bulan', now()->month);
-                            $selectedTahun = request('blok_tahun', now()->year);
-                        @endphp
-
                         <!-- Form Filter Grafik Batang -->
+                        @php
+                            $selectedBulan = request()->has('blok_bulan') ? request('blok_bulan') : now()->month;
+                            $selectedTahun = request()->has('blok_tahun') ? request('blok_tahun') : now()->year;
+                        @endphp
                         <form method="GET" action="{{ route('admin.dashboard') }}"
                             class="row g-3 justify-content-center mb-4">
                             <div class="d-flex justify-content-center align-items-end mb-3" style="gap: 1rem;">
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <select name="blok_bulan" class="form-select" id="bulanSelect">
-                                            <option value="">-- Semua Bulan --</option>
+                                            <option value="" {{ $selectedBulan === '' ? 'selected' : '' }}>Semua
+                                                Bulan</option>
                                             @for ($i = 1; $i <= 12; $i++)
                                                 <option value="{{ $i }}"
-                                                    {{ $i == $selectedBulan ? 'selected' : '' }}>
+                                                    {{ (int) $selectedBulan === $i ? 'selected' : '' }}>
                                                     {{ DateTime::createFromFormat('!m', $i)->format('F') }}
                                                 </option>
                                             @endfor
@@ -102,7 +102,7 @@
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <select name="blok_tahun" class="form-select" id="tahunSelect">
-                                            <option value="">-- Semua Tahun --</option>
+                                            <option value="">Semua Tahun</option>
                                             @for ($y = now()->year; $y >= 2020; $y--)
                                                 <option value="{{ $y }}"
                                                     {{ $y == $selectedTahun ? 'selected' : '' }}>
@@ -147,19 +147,19 @@
                             @endif
                         </h5>
 
-                        @php
-                            $selectedDonatBulan = request('donat_bulan', now()->month);
-                            $selectedDonatTahun = request('donat_tahun', now()->year);
-                        @endphp
-
                         <!-- Form Filter Grafik Donat -->
+                        @php
+                            $selectedDonatBulan = request()->has('donat_bulan') ? request('donat_bulan') : now()->month;
+                            $selectedDonatTahun = request()->has('donat_tahun') ? request('donat_tahun') : now()->year;
+                        @endphp
                         <form method="GET" action="{{ route('admin.dashboard') }}"
                             class="row g-3 justify-content-center mb-4">
                             <div class="d-flex justify-content-center align-items-end mb-3" style="gap: 1rem;">
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <select name="donat_bulan" class="form-select" id="bulanDonutSelect">
-                                            <option value="">-- Semua Bulan --</option>
+                                            <option value="" {{ $selectedDonatBulan === '' ? 'selected' : '' }}>Semua
+                                                Bulan</option>
                                             @for ($i = 1; $i <= 12; $i++)
                                                 <option value="{{ $i }}"
                                                     {{ $i == $selectedDonatBulan ? 'selected' : '' }}>
@@ -173,7 +173,8 @@
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <select name="donat_tahun" class="form-select" id="tahunDonutSelect">
-                                            <option value="">-- Semua Tahun --</option>
+                                            <option value="" {{ $selectedDonatTahun === '' ? 'selected' : '' }}>Semua
+                                                Tahun</option>
                                             @for ($y = now()->year; $y >= 2020; $y--)
                                                 <option value="{{ $y }}"
                                                     {{ $y == $selectedDonatTahun ? 'selected' : '' }}>
@@ -289,7 +290,7 @@
                         callbacks: {
                             title: function(tooltipItems) {
                                 // Tampilkan label kategori sesuai index
-                                return `Tanggal : ${chartLabels[tooltipItems[0].dataIndex]}`;
+                                return `${chartLabels[tooltipItems[0].dataIndex]}`;
                             },
                             label: function(tooltipItem) {
                                 return `Jumlah Konseling: ${tooltipItem.raw}`;

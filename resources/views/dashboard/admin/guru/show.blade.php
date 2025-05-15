@@ -54,7 +54,7 @@
                                             <h5 class="mb-0">{{ $guru->nama }}</h5>
                                             <p class="text-muted mb-1">{{ $guru->nip }}</p>
                                             <span class="badge bg-primary">
-                                                <p class="text-white mb-0" style="font-size: 0.8rem">{!! $guru->user->email ?? '<span class="badge bg-danger">Email belum diisi</span>' !!}
+                                                <p class="text-white mb-0" style="font-size: 0.8rem">{!! $guru->user->email ?? '<span class="text-danger">Email belum diisi</span>' !!}
                                                 </p>
                                             </span>
                                             <p class="text-muted">
@@ -96,7 +96,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th>Agama</th>
-                                                    <td>: {!! $guru->agama->nama ?? '<span class="badge bg-danger">Belum Diisi</span>' !!}</td>
+                                                    <td>: {!! $guru->agama->nama ?? '<span class="text-danger">Belum Diisi</span>' !!}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Alamat</th>
@@ -104,7 +104,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th>Pendidikan Terakhir</th>
-                                                    <td>: {!! $guru->pendidikanTerakhir->nama ?? '<span class="badge bg-danger">Belum Diisi</span>' !!}</td>
+                                                    <td>: {!! $guru->pendidikanTerakhir->nama ?? '<span class="text-danger">Belum Diisi</span>' !!}</td>
                                                 </tr>
                                             </table>
                                         </div>

@@ -179,7 +179,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $a->kategoriKonseling->nama_kategori }}</td>
                                         <td>{{ Str::limit($a->isi_konseling, 40, '...') }}</td>
-                                        <td>{!! $a->siswa->nama ?? '<span class="badge bg-danger">Tidak ada siswa</span>' !!}</td>
+                                        <td>{!! $a->siswa->nama ?? '<span class="text-danger">Tidak ada siswa</span>' !!}</td>
                                         @php
                                             $date = \Carbon\Carbon::parse($a->tanggal_konseling);
                                             $formattedDate = $date->format('d-M-Y');
@@ -235,7 +235,7 @@
                                                                 <table class="table table-borderless">
                                                                     <tr>
                                                                         <th style="width: 25%;">Nama</th>
-                                                                        <td>{!! $a->siswa->nama ?? '<span class="badge bg-danger">Tidak ada siswa</span>' !!}</td>
+                                                                        <td>{!! $a->siswa->nama ?? '<span class="text-danger">Tidak ada siswa</span>' !!}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Judul</th>

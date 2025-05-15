@@ -29,10 +29,10 @@
                             style="display: none; width: 120px; height: 120px;">
                     </div>
 
-                    <h5 class="mb-1"> {!! $siswa->nama ?? '<span class="badge bg-danger">Nama belum diisi</span>' !!}</h5>
-                    <p class="text-muted mb-1">{!! $siswa->nisn ?? '<span class="badge bg-danger">NISN belum tersedia</span>' !!}</p>
-                    <p class="text-muted mb-2 fw-bold">{!! $siswa->user->email ?? '<span class="badge bg-danger">Email belum diisi</span>' !!}</p>
-                    <p class="text-muted"><small>{!! $siswa->alamat ?? '<span class="badge bg-danger">Alamat belum diisi</span>' !!}</small></p>
+                    <h5 class="mb-1"> {!! $siswa->nama ?? '<span class="text-danger">Nama belum diisi</span>' !!}</h5>
+                    <p class="text-muted mb-1">{!! $siswa->nisn ?? '<span class="text-danger">NISN belum tersedia</span>' !!}</p>
+                    <p class="text-muted mb-2 fw-bold">{!! $siswa->user->email ?? '<span class="text-danger">Email belum diisi</span>' !!}</p>
+                    <p class="text-muted"><small>{!! $siswa->alamat ?? '<span class="text-danger">Alamat belum diisi</span>' !!}</small></p>
 
                     {{-- <h6 class="mt-4 text-primary fw-bold">Social Links</h6>
                     <div class="d-flex justify-content-center gap-2">
@@ -69,15 +69,15 @@
                         <table class="table table-sm table-borderless">
                             <tr>
                                 <th width="30%">Nama</th>
-                                <td>: {!! $siswa->nama ?? '<span class="badge bg-danger">Nama belum diisi</span>' !!}</td>
+                                <td>: {!! $siswa->nama ?? '<span class="text-danger">Nama belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>NISN</th>
-                                <td>: {!! $siswa->nisn ?? '<span class="badge bg-danger">NISN belum tersedia</span>' !!}</td>
+                                <td>: {!! $siswa->nisn ?? '<span class="text-danger">NISN belum tersedia</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Tempat, Tanggal Lahir</th>
-                                <td>: {!! $siswa->tempat_lahir ?? '<span class="badge bg-danger">Tempat Lahir belum diisi</span>' !!}, {!! $siswa->tanggal_lahir ?? '<span class="badge bg-danger">Tanggal Lahir belum diisi</span>' !!}</td>
+                                <td>: {!! $siswa->tempat_lahir ?? '<span class="text-danger">Tempat Lahir belum diisi</span>' !!}, {!! $siswa->tanggal_lahir ?? '<span class="text-danger">Tanggal Lahir belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Jenis Kelamin</th>
@@ -85,15 +85,15 @@
                             </tr>
                             <tr>
                                 <th>No HP</th>
-                                <td>: {!! $siswa->no_hp ?? '<span class="badge bg-danger">No HP belum diisi</span>' !!}</td>
+                                <td>: {!! $siswa->no_hp ?? '<span class="text-danger">No HP belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Kelas</th>
-                                <td>: {!! $siswa->kelas->tingkat ?? '<span class="badge bg-danger">Kelas belum diisi</span>' !!}</td>
+                                <td>: {!! $siswa->kelas->tingkat ?? '<span class="text-danger">Kelas belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Agama</th>
-                                <td>: {!! $siswa->agama->nama ?? '<span class="badge bg-danger">Agama belum diisi</span>' !!}</td>
+                                <td>: {!! $siswa->agama->nama ?? '<span class="text-danger">Agama belum diisi</span>' !!}</td>
                             </tr>
                         </table>
                     </div>
@@ -103,19 +103,19 @@
                         <table class="table table-sm table-borderless">
                             <tr>
                                 <th>NIK Ayah</th>
-                                <td>: {!! $siswa->nik_ayah ?? '<span class="badge bg-danger">NIK Ayah belum diisi</span>' !!}</td>
+                                <td>: {!! $siswa->nik_ayah ?? '<span class="text-danger">NIK Ayah belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Nama Ayah</th>
-                                <td>: {!! $siswa->nama_ayah ?? '<span class="badge bg-danger">Nama Ayah belum diisi</span>' !!}</td>
+                                <td>: {!! $siswa->nama_ayah ?? '<span class="text-danger">Nama Ayah belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Tempat, Tgl Lahir</th>
-                                <td>: {!! $siswa->tempat_lahir_ayah ?? '<span class="badge bg-danger">Tempat Lahir belum diisi</span>' !!}, {!! $siswa->tanggal_lahir_ayah ?? '<span class="badge bg-danger">Tanggal Lahir belum diisi</span>' !!}</td>
+                                <td>: {!! $siswa->tempat_lahir_ayah ?? '<span class="text-danger">Tempat Lahir belum diisi</span>' !!}, {!! $siswa->tanggal_lahir_ayah ?? '<span class="text-danger">Tanggal Lahir belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Pekerjaan</th>
-                                <td>: {!! $siswa->pekerjaanAyah->nama ?? '<span class="badge bg-danger">Pekerjaan belum diisi</span>' !!}</td>
+                                <td>: {!! $siswa->pekerjaanAyah->nama ?? '<span class="text-danger">Pekerjaan belum diisi</span>' !!}</td>
                             </tr>
                         </table>
                     </div>
@@ -125,19 +125,19 @@
                         <table class="table table-sm table-borderless">
                             <tr>
                                 <th>NIK Ibu</th>
-                                <td>: {!! $siswa->nik_ibu ?? '<span class="badge bg-danger">NIK Ibu belum diisi</span>' !!}</td>
+                                <td>: {!! $siswa->nik_ibu ?? '<span class="text-danger">NIK Ibu belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Nama Ibu</th>
-                                <td>: {!! $siswa->nama_ibu ?? '<span class="badge bg-danger">Nama Ibu belum diisi</span>' !!}</td>
+                                <td>: {!! $siswa->nama_ibu ?? '<span class="text-danger">Nama Ibu belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Tempat, Tgl Lahir</th>
-                                <td>: {!! $siswa->tempat_lahir_ibu ?? '<span class="badge bg-danger">Tempat Lahir belum diisi</span>' !!}, {!! $siswa->tanggal_lahir_ibu ?? '<span class="badge bg-danger">Tanggal Lahir belum diisi</span>' !!}</td>
+                                <td>: {!! $siswa->tempat_lahir_ibu ?? '<span class="text-danger">Tempat Lahir belum diisi</span>' !!}, {!! $siswa->tanggal_lahir_ibu ?? '<span class="text-danger">Tanggal Lahir belum diisi</span>' !!}</td>
                             </tr>
                             <tr>
                                 <th>Pekerjaan</th>
-                                <td>: {!! $siswa->pekerjaanIbu->nama ?? '<span class="badge bg-danger">Pekerjaan belum diisi</span>' !!}</td>
+                                <td>: {!! $siswa->pekerjaanIbu->nama ?? '<span class="text-danger">Pekerjaan belum diisi</span>' !!}</td>
                             </tr>
                         </table>
                     </div>

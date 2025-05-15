@@ -36,150 +36,168 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <!-- Avatar & Identitas -->
-                                <div class="col-12 col-md-4 mb-3">
-                                    <div class="card h-100 text-center p-3" style="justify-content: center;">
-                                        <h5 class="card-title">Identitas Siswa</h5>
-                                        <div class="d-flex justify-content-center">
-                                            @if ($siswa->avatar)
-                                                <img src="{{ asset('storage/' . $siswa->avatar) }}"
-                                                    class="rounded-circle mb-3" alt="avatar-siswa"
-                                                    style="width: 150px; height: 150px; object-fit: cover;">
-                                            @else
-                                                <img src="{{ asset('mine/img/user_default.png') }}"
-                                                    class="rounded-circle mb-3" alt="avatar-siswa"
-                                                    style="width: 150px; height: 150px; object-fit: cover;">
-                                            @endif
+                            <div class="tab-pane fade show active" id="preview" role="tabpanel">
+                                <div class="row">
+                                    <!-- Sidebar Identitas Siswa -->
+                                    <div class="col-md-4">
+                                        <div class="card shadow-sm mb-4">
+                                            <div class="card-body text-center position-relative">
+                                                <div class="position-relative d-inline-block">
+                                                    @if ($siswa->avatar)
+                                                        <img src="{{ asset('storage/' . $siswa->avatar) }}"
+                                                            class="rounded-circle img-thumbnail mb-3" width="150"
+                                                            height="150" alt="Avatar Siswa" style="object-fit: cover;">
+                                                    @else
+                                                        <img src="{{ asset('mine/img/user_default.png') }}"
+                                                            class="rounded-circle img-thumbnail mb-3" width="150"
+                                                            height="150" alt="Avatar Default">
+                                                    @endif
+                                                </div>
+
+                                                <h5 class="mb-1">{!! $siswa->nama ?? '<span class="text-danger">Nama belum diisi</span>' !!}</h5>
+                                                <p class="text-muted mb-1">NISN: {!! $siswa->nisn ?? '<span class="text-danger">NISN belum diisi</span>' !!}</p>
+                                                <span class="badge bg-primary d-inline-block mb-2">
+                                                    {!! $siswa->user->email ?? '<span class="text-danger">Email belum diisi</span>' !!}
+                                                </span>
+                                                <p class="text-muted mb-0">
+                                                    Tahun Akademik:
+                                                    {!! $siswa->tahunAkademik->periode ?? '<span class="text-danger">Tahun Akademik tidak tersedia</span>' !!}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <h5 class="card-title">{{ $siswa->nama }}</h5>
-                                        <p class="card-text mb-1">NISN: {{ $siswa->nisn }}</p>
-                                        <p class="card-text">Tahun Akademik:
-                                            {!! $siswa->tahunAkademik->periode ?? '<span class="badge bg-danger">Tahun Akademik tidak tersedia</span>' !!}
-                                        </p>
                                     </div>
-                                </div>
 
-                                <!-- Data Detail -->
-                                <div class="col-12 col-md-8">
-                                    <table class="table table-borderless">
-                                        <tr>
-                                            <td>Email</td>
-                                            <td>:</td>
-                                            <td>
-                                                {!! $siswa->user->email ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>NISN</td>
-                                            <td>:</td>
-                                            <td>{!! $siswa->nisn ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Nama</td>
-                                            <td>:</td>
-                                            <td>{!! $siswa->nama ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
-                                        </tr>
-                                        @php
-                                            $tingkat = $siswa->kelas->tingkat ?? null;
-                                            $kelasText = match ($tingkat) {
-                                                '10' => 'Sepuluh',
-                                                '11' => 'Sebelas',
-                                                '12' => 'Dua Belas',
-                                                default => '-',
-                                            };
-                                        @endphp
-                                        <tr>
-                                            <td>Kelas</td>
-                                            <td>:</td>
-                                            <td>
-                                                {!! $tingkat ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}
-                                                ({{ $kelasText }})
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tempat, Tanggal Lahir</td>
-                                            <td>:</td>
-                                            <td>{{ $siswa->tempat_lahir }}, {{ $siswa->tanggal_lahir }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Jenis Kelamin</td>
-                                            <td>:</td>
-                                            <td>{{ $siswa->jenis_kelamin }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Agama</td>
-                                            <td>:</td>
-                                            <td>{!! $siswa->agama->nama ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Alamat</td>
-                                            <td>:</td>
-                                            <td>{!! $siswa->alamat ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
+                                    <!-- Detail Biodata Siswa -->
+                                    <div class="col-md-8">
+                                        <div class="card shadow-sm">
+                                            <div class="card-header border-bottom d-flex justify-content-between mb-3">
+                                                <ul class="nav nav-tabs card-header-tabs" id="profileTabs" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" id="details-tab" data-bs-toggle="tab"
+                                                            href="#details" role="tab" aria-controls="details"
+                                                            aria-selected="true">
+                                                            Biodata Siswa
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="ayah-tab" data-bs-toggle="tab"
+                                                            href="#ayah" role="tab" aria-controls="ayah"
+                                                            aria-selected="false">
+                                                            Data Ayah
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="ibu-tab" data-bs-toggle="tab"
+                                                            href="#ibu" role="tab" aria-controls="ibu"
+                                                            aria-selected="false">
+                                                            Data Ibu
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
 
-                            <hr>
+                                            <div class="card-body tab-content">
+                                                <!-- Biodata Siswa -->
+                                                <div class="tab-pane fade show active" id="details" role="tabpanel"
+                                                    aria-labelledby="details-tab">
+                                                    <table class="table table-sm table-borderless">
+                                                        <tr>
+                                                            <th width="30%">Nama</th>
+                                                            <td>: {!! $siswa->nama ?? '<span class="text-danger m-0">Nama belum diisi</span>' !!}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>NISN</th>
+                                                            <td>: {!! $siswa->nisn ?? '<span class="text-danger m-0">NISN belum diisi</span>' !!}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Kelas</th>
+                                                            @php
+                                                                $tingkat = $siswa->kelas->tingkat ?? null;
+                                                                $kelasText = match ($tingkat) {
+                                                                    '10' => 'Sepuluh',
+                                                                    '11' => 'Sebelas',
+                                                                    '12' => 'Dua Belas',
+                                                                    default => '-',
+                                                                };
+                                                            @endphp
+                                                            <td>: {!! $tingkat ?? '<span class="text-danger m-0">Kelas belum diisi</span>' !!} ({{ $kelasText }})</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Tempat, Tanggal Lahir</th>
+                                                            <td>: {!! $siswa->tempat_lahir ?? '<span class="text-danger m-0">Tempat lahir belum diisi</span>' !!}, {!! $siswa->tanggal_lahir ?? '<span class="text-danger m-0">Tanggal lahir belum diisi</span>' !!}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Jenis Kelamin</th>
+                                                            <td>: {!! $siswa->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' !!}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Agama</th>
+                                                            <td>: {!! $siswa->agama->nama ?? '<span class="text-danger m-0">Agama belum diisi</span>' !!}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Alamat</th>
+                                                            <td>: {!! $siswa->alamat ?? '<span class="text-danger m-0">Alamat belum diisi</span>' !!}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h5>Data Ayah</h5>
-                                    <table class="table table-borderles">
-                                        <tr>
-                                            <td>NIK</td>
-                                            <td>:</td>
-                                            <td>{!! $siswa->nik_ayah ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Nama</td>
-                                            <td>:</td>
-                                            <td>{!! $siswa->nama_ayah ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tempat, Tanggal Lahir</td>
-                                            <td>:</td>
-                                            <td>{!! $siswa->tempat_lahir_ayah ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!},
-                                                {!! $siswa->tanggal_lahir_ayah ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Pekerjaan Ayah</td>
-                                            <td>:</td>
-                                            <td>{!! $siswa->pekerjaanAyah->nama ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="col-md-6">
-                                    <h5>Data Ibu</h5>
-                                    <table class="table table-borderles">
-                                        <tr>
-                                            <td>NIK</td>
-                                            <td>:</td>
-                                            <td>{!! $siswa->nik_ibu ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Nama</td>
-                                            <td>:</td>
-                                            <td>{!! $siswa->nama_ibu ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tempat, Tanggal Lahir</td>
-                                            <td>:</td>
-                                            <td>{!! $siswa->tempat_lahir_ibu ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!},
-                                                {!! $siswa->tanggal_lahir_ibu ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Pekerjaan Ibu</td>
-                                            <td>:</td>
-                                            <td>{!! $siswa->pekerjaanIbu->nama ?? '<span class="badge bg-danger">Siswa belum mengisi datanya</span>' !!}</td>
-                                        </tr>
-                                    </table>
+                                                <!-- Data Ayah -->
+                                                <div class="tab-pane fade" id="ayah" role="tabpanel"
+                                                    aria-labelledby="ayah-tab">
+                                                    <table class="table table-borderless table-sm">
+                                                        <tr>
+                                                            <th width="30%">NIK Ayah</th>
+                                                            <td>: {!! $siswa->nik_ayah ?? '<span class="text-danger m-0">NIK Ayah belum diisi</span>' !!}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Nama Ayah</th>
+                                                            <td>: {!! $siswa->nama_ayah ?? '<span class="text-danger m-0">Nama Ayah belum diisi</span>' !!}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Tempat, Tanggal Lahir Ayah</th>
+                                                            <td>: {!! $siswa->tempat_lahir_ayah ?? '<span class="text-danger m-0">Tempat lahir Ayah belum diisi</span>' !!}, {!! $siswa->tanggal_lahir_ayah ?? '<span class="text-danger m-0">Tanggal lahir Ayah belum diisi</span>' !!}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Pekerjaan Ayah</th>
+                                                            <td>: {!! $siswa->pekerjaanAyah->nama ?? '<span class="text-danger m-0">Pekerjaan Ayah belum diisi</span>' !!}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+
+                                                <!-- Data Ibu -->
+                                                <div class="tab-pane fade" id="ibu" role="tabpanel"
+                                                    aria-labelledby="ibu-tab">
+                                                    <table class="table table-borderless table-sm">
+                                                        <tr>
+                                                            <th width="30%">NIK Ibu</th>
+                                                            <td>: {!! $siswa->nik_ibu ?? '<span class="text-danger m-0">NIK Ibu belum diisi</span>' !!}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Nama Ibu</th>
+                                                            <td>: {!! $siswa->nama_ibu ?? '<span class="text-danger m-0">Nama Ibu belum diisi</span>' !!}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Tempat, Tanggal Lahir Ibu</th>
+                                                            <td>: {!! $siswa->tempat_lahir_ibu ?? '<span class="text-danger m-0">Tempat lahir Ibu belum diisi</span>' !!}, {!! $siswa->tanggal_lahir_ibu ?? '<span class="text-danger m-0">Tanggal lahir Ibu belum diisi</span>' !!}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Pekerjaan Ibu</th>
+                                                            <td>: {!! $siswa->pekerjaanIbu->nama ?? '<span class="text-danger m-0">Pekerjaan Ibu belum diisi</span>' !!}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </section>
     </div>
 @endsection

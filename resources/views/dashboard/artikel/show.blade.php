@@ -54,10 +54,10 @@
                                 {{-- Metadata Artikel --}}
                                 <div class="d-flex flex-wrap justify-content-center gap-3 mb-4 align-items-center">
                                     <span class="badge bg-success">
-                                        <i class="bi bi-tag-fill me-1"></i> {!! $artikel->artikelKategori->nama ?? '<span class="badge bg-danger">Tidak ada kategori</span>' !!}
+                                        <i class="bi bi-tag-fill me-1"></i> {!! $artikel->artikelKategori->nama ?? '<span class="text-danger">Tidak ada kategori</span>' !!}
                                     </span>
                                     <span class="badge bg-primary">
-                                        <i class="bi bi-person-fill me-1"></i> {!! $artikel->user->name ?? '<span class="badge bg-info">Tidak ada penulis</span>' !!}
+                                        <i class="bi bi-person-fill me-1"></i> {!! $artikel->user->name ?? '<span class="text-danger">Tidak ada penulis</span>' !!}
                                     </span>
                                     <span class="badge bg-secondary">
                                         <i class="bi bi-globe2 me-1"></i> {!! $artikel->sumber ?? '<span class="text-danger">Tidak ada sumber</span>' !!}

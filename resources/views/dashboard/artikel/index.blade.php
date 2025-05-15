@@ -62,7 +62,7 @@
                                         <tr>
                                             {{-- @dd($a) --}}
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{!! $a->artikelKategori->nama ?? '<span class="badge bg-danger">Tidak ada kategori</span>' !!}</td>
+                                            <td>{!! $a->artikelKategori->nama ?? '<span class="text-danger">Tidak ada kategori</span>' !!}</td>
                                             <td>{{ $a->judul }}</td>
                                             @php
                                                 $date = \Carbon\Carbon::parse($a->tanggal_terbit);

@@ -61,12 +61,12 @@
                                         id="preview" style="display: none; width: 120px; height: 120px;">
                                 </div>
 
-                                <h5 class="mb-1">{!! $guru->nama ?? '<span class="badge bg-danger">Nama belum diisi</span>' !!}</h5>
-                                <p class="text-muted mb-1">{!! $guru->nip ?? '<span class="badge bg-danger">NIP belum diisi</span>' !!}</p>
+                                <h5 class="mb-1">{!! $guru->nama ?? '<span class="text-danger">Nama belum diisi</span>' !!}</h5>
+                                <p class="text-muted mb-1">{!! $guru->nip ?? '<span class="text-danger">NIP belum diisi</span>' !!}</p>
                                 <span class="badge bg-primary">
-                                    <p class="text-white mb-0" style="font-size: 0.8rem">{!! $guru->user->email ?? '<span class="badge bg-danger">Email belum diisi</span>' !!}</p>
+                                    <p class="text-white mb-0" style="font-size: 0.8rem">{!! $guru->user->email ?? '<span class="text-danger">Email belum diisi</span>' !!}</p>
                                 </span>
-                                <p class="text-muted"><small>{!! $guru->alamat ?? '<span class="badge bg-danger">Alamat belum diisi</span>' !!}</small></p>
+                                <p class="text-muted"><small>{!! $guru->alamat ?? '<span class="text-danger">Alamat belum diisi</span>' !!}</small></p>
                             </div>
                         </div>
                     </div>
@@ -88,15 +88,15 @@
                                     <table class="table table-sm table-borderless">
                                         <tr>
                                             <th width="30%">Nama</th>
-                                            <td>: {!! $guru->nama ?? '<span class="badge bg-danger">Nama belum diisi</span>' !!}</td>
+                                            <td>: {!! $guru->nama ?? '<span class="text-danger">Nama belum diisi</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <th>NIP</th>
-                                            <td>: {!! $guru->nip ?? '<span class="badge bg-danger">NIP belum diisi</span>' !!}</td>
+                                            <td>: {!! $guru->nip ?? '<span class="text-danger">NIP belum diisi</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <th>Tempat, Tanggal Lahir</th>
-                                            <td>: {!! $guru->tempat_lahir ?? '<span class="badge bg-danger">Tempat Lahir belum diisi</span>' !!}, {!! $guru->tanggal_lahir ?? '<span class="badge bg-danger">Tanggal Lahir belum diisi</span>' !!}</td>
+                                            <td>: {!! $guru->tempat_lahir ?? '<span class="text-danger">Tempat Lahir belum diisi</span>' !!}, {!! $guru->tanggal_lahir ?? '<span class="text-danger">Tanggal Lahir belum diisi</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <th>Jenis Kelamin</th>
@@ -104,15 +104,15 @@
                                         </tr>
                                         <tr>
                                             <th>Agama</th>
-                                            <td>: {!! $guru->agama->nama ?? '<span class="badge bg-danger">Agama belum diisi</span>' !!}</td>
+                                            <td>: {!! $guru->agama->nama ?? '<span class="text-danger">Agama belum diisi</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <th>Pendidikan Terakhir</th>
-                                            <td>: {!! $guru->pendidikanTerakhir->nama ?? '<span class="badge bg-danger">Belum diisi</span>' !!}</td>
+                                            <td>: {!! $guru->pendidikanTerakhir->nama ?? '<span class="text-danger">Belum diisi</span>' !!}</td>
                                         </tr>
                                         <tr>
                                             <th>Alamat</th>
-                                            <td>: {!! $guru->alamat ?? '<span class="badge bg-danger">Alamat belum diisi</span>' !!}</td>
+                                            <td>: {!! $guru->alamat ?? '<span class="text-danger">Alamat belum diisi</span>' !!}</td>
                                         </tr>
                                     </table>
                                 </div>
