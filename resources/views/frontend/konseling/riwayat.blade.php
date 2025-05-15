@@ -39,7 +39,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>No</th>
-                            <th>Topik yang Disampaikan</th>
+                            <th>Topik Konseling</th>
                             <th style="width: 50%">Cerita Lengkapmu</th>
                             <th>Status</th>
                             <th>Tanggal Konseling</th>
@@ -50,7 +50,7 @@
                         @foreach ($konseling as $k)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $k->judul }}</td>
+                                <td>{{ $k->kategoriKonseling->nama_kategori }}</td>
                                 <td>{{ Str::limit($k->isi_konseling, 100) }}</td>
                                 <td>
                                     @switch($k->status_id)
@@ -70,7 +70,7 @@
                                             <span class="badge bg-dark">Tidak Diketahui</span>
                                     @endswitch
                                 </td>
-                                <td>{{ \Carbon\Carbon::parse($k->tanggal_konseling)->format('d M Y H:i') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($k->tanggal_konseling)->format('d-M-Y') }}</td>
                                 <td>
                                     @if ($k->status_id == 1)
                                         {{-- Tombol Edit Konseling --}}
@@ -110,29 +110,19 @@
                                                                     id="kategori_konseling{{ $k->id }}">
                                                                     <option value="">-- Pilih topik yang paling sesuai
                                                                         --</option>
-                                                                    <option value="akademik"
-                                                                        {{ $k->kategori_konseling == 'akademik' ? 'selected' : '' }}>
-                                                                        Akademik (tugas, nilai, pelajaran)</option>
-                                                                    <option value="non-akademik"
-                                                                        {{ $k->kategori_konseling == 'non-akademik' ? 'selected' : '' }}>
-                                                                        Non-Akademik (organisasi, kegiatan, minat)</option>
-                                                                    <option value="keluarga"
-                                                                        {{ $k->kategori_konseling == 'keluarga' ? 'selected' : '' }}>
-                                                                        Keluarga (hubungan dengan orang tua atau saudara)
-                                                                    </option>
-                                                                    <option value="pertemanan"
-                                                                        {{ $k->kategori_konseling == 'pertemanan' ? 'selected' : '' }}>
-                                                                        Pertemanan (konflik, merasa dijauhi, dll)</option>
-                                                                    <option value="pribadi"
-                                                                        {{ $k->kategori_konseling == 'pribadi' ? 'selected' : '' }}>
-                                                                        Pribadi (perasaan atau hal-hal pribadi lainnya)
-                                                                    </option>
+                                                                    @foreach ($kategoriKonseling as $kategori)
+                                                                        <option value="{{ $kategori->id }}"
+                                                                            {{ $k->kategori_konseling_id == $kategori->id ? 'selected' : '' }}>
+                                                                            {{ $kategori->nama_kategori }}
+                                                                            ({{ strtolower($kategori->contoh_kategori) }})
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
 
 
                                                             <div class="mb-3">
-                                                                <label for="judul{{ $k->id }}" class="form-label">
+                                                                <label for="judul{{ $k->id }}"
+                                                                    class="form-label fw-semibold">
                                                                     Kalimat singkat tentang apa yang kamu rasakan saat ini
                                                                 </label>
                                                                 <input type="text" class="form-control"
@@ -142,7 +132,7 @@
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="isi_konseling{{ $k->id }}"
-                                                                    class="form-label">
+                                                                    class="form-label fw-semibold">
                                                                     Ceritakan kembali Lebih Lengkap di Sini, Kami Siap
                                                                     Mendengarkan
                                                                 </label>
