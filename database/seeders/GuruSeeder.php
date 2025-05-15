@@ -27,7 +27,18 @@ class GuruSeeder extends Seeder
             ],
             // Admin
             [
-                'nip' => '0110221007',
+                'nip' => '0987654321',
+                'nama' => 'Taupik',
+                'jenis_kelamin' => 'L',
+                'tempat_lahir' => 'Jakarta',
+                'tanggal_lahir' => '1990-01-01',
+                'alamat' => 'Jl. Kebayoran Lama No. 1',
+                'agama_id' => 1,
+                'pendidikan_terakhir_id' => 9,
+            ],
+            // Developer
+            [
+                'nip' => '0110221008',
                 'nama' => 'Developer',
                 'jenis_kelamin' => 'L',
                 'tempat_lahir' => 'Cilegon',

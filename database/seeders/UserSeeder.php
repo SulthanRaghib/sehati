@@ -18,7 +18,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $guruBk = Guru::where('nama', 'Sari Hartini')->first();
-        $devloper = Guru::where('nama', 'Developer')->first();
+        $admin = Guru::where('nama', 'Taupik')->first();
+        $developer = Guru::where('nama', 'Developer')->first();
         $siswa = Siswa::all();
 
         // User untuk Guru BK
@@ -49,12 +50,24 @@ class UserSeeder extends Seeder
 
         // User untuk Kepala Sekolah (Admin)
         User::create([
-            'name' => $devloper->nama,
+            'name' => $admin->nama,
             'email' => 'admin@gmail.com',
             'password' => Hash::make('admin#123'),
             'role' => 'admin', // Admin tetap bagian dari guru
             'added_by_role' => 'admin',
-            'userable_id' => $devloper->id,
+            'userable_id' => $admin->id,
+            'userable_type' => Guru::class,
+            'remember_token' => Str::random(60),
+        ]);
+
+        // User untuk Developer
+        User::create([
+            'name' => $developer->nama,
+            'email' => 'developer@gmail.com',
+            'password' => Hash::make('developer#123'),
+            'role' => 'developer',
+            'added_by_role' => 'admin',
+            'userable_id' => $developer->id,
             'userable_type' => Guru::class,
             'remember_token' => Str::random(60),
         ]);

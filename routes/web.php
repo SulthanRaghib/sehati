@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/artikels', [HomeController::class, 'artikelSiswa'])->name('siswa.artikel');
 Route::get('/detail-artikel/{slug}', [ArtikelController::class, 'viewArtikel'])->name('siswa.artikel.show');
 
-Route::middleware(['auth', 'role:siswa'])->group(function () {
+Route::middleware(['auth', 'role:siswa,developer'])->group(function () {
     Route::get('/siswa-konseling', [KonselingController::class, 'siswaKonseling'])->name('siswa.konseling');
     Route::post('/siswa-konseling/store', [KonselingController::class, 'siswaKonselingStore'])->name('siswa.konselingStore');
     Route::get('/siswa-konseling/history', [KonselingController::class, 'siswaKonselingRiwayat'])->name('siswa.konselingRiwayat');
@@ -78,7 +78,7 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/siswa/dashboard', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
 });
 
-Route::middleware(['auth', 'role:admin,gurubk'])->group(function () {
+Route::middleware(['auth', 'role:admin,gurubk,developer'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     // Data Sekolah

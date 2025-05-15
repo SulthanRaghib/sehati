@@ -34,6 +34,8 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('admin.dashboard');
         } elseif ($role == 'gurubk') {
             return redirect()->route('admin.dashboard');
+        } elseif ($role == 'developer') {
+            return redirect()->route('admin.dashboard');
         } elseif ($role == 'siswa') {
             return redirect()->route('home');
         }

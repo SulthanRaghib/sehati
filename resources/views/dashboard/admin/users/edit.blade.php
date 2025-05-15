@@ -93,7 +93,7 @@
                                                         <select class="form-control @error('role') is-invalid @enderror"
                                                             id="role" name="role">
                                                             <option value="">-- Pilih Role --</option>
-                                                            @if (Auth::user()->role == 'admin')
+                                                            @if (Auth::user()->role == 'admin' || Auth::user()->role == 'developer')
                                                                 <option value="admin"
                                                                     {{ $user->role == 'admin' ? 'selected' : '' }}>
                                                                     Admin</option>

@@ -36,7 +36,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="text-subtitle text-muted">Manage Data Users</p>
-                        @if (Auth::user()->role == 'admin')
+                        @if (Auth::user()->role == 'admin' || Auth::user()->role == 'developer')
                             <a href="{{ route('admin.users.create') }}" class="btn btn-primary">Add User</a>
                         @endif
                     </div>
@@ -77,7 +77,8 @@
                                                     class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" title="Edit User"><i
                                                         class="bi bi-pencil"></i></a>
-                                                @if (Auth::user()->role == 'admin')
+                                                @if (Auth::user()->role == 'admin' || Auth::user()->role == 'developer')
+                                                    {{-- delete user --}}
                                                     <form action="{{ route('admin.users.destroy', $u->id) }}" method="post"
                                                         class="d-inline form-delete">
                                                         @csrf

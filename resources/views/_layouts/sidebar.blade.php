@@ -30,7 +30,7 @@
                 </li>
 
                 <li class="sidebar-title">Data Sekolah</li>
-                @if (Auth::user()->role == 'admin')
+                @if (Auth::user()->role == 'admin' || Auth::user()->role == 'developer')
                     <li class="sidebar-item {{ Route::is('admin.guru*') ? 'active' : '' }}">
                         <a href="{{ route('admin.guru') }}" class="sidebar-link">
                             <i data-feather="user" width="20"></i>
@@ -61,7 +61,7 @@
                     </a>
                 </li>
 
-                @if (Auth::user()->role == 'admin')
+                @if (Auth::user()->role == 'admin' || Auth::user()->role == 'developer')
                     <li class="sidebar-item has-sub {{ Route::is('admin.*') || Route::is('guru.*') ? 'active' : '' }}">
                         <a href="#" class="sidebar-link">
                             <i data-feather="layers" width="20"></i>

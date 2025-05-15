@@ -168,26 +168,36 @@ class AdminController extends Controller
         $title = 'Data Pengguna';
         $u = Auth::user();
 
-        if ($u->role === 'admin') {
-            $user = User::all(); // Admin melihat semua user
+        // Dasar query: tidak tampilkan user dengan role developer
+        $query = User::where('role', '!=', 'developer');
+
+        if ($u->role === 'developer') {
+            $user = User::all();
+        } elseif ($u->role === 'admin') {
+            // Admin melihat semua user kecuali developer
+            $user = $query->get();
         } elseif ($u->role === 'gurubk') {
-            // Guru BK hanya melihat user yang dibuat oleh sesama Guru BK
-            $user = User::where('added_by_role', 'gurubk')
-                ->orWhere(function ($query) {
-                    $query->where('added_by_role', 'admin')
-                        ->where('userable_type', 'App\\Models\\Siswa'); // Pastikan hanya siswa
-                })
-                ->get();
+            // Guru BK hanya lihat user dari gurubk atau siswa dari admin
+            $user = $query->where(function ($q) {
+                $q->where('added_by_role', 'gurubk')
+                    ->orWhere(function ($sub) {
+                        $sub->where('added_by_role', 'admin')
+                            ->where('userable_type', 'App\\Models\\Siswa');
+                    });
+            })->get();
+        } else {
+            // Default: tidak ada akses
+            $user = collect();
         }
 
-        // Tambahkan flag apakah bisa reset password
+        // Tandai user yang bisa di-reset password-nya
         $user->map(function ($item) use ($u) {
             $item->canReset = false;
 
             if ($u->role === 'admin') {
-                $item->canReset = true; // Admin bisa semua
+                $item->canReset = true; // Admin bisa reset semua (kecuali sudah difilter di atas)
             } elseif ($u->role === 'gurubk' && in_array($item->role, ['guru', 'siswa'])) {
-                $item->canReset = true; // Guru BK hanya guru/siswa
+                $item->canReset = true; // Guru BK hanya bisa reset milik guru/siswa
             }
 
             return $item;
@@ -344,10 +354,23 @@ class AdminController extends Controller
     public function guru()
     {
         $title = 'Data Guru';
-        $guru = Guru::orderBy('created_at', 'desc')->get();
+        $user = Auth::user();
+
+        $guruQuery = Guru::with('user')->orderBy('created_at', 'desc');
+
+        if ($user->role === 'admin') {
+            // Filter: Hanya ambil guru yang tidak punya user dengan role developer
+            $guruQuery->whereHas('user', function ($query) {
+                $query->where('role', '!=', 'developer');
+            });
+        }
+
+        // Jika developer, ambil semua
+        $guru = $guruQuery->get();
 
         return view('dashboard.admin.guru.index', compact('title', 'guru'));
     }
+
 
     public function showGuru($id)
     {
