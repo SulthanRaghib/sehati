@@ -154,7 +154,7 @@
                                                                         id="detailLabel{{ $k->id }}">Detail
                                                                         Konseling</h5>
                                                                     <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close"
+                                                                        data-bs-dismiss="modal" aria-label="Close"
                                                                         id="cancel">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
@@ -218,8 +218,8 @@
                                                                         id="ratingLabel{{ $k->id }}">Detail
                                                                         Konseling</h5>
                                                                     <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close"
-                                                                        id="cancel">
+                                                                        data-bs-dismiss="modal" aria-label="Close"
+                                                                        id="close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
@@ -321,7 +321,7 @@
                             <h4 class="modal-title" id="myModalLabel33">
                                 Balas Pesan Konseling | {{ $k->siswa->nama }}
                             </h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
                                 id="cancel">
                                 <span aria-hidden="true">&times;</span>
                             </button>

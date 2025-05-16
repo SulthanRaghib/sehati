@@ -73,33 +73,45 @@
                                                         title="Hapus Kelas"><i data-feather="trash"></i></button>
 
                                                     <script>
-                                                        // Seleksi semua tombol hapus
                                                         document.querySelectorAll('.btn-delete').forEach(button => {
                                                             button.addEventListener('click', function(e) {
                                                                 e.preventDefault(); // Mencegah form langsung terkirim
 
-                                                                // Ambil form terdekat dari tombol
                                                                 const form = this.closest('.form-delete');
 
-                                                                // Tampilkan SweetAlert
+                                                                // Konfirmasi Pertama
                                                                 Swal.fire({
-                                                                    title: 'Apakah Anda yakin?',
-                                                                    text: "Data Kelas ini akan dihapus secara permanen!",
+                                                                    title: 'Yakin ingin menghapus?',
+                                                                    text: "Menghapus KELAS ini juga akan menghapus SEMUA SISWA yang terkait!",
                                                                     icon: 'warning',
                                                                     showCancelButton: true,
                                                                     confirmButtonColor: '#d33',
                                                                     cancelButtonColor: '#3085d6',
-                                                                    confirmButtonText: 'Ya, Hapus!',
+                                                                    confirmButtonText: 'Lanjutkan',
                                                                     cancelButtonText: 'Batal'
-                                                                }).then((result) => {
-                                                                    if (result.isConfirmed) {
-                                                                        // Submit form jika dikonfirmasi
-                                                                        form.submit();
+                                                                }).then((firstResult) => {
+                                                                    if (firstResult.isConfirmed) {
+                                                                        // Konfirmasi Kedua
+                                                                        Swal.fire({
+                                                                            title: 'Konfirmasi Terakhir!',
+                                                                            text: "Data akan dihapus permanen. Anda tidak bisa mengembalikannya!",
+                                                                            icon: 'error',
+                                                                            showCancelButton: true,
+                                                                            confirmButtonColor: '#d33',
+                                                                            cancelButtonColor: '#6c757d',
+                                                                            confirmButtonText: 'Ya, Hapus Sekarang!',
+                                                                            cancelButtonText: 'Batal'
+                                                                        }).then((secondResult) => {
+                                                                            if (secondResult.isConfirmed) {
+                                                                                form.submit(); // Submit form jika benar-benar yakin
+                                                                            }
+                                                                        });
                                                                     }
                                                                 });
                                                             });
                                                         });
                                                     </script>
+
                                                 </form>
                                             </td>
                                         </tr>

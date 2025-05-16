@@ -27,7 +27,7 @@
                 <h4 class="modal-title" id="myModalLabel33">
                     Balas Pesan Konseling | {{ $a->siswa->nama }}
                 </h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cancel">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
 

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('jenis_kelamin', ['L', 'P']);
             $table->string('alamat')->nullable();
             $table->foreignId('agama_id')->nullable()->constrained('agamas');
-            $table->foreignId('kelas_id')->constrained('kelas');
+            $table->foreignId('kelas_id')->constrained('kelas')->onDelete('cascade');
             $table->string('no_hp')->nullable();
             $table->string('foto')->nullable();
             $table->string('nik_ayah', 20)->nullable();

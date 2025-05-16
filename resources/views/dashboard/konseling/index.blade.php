@@ -168,6 +168,7 @@
                                     <th>Topik Konseling</th>
                                     <th>Pesan Konseling</th>
                                     <th>Nama Siswa</th>
+                                    <th>Kelas</th>
                                     <th>Tanggal Konseling</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -180,6 +181,7 @@
                                         <td>{{ $a->kategoriKonseling->nama_kategori }}</td>
                                         <td>{{ Str::limit($a->isi_konseling, 40, '...') }}</td>
                                         <td>{!! $a->siswa->nama ?? '<span class="text-danger">Tidak ada siswa</span>' !!}</td>
+                                        <td>{!! $a->siswa->kelas->tingkat ?? '<span class="text-danger">Tidak ada kelas</span>' !!}</td>
                                         @php
                                             $date = \Carbon\Carbon::parse($a->tanggal_konseling);
                                             $formattedDate = $date->format('d-M-Y');
@@ -201,6 +203,62 @@
                                                     data-bs-placement="top" data-bs-title="Balas Konseling">
                                                     <i class="bi bi-reply-fill"></i>
                                                 </a>
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Lihat Detail"
+                                                    onclick="new bootstrap.Modal(document.getElementById('detailModal{{ $a->id }}')).show()">
+                                                    <i class="bi bi-eye-fill"></i>
+                                                </button>
+                                                <!-- Modal Detail -->
+                                                <div class="modal fade" id="detailModal{{ $a->id }}" tabindex="-1"
+                                                    aria-labelledby="detailLabel{{ $a->id }}" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="detailLabel{{ $a->id }}">Detail
+                                                                    Konseling</h5>
+                                                                <button type="button" class="close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"
+                                                                    id="close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+
+                                                            </div>
+                                                            <div class="modal-body"
+                                                                style="word-break: break-word; overflow-wrap: break-word;">
+                                                                <table class="table table-borderless">
+                                                                    <tr>
+                                                                        <th style="width: 25%;">Nama</th>
+                                                                        <td>{!! $a->siswa->nama ?? '<span class="text-danger">Tidak ada siswa</span>' !!}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Topik Konseling</th>
+                                                                        <td>{{ $a->kategoriKonseling->nama_kategori }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Judul</th>
+                                                                        <td>{{ $a->judul }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Pesan Konseling</th>
+                                                                        <td>{{ $a->isi_konseling }}</td>
+                                                                    </tr>
+                                                                </table>
+
+                                                                {{-- alert rating belom ada --}}
+                                                                <div class="alert alert-warning mt-3">
+                                                                    Mohon segera menjawab konseling ini
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Tutup</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             @elseif($a->status_id == '2')
                                                 <a href="{{ route('admin.konseling.edit', $a->id) }}"
                                                     class="btn btn-sm btn-warning" data-bs-toggle="tooltip"
@@ -208,8 +266,8 @@
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
 
-                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="Lihat Detail"
+                                                <button type="button" class="btn btn-sm btn-info"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat Detail"
                                                     onclick="new bootstrap.Modal(document.getElementById('detailModal{{ $a->id }}')).show()">
                                                     <i class="bi bi-eye-fill"></i>
                                                 </button>
@@ -225,8 +283,8 @@
                                                                     id="detailLabel{{ $a->id }}">Detail
                                                                     Konseling</h5>
                                                                 <button type="button" class="close"
-                                                                    data-dismiss="modal" aria-label="Close"
-                                                                    id="cancel">
+                                                                    data-bs-dismiss="modal" aria-label="Close"
+                                                                    id="close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
                                                             </div>
@@ -238,6 +296,10 @@
                                                                         <td>{!! $a->siswa->nama ?? '<span class="text-danger">Tidak ada siswa</span>' !!}</td>
                                                                     </tr>
                                                                     <tr>
+                                                                        <th>Topik Konseling</th>
+                                                                        <td>{{ $a->kategoriKonseling->nama_kategori }}</td>
+                                                                    </tr>
+                                                                    <tr>
                                                                         <th>Judul</th>
                                                                         <td>{{ $a->judul }}</td>
                                                                     </tr>
@@ -247,8 +309,11 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Jawaban</th>
-                                                                        <td>
-                                                                            {!! $a->jawaban->isi_jawaban !!}</td>
+                                                                        <td>{!! $a->jawaban->isi_jawaban !!}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Dijawab Oleh</th>
+                                                                        <td>{{ $a->jawaban->guru->nama }}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Tanggal Jawaban</th>
@@ -289,10 +354,11 @@
                                                                     id="ratingLabel{{ $a->id }}">Detail
                                                                     Konseling</h5>
                                                                 <button type="button" class="close"
-                                                                    data-dismiss="modal" aria-label="Close"
-                                                                    id="cancel">
+                                                                    data-bs-dismiss="modal" aria-label="Close"
+                                                                    id="close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
+
                                                             </div>
                                                             <div class="modal-body">
                                                                 <table class="table table-borderless">
@@ -301,18 +367,24 @@
                                                                         <td>{{ $a->siswa->nama }}</td>
                                                                     </tr>
                                                                     <tr>
+                                                                        <th>Topik Konseling</th>
+                                                                        <td>{{ $a->kategoriKonseling->nama_kategori }}</td>
+                                                                    </tr>
+                                                                    <tr>
                                                                         <th>Judul</th>
                                                                         <td>{{ $a->judul }}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Pesan Konseling</th>
-                                                                        <td>
-                                                                            {{ $a->isi_konseling }}</td>
+                                                                        <td>{{ $a->isi_konseling }}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Jawaban</th>
-                                                                        <td>
-                                                                            {!! $a->jawaban->isi_jawaban !!}</td>
+                                                                        <td>{!! $a->jawaban->isi_jawaban !!}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th>Dijawab Oleh</th>
+                                                                        <td>{{ $a->jawaban->guru->nama }}</td>
                                                                     </tr>
                                                                     @php
                                                                         $rating = $a->jawaban->ratings ?? null;
@@ -367,7 +439,8 @@
                         <h4 class="modal-title" id="myModalLabel33">
                             Tambah Konseling
                         </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cancel">
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
+                            id="cancel">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>

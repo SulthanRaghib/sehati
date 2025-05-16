@@ -53,7 +53,7 @@
 
     /* Warna header tabel */
     table.dataTable thead {
-        background-color: #5A8DEE;
+        background-color: #5a8eeeb4;
         color: white;
         font-weight: bold;
     }
