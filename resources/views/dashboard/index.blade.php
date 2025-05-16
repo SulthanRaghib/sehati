@@ -115,7 +115,8 @@
 
 
         <div class="row">
-            <div class="col-md-12 col-lg-7">
+            <div class="col-12 col-md-10 col-lg-7 mx-auto">
+
                 <!-- Grafik Konseling Bulanan -->
                 <div class="card mt-4 shadow-sm border-0 rounded-4">
                     <div class="card-body px-4 py-4">
@@ -180,14 +181,16 @@
 
 
                         <!-- Chart -->
-                        <div class="chart-container" style="position: relative; height: 40vh; width: 100%;">
-                            <canvas id="grafikKonseling"></canvas>
+                        <div style="overflow-x: auto;">
+                            <div style="min-width: 600px;">
+                                <canvas id="grafikKonseling" style="height: 40vh;"></canvas>
+                            </div>
                         </div>
 
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-5">
+            <div class="col-12 col-md-10 col-lg-5 mx-auto">
                 <!-- Grafik Donat Konseling -->
                 <div class="card mt-4 shadow-sm border-0 rounded-4">
                     <div class="card-body px-4 py-4">
@@ -330,7 +333,8 @@
                     backgroundColor: '#4e73df',
                     borderRadius: 6,
                     barPercentage: 0.5,
-                    categoryPercentage: 1.2
+                    categoryPercentage: 1.2,
+                    barThickness: 20 // <-- Tambahkan ini
                 }]
             };
 
@@ -348,7 +352,6 @@
                     tooltip: {
                         callbacks: {
                             title: function(tooltipItems) {
-                                // Tampilkan label kategori sesuai index
                                 return `${chartLabels[tooltipItems[0].dataIndex]}`;
                             },
                             label: function(tooltipItem) {
@@ -364,7 +367,14 @@
                             display: false
                         },
                         ticks: {
-                            padding: 8
+                            padding: 8,
+                            font: {
+                                size: 12
+                            }, // Tambahan opsional untuk HP
+                            // callback: function(value, index) {
+                            //     return index % 2 === 0 ? this.getLabelForValue(value) :
+                            //         ''; // Tampilkan label selang-seling
+                            // }
                         }
                     },
                     y: {
@@ -373,7 +383,10 @@
                         ticks: {
                             stepSize: 1,
                             precision: 0,
-                            padding: 8
+                            padding: 8,
+                            font: {
+                                size: 12
+                            }
                         },
                         grid: {
                             color: '#e9ecef',
@@ -389,6 +402,7 @@
                 options: options
             });
         }
+
 
         // Grafik Donat
         const donutCtx = document.getElementById('donutChart')?.getContext('2d');
