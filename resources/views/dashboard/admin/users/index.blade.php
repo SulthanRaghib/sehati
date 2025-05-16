@@ -36,7 +36,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="text-subtitle text-muted">Manage Data Users</p>
-                        @if (Auth::user()->role == 'admin' || Auth::user()->role == 'developer')
+                        @if (Auth::user()->role == 'developer')
                             <a href="{{ route('admin.users.create') }}" class="btn btn-primary">Add User</a>
                         @endif
                     </div>
@@ -100,7 +100,7 @@
                                                                         // Konfirmasi pertama jika user adalah admin
                                                                         Swal.fire({
                                                                             title: 'Perhatian!',
-                                                                            text: "User ini memiliki role admin. Anda yakin ingin menghapusnya?",
+                                                                            text: "User ini memiliki role ADMIN. Anda yakin ingin menghapusnya?",
                                                                             icon: 'warning',
                                                                             showCancelButton: true,
                                                                             confirmButtonColor: '#d33',
@@ -112,7 +112,7 @@
                                                                                 // Jika user tetap ingin menghapus, munculkan konfirmasi kedua
                                                                                 Swal.fire({
                                                                                     title: 'Konfirmasi Akhir',
-                                                                                    text: "Data User akan dihapus secara permanen! Anda benar-benar yakin?",
+                                                                                    text: "Data User ADMIN akan dihapus secara permanen! Anda benar-benar yakin?",
                                                                                     icon: 'error',
                                                                                     showCancelButton: true,
                                                                                     confirmButtonColor: '#d33',

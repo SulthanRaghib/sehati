@@ -263,7 +263,17 @@ class AdminController extends Controller
                 Rule::in(['App\Models\Guru', 'App\Models\Siswa']),
             ],
         ], [
+            'name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 6 karakter.',
+            'role.required' => 'Role wajib diisi.',
+            'userable_type.required' => 'Tipe pemilik user wajib diisi.',
+            'userable_id.required' => 'ID pemilik user wajib diisi.',
             'userable_id.unique' => 'Pemilik user ini sudah terdaftar untuk tipe data yang sama.',
+            'userable_id.required' => 'Pemilik user wajib diisi.',
         ]);
 
         User::create([
@@ -322,7 +332,17 @@ class AdminController extends Controller
                 })->ignore($id),
             ],
         ], [
+            'name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 6 karakter.',
+            'role.required' => 'Role wajib diisi.',
+            'userable_type.required' => 'Tipe pemilik user wajib diisi.',
+            'userable_id.required' => 'ID pemilik user wajib diisi.',
             'userable_id.unique' => 'Pemilik user ini sudah terdaftar untuk tipe data yang sama.',
+            'userable_id.required' => 'Pemilik user wajib diisi.',
         ]);
 
         $user = User::findOrFail($id);
