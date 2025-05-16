@@ -46,6 +46,21 @@ class KonselingController extends Controller
             ->when($request->filled('kategori'), function ($query) use ($request) {
                 $query->where('kategori_konseling_id', $request->kategori);
             })
+            ->when($request->filled('status'), function ($query) use ($request) {
+                // Ubah string "2,3" menjadi array [2, 3]
+                $statusArray = explode(',', $request->status);
+
+                // Pastikan hanya angka valid
+                $statusArray = array_filter($statusArray, fn($value) => is_numeric($value));
+
+                // Gunakan whereIn jika lebih dari satu, otherwise where biasa
+                if (count($statusArray) > 1) {
+                    $query->whereIn('status_id', $statusArray);
+                } elseif (count($statusArray) === 1) {
+                    $query->where('status_id', $statusArray[0]);
+                }
+            })
+
             ->orderByRaw('
             CASE
                 WHEN EXISTS (SELECT 1 FROM jawabans WHERE jawabans.konseling_id = konselings.id) THEN 1

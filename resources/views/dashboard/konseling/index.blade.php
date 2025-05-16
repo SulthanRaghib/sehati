@@ -67,7 +67,7 @@
                         <form method="GET" action="{{ route('admin.konseling') }}" class="p-4">
                             <div class="row gy-3 gx-4 align-items-end">
 
-                                <div class="col-lg-3 col-md-4">
+                                <div class="col-lg-2 col-md-4">
                                     <label class="form-label">Kategori Konseling</label>
                                     <select name="kategori" class="form-select">
                                         <option value="">Semua Kategori</option>
@@ -80,7 +80,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-lg-3 col-md-4">
+                                <div class="col-lg-2 col-md-4">
                                     <label class="form-label">Kelas</label>
                                     <select name="kelas" class="form-select">
                                         <option value="">Semua Kelas</option>
@@ -131,6 +131,21 @@
                                         </option>
                                         <option value="7" {{ request('today') == '7' ? 'selected' : '' }}>7 Hari
                                             Terakhir</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-2 col-md-4">
+                                    <label class="form-label">Status</label>
+                                    <select name="status" class="form-select">
+                                        <option value="">Semua Status</option>
+                                        <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Belum
+                                            Dijawab</option>
+                                        <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>Sudah
+                                            Dibalas</option>
+                                        <option value="3" {{ request('status') == '3' ? 'selected' : '' }}>Selesai
+                                        </option>
+                                        <option value="2,3" {{ request('status') == '2,3' ? 'selected' : '' }}>Sudah
+                                            Dibalas & Selesai</option>
                                     </select>
                                 </div>
 
@@ -209,8 +224,9 @@
                                                     <i class="bi bi-eye-fill"></i>
                                                 </button>
                                                 <!-- Modal Detail -->
-                                                <div class="modal fade" id="detailModal{{ $a->id }}" tabindex="-1"
-                                                    aria-labelledby="detailLabel{{ $a->id }}" aria-hidden="true">
+                                                <div class="modal fade" id="detailModal{{ $a->id }}"
+                                                    tabindex="-1" aria-labelledby="detailLabel{{ $a->id }}"
+                                                    aria-hidden="true">
                                                     <div class="modal-dialog modal-lg">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
