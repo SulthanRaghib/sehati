@@ -112,43 +112,45 @@
                                                     data-bs-placement="top" title="Edit Siswa">
                                                     <i class="bi bi-pencil-fill"></i>
                                                 </a>
-                                                <form action="{{ route('admin.siswa.destroy', $s->id) }}" method="post"
-                                                    class="d-inline form-delete">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="button" class="btn btn-sm btn-danger btn-delete"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Hapus Siswa"><i class="bi bi-trash-fill"></i></button>
+                                                @if (Auth::user()->role == 'admin' || Auth::user()->role == 'developer')
+                                                    <form action="{{ route('admin.siswa.destroy', $s->id) }}"
+                                                        method="post" class="d-inline form-delete">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="Hapus Siswa"><i class="bi bi-trash-fill"></i></button>
 
-                                                    <script>
-                                                        // Seleksi semua tombol hapus
-                                                        document.querySelectorAll('.btn-delete').forEach(button => {
-                                                            button.addEventListener('click', function(e) {
-                                                                e.preventDefault(); // Mencegah form langsung terkirim
+                                                        <script>
+                                                            // Seleksi semua tombol hapus
+                                                            document.querySelectorAll('.btn-delete').forEach(button => {
+                                                                button.addEventListener('click', function(e) {
+                                                                    e.preventDefault(); // Mencegah form langsung terkirim
 
-                                                                // Ambil form terdekat dari tombol
-                                                                const form = this.closest('.form-delete');
+                                                                    // Ambil form terdekat dari tombol
+                                                                    const form = this.closest('.form-delete');
 
-                                                                // Tampilkan SweetAlert
-                                                                Swal.fire({
-                                                                    title: 'Apakah Anda yakin?',
-                                                                    text: "Data Siswa ini akan dihapus secara permanen!",
-                                                                    icon: 'warning',
-                                                                    showCancelButton: true,
-                                                                    confirmButtonColor: '#d33',
-                                                                    cancelButtonColor: '#3085d6',
-                                                                    confirmButtonText: 'Ya, Hapus!',
-                                                                    cancelButtonText: 'Batal'
-                                                                }).then((result) => {
-                                                                    if (result.isConfirmed) {
-                                                                        // Submit form jika dikonfirmasi
-                                                                        form.submit();
-                                                                    }
+                                                                    // Tampilkan SweetAlert
+                                                                    Swal.fire({
+                                                                        title: 'Apakah Anda yakin?',
+                                                                        text: "Data Siswa ini akan dihapus secara permanen!",
+                                                                        icon: 'warning',
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor: '#d33',
+                                                                        cancelButtonColor: '#3085d6',
+                                                                        confirmButtonText: 'Ya, Hapus!',
+                                                                        cancelButtonText: 'Batal'
+                                                                    }).then((result) => {
+                                                                        if (result.isConfirmed) {
+                                                                            // Submit form jika dikonfirmasi
+                                                                            form.submit();
+                                                                        }
+                                                                    });
                                                                 });
                                                             });
-                                                        });
-                                                    </script>
-                                                </form>
+                                                        </script>
+                                                    </form>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
