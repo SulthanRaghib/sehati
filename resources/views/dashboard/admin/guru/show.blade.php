@@ -38,7 +38,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <!-- Sidebar Foto -->
-                                <div class="col-md-4">
+                                <div class="col-12 col-md-12 col-lg-4">
                                     <div class="card shadow-sm mb-4">
                                         <div class="card-body text-center">
                                             @if ($guru->foto)
@@ -65,7 +65,7 @@
                                 </div>
 
                                 <!-- Detail Informasi -->
-                                <div class="col-md-8">
+                                <div class="col-12 col-md-12 col-lg-8">
                                     <div class="card shadow-sm">
                                         <div class="card-header">
                                             <h3 class="mb-0" style="font-weight: bold;">Informasi Lengkap Guru</h3>
@@ -76,7 +76,7 @@
                                         <div class="card-body">
                                             <table class="table table-sm table-borderless mb-0">
                                                 <tr>
-                                                    <th style="width: 25%;">Nama Lengkap</th>
+                                                    <th style="width: 30%;">Nama Lengkap</th>
                                                     <td>: {{ $guru->nama }}</td>
                                                 </tr>
                                                 <tr>
