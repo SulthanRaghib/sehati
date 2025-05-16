@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agama;
 use App\Models\Guru;
+use App\Models\PendidikanTerakhir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -25,11 +27,45 @@ class GuruController extends Controller
     {
         $title = 'Profile Guru';
         $user = Auth::user();
+        $list_agama = Agama::all();
+        $list_pendidikan = PendidikanTerakhir::all();
 
         $guru = $user->userable_type == 'App\Models\Guru' ? $user->userable : null;
-
-        return view('dashboard.admin.guru.profile', compact('title', 'user', 'guru'));
+        return view('dashboard.admin.guru.profile', compact('title', 'user', 'guru', 'list_agama', 'list_pendidikan'));
     }
+
+    public function updateProfile(Request $request, $id)
+    {
+        $guru = Guru::findOrFail($id);
+
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'nip' => 'required|string|max:50|unique:gurus,nip,' . $guru->id,
+            'tempat_lahir' => 'required|string|max:100',
+            'tanggal_lahir' => 'required|date|before:today',
+            'jenis_kelamin' => 'required|in:L,P',
+            'agama_id' => 'required|exists:agamas,id',
+            'pendidikan_terakhir_id' => 'required|exists:pendidikan_terakhirs,id',
+            'alamat' => 'nullable|string',
+        ], [
+            'nama.required' => 'Nama tidak boleh kosong',
+            'nip.required' => 'NIP tidak boleh kosong',
+            'nip.unique' => 'NIP sudah terdaftar',
+            'tempat_lahir.max' => 'Tempat lahir maksimal 100 karakter',
+            'tanggal_lahir.date' => 'Tanggal lahir tidak valid',
+            'tanggal_lahir.before' => 'Tanggal lahir tidak boleh lebih dari hari ini',
+            'jenis_kelamin.required' => 'Jenis kelamin tidak boleh kosong',
+            'agama_id.required' => 'Agama tidak boleh kosong',
+            'agama_id.exists' => 'Agama tidak valid',
+            'pendidikan_terakhir_id.required' => 'Pendidikan terakhir tidak boleh kosong',
+            'pendidikan_terakhir_id.exists' => 'Pendidikan terakhir tidak valid',
+        ]);
+
+        $guru->update($validated);
+
+        return back()->with('success', 'Profil berhasil diperbarui.');
+    }
+
 
     public function uploadFoto(Request $request)
     {

@@ -80,9 +80,108 @@
                                         <a class="nav-link active" id="details-tab" data-bs-toggle="tab" href="#details"
                                             role="tab">Biodata Guru</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="edit-tab" data-bs-toggle="tab" href="#edit"
+                                            role="tab">Edit Profil</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="card-body tab-content">
+                                <!-- Edit Profile -->
+                                <div class="tab-pane fade" id="edit" role="tabpanel">
+                                    <form action="{{ route('guru.profile.update', $guru->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="nama">Nama</label>
+                                                    <input type="text" name="nama" id="nama" class="form-control"
+                                                        value="{{ old('nama', $guru->nama) }}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="nip">NIP</label>
+                                                    <input type="text" name="nip" id="nip" class="form-control"
+                                                        value="{{ old('nip', $guru->nip) }}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="tempat_lahir">Tempat Lahir</label>
+                                                    <input type="text" name="tempat_lahir" id="tempat_lahir"
+                                                        class="form-control"
+                                                        value="{{ old('tempat_lahir', $guru->tempat_lahir) }}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="tanggal_lahir">Tanggal Lahir</label>
+                                                    <input type="date" name="tanggal_lahir" id="tanggal_lahir"
+                                                        class="form-control"
+                                                        value="{{ old('tanggal_lahir', $guru->tanggal_lahir) }}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="jenis_kelamin">Jenis Kelamin</label>
+                                                    <select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
+                                                        <option value="L"
+                                                            {{ $guru->jenis_kelamin == 'L' ? 'selected' : '' }}>Laki-laki
+                                                        </option>
+                                                        <option value="P"
+                                                            {{ $guru->jenis_kelamin == 'P' ? 'selected' : '' }}>Perempuan
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="agama_id">Agama</label>
+                                                    <select name="agama_id" id="agama_id" class="form-control">
+                                                        @foreach ($list_agama as $agama)
+                                                            <option value="{{ $agama->id }}"
+                                                                {{ $guru->agama_id == $agama->id ? 'selected' : '' }}>
+                                                                {{ $agama->nama }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="pendidikan_terakhir_id">Pendidikan Terakhir</label>
+                                                    <select name="pendidikan_terakhir_id" id="pendidikan_terakhir_id"
+                                                        class="form-control">
+                                                        @foreach ($list_pendidikan as $pendidikan)
+                                                            <option value="{{ $pendidikan->id }}"
+                                                                {{ $guru->pendidikan_terakhir_id == $pendidikan->id ? 'selected' : '' }}>
+                                                                {{ $pendidikan->nama }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="alamat">Alamat</label>
+                                                <textarea name="alamat" id="alamat" class="form-control">{{ old('alamat', $guru->alamat) }}</textarea>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary float-right">Simpan
+                                            Perubahan</button>
+                                    </form>
+                                </div>
+
                                 <!-- Personal Details -->
                                 <div class="tab-pane fade show active" id="details" role="tabpanel">
                                     <table class="table table-sm table-borderless">
