@@ -54,6 +54,16 @@
                 </li>
 
                 <li class="sidebar-title">All Data</li>
+
+                @if (Auth::user()->role == 'admin' || Auth::user()->role == 'developer')
+                    <li class="sidebar-item {{ Route::is('admin.kelas*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.kelas') }}" class="sidebar-link">
+                            <i data-feather="layout" width="20"></i>
+                            <span style="color: black; font-weight:500">Kelas</span>
+                        </a>
+                    </li>
+                @endif
+
                 <li class="sidebar-item {{ Route::is('admin.users') ? 'active' : '' }}">
                     <a href="{{ route('admin.users') }}" class="sidebar-link">
                         <i data-feather="user" width="20"></i>
@@ -71,7 +81,6 @@
                         @php
                             $activeDataMaster =
                                 Route::is('admin.agama*') ||
-                                Route::is('admin.kelas*') ||
                                 Route::is('admin.pendidikanTerakhir*') ||
                                 Route::is('admin.pekerjaan*') ||
                                 Route::is('admin.artikelKategori*') ||
@@ -80,10 +89,10 @@
 
                         <ul class="submenu {{ $activeDataMaster ? 'active' : '' }}">
                             <li>
-                                <a href="{{ route('admin.kelas') }}">Kelas</a>
+                                <a href="{{ route('admin.kategoriKonseling') }}">Kategori Konseling</a>
                             </li>
                             <li>
-                                <a href="{{ route('admin.kategoriKonseling') }}">Kategori Konseling</a>
+                                <a href="{{ route('admin.artikelKategori') }}">Kategori Artikel</a>
                             </li>
                             <li>
                                 <a href="{{ route('admin.agama') }}">Agama</a>
@@ -93,9 +102,6 @@
                             </li>
                             <li>
                                 <a href="{{ route('admin.pendidikanTerakhir') }}">Pendidikan Terakhir</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.artikelKategori') }}">Kategori Artikel</a>
                             </li>
                         </ul>
                     </li>
