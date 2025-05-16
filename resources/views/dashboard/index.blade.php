@@ -8,38 +8,44 @@
             </p>
         </div>
         <div class="row g-4">
-            <!-- Statistik Konseling -->
-            <div class="col-md-3 d-flex align-items-stretch">
+            <!-- Total Konseling -->
+            <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-stretch">
                 <div class="card shadow-sm w-100">
                     <div class="card-header text-center bg-primary">
                         <h5 class="card-title text-white">Total Konseling</h5>
                     </div>
                     <div class="card-body text-center d-flex flex-column justify-content-center">
-                        <h1 class="text-primary">{{ $konselingCount }}</h1>
+                        <h1 class="text-primary pt-4">{{ $konselingCount }}</h1>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 d-flex align-items-stretch">
+
+            <!-- Konseling Belum di Jawab -->
+            <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-stretch">
                 <div class="card shadow-sm w-100">
-                    <div class="card-header text-center bg-success">
-                        <h5 class="card-title text-white">Konselor Aktif</h5>
+                    <div class="card-header text-center bg-danger">
+                        <h5 class="card-title text-white">Konseling Belum di Jawab</h5>
                     </div>
                     <div class="card-body text-center d-flex flex-column justify-content-center">
-                        <h1 class="text-success">{{ $guruCount }}</h1>
+                        <h1 class="text-warning pt-4">{{ $konselingPending }}</h1>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 d-flex align-items-stretch">
+
+            <!-- Siswa Pernah Konseling -->
+            <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-stretch">
                 <div class="card shadow-sm w-100">
                     <div class="card-header text-center bg-info">
                         <h5 class="card-title text-white">Siswa Pernah Konseling</h5>
                     </div>
                     <div class="card-body text-center d-flex flex-column justify-content-center">
-                        <h1 class="text-info">{{ $siswaCount }}</h1>
+                        <h1 class="text-info pt-4">{{ $siswaKonselingCount }}</h1>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 d-flex align-items-stretch">
+
+            <!-- Topik Populer -->
+            <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-stretch">
                 <div class="card shadow-sm w-100 d-flex flex-column">
                     <div class="card-header text-center bg-secondary">
                         <h5 class="card-title text-white">Topik Populer</h5>
@@ -56,7 +62,57 @@
                     </ul>
                 </div>
             </div>
+
+            <!-- Konselor Aktif -->
+            <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-stretch">
+                <div class="card shadow-sm w-100">
+                    <div class="card-header text-center bg-success">
+                        <h5 class="card-title text-white">Konselor Aktif</h5>
+                    </div>
+                    <div class="card-body text-center d-flex flex-column justify-content-center">
+                        <h1 class="text-success pt-4">{{ $guruCount }}</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Siswa -->
+            <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-stretch">
+                <div class="card shadow-sm w-100">
+                    <div class="card-header text-center bg-warning">
+                        <h5 class="card-title text-white">Total Siswa</h5>
+                    </div>
+                    <div class="card-body text-center d-flex flex-column justify-content-center">
+                        <h1 class="text-warning pt-4">{{ $siswaCount }}</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Artikel Publish -->
+            <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-stretch">
+                <div class="card shadow-sm w-100">
+                    <div class="card-header text-center bg-info">
+                        <h5 class="card-title text-white">Total Artikel Publish</h5>
+                    </div>
+                    <div class="card-body text-center d-flex flex-column justify-content-center">
+                        <h1 class="text-info pt-4">{{ $artikelPublishCount }}</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Kategori Konseling -->
+            <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-stretch">
+                <div class="card shadow-sm w-100">
+                    <div class="card-header text-center bg-secondary">
+                        <h5 class="card-title text-white">Total Kategori Konseling</h5>
+                    </div>
+                    <div class="card-body text-center d-flex flex-column justify-content-center">
+                        <h1 class="text-secondary pt-4">{{ $kategoriKonselingCount }}</h1>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
 
         <div class="row">
             <div class="col-md-12 col-lg-7">
@@ -87,7 +143,8 @@
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <select name="blok_bulan" class="form-select" id="bulanSelect">
-                                            <option value="" {{ $selectedBulan === '' ? 'selected' : '' }}>Semua
+                                            <option value="" {{ $selectedBulan === '' ? 'selected' : '' }}>
+                                                Semua
                                                 Bulan</option>
                                             @for ($i = 1; $i <= 12; $i++)
                                                 <option value="{{ $i }}"
@@ -158,7 +215,8 @@
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <select name="donat_bulan" class="form-select" id="bulanDonutSelect">
-                                            <option value="" {{ $selectedDonatBulan === '' ? 'selected' : '' }}>Semua
+                                            <option value="" {{ $selectedDonatBulan === '' ? 'selected' : '' }}>
+                                                Semua
                                                 Bulan</option>
                                             @for ($i = 1; $i <= 12; $i++)
                                                 <option value="{{ $i }}"
@@ -173,7 +231,8 @@
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <select name="donat_tahun" class="form-select" id="tahunDonutSelect">
-                                            <option value="" {{ $selectedDonatTahun === '' ? 'selected' : '' }}>Semua
+                                            <option value="" {{ $selectedDonatTahun === '' ? 'selected' : '' }}>
+                                                Semua
                                                 Tahun</option>
                                             @for ($y = now()->year; $y >= 2020; $y--)
                                                 <option value="{{ $y }}"

@@ -18,7 +18,7 @@ class KonselingSeeder extends Seeder
             $statusId = rand(1, 3); // acak antara Menunggu, Dijawab, Selesai
 
             Konseling::create([
-                'siswa_id' => $i, // pastikan siswa dengan id 1-20 ada
+                'siswa_id' => rand(1, 8), // acak antara ID 1–8
                 'status_id' => $statusId,
                 'kategori_konseling_id' => rand(1, 7),
                 'judul' => 'Konseling Dummy ' . $i,

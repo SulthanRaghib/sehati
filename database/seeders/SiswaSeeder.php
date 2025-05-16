@@ -14,7 +14,7 @@ class SiswaSeeder extends Seeder
     public function run(): void
     {
         $siswas = [];
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 8; $i++) {
             $siswas[] = [
                 'nisn' => '12345678' . str_pad($i, 2, '0', STR_PAD_LEFT),
                 'nama' => 'Siswa ' . $i,

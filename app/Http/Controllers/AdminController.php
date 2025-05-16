@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agama;
+use App\Models\Artikel;
 use App\Models\Guru;
 use App\Models\KategoriKonseling;
 use App\Models\Kelas;
@@ -141,8 +142,20 @@ class AdminController extends Controller
         // Ambil total data konseling
         $konselingCount = Konseling::count();
 
+        // Ambil total Konseling Belum Dijawab
+        $konselingPending = Konseling::where('status_id', 1)->count();
+
+        // Ambil total siswa
+        $siswaCount = Siswa::count();
+
         // Ambil total siswa yang sudah melakukan konseling
-        $siswaCount = Siswa::whereHas('konseling')->count();
+        $siswaKonselingCount = Siswa::whereHas('konseling')->count();
+
+        // Ambil total Artikel publish
+        $artikelPublishCount = Artikel::where('status', 'publish')->count();
+
+        // Ambil total kategori konseling
+        $kategoriKonselingCount = KategoriKonseling::count();
 
         return view('dashboard.index', compact(
             'title',
@@ -150,8 +163,12 @@ class AdminController extends Controller
             'guru',
             'guruCount',
             'konselingCount',
+            'konselingPending',
+            'siswaKonselingCount',
             'siswaCount',
+            'kategoriKonselingCount',
             'topSiswa',
+            'artikelPublishCount',
             'chartLabels',
             'chartData',
             'blok_bulan',
