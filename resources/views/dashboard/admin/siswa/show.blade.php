@@ -39,8 +39,8 @@
                             <div class="tab-pane fade show active" id="preview" role="tabpanel">
                                 <div class="row">
                                     <!-- Sidebar Identitas Siswa -->
-                                    <div class="col-md-4">
-                                        <div class="card shadow-sm mb-4">
+                                    <div class="col-12 col-md-12 col-lg-4">
+                                        <div class="card shadow-sm mb-4 h-100">
                                             <div class="card-body text-center position-relative">
                                                 <div class="position-relative d-inline-block">
                                                     @if ($siswa->avatar)
@@ -54,11 +54,21 @@
                                                     @endif
                                                 </div>
 
-                                                <h5 class="mb-1">{!! $siswa->nama ?? '<span class="text-danger">Nama belum diisi</span>' !!}</h5>
-                                                <p class="text-muted mb-1">NISN: {!! $siswa->nisn ?? '<span class="text-danger">NISN belum diisi</span>' !!}</p>
-                                                <span class="badge bg-primary d-inline-block mb-2">
-                                                    {!! $siswa->user->email ?? '<span class="text-danger">Email belum diisi</span>' !!}
-                                                </span>
+                                                <h5 class="mb-1">
+                                                    {!! $siswa->nama ?? '<span class="text-danger">Nama belum diisi</span>' !!}
+                                                </h5>
+                                                <p class="text-muted mb-1">
+                                                    NISN:
+                                                    {!! $siswa->nisn ?? '<span class="text-danger">NISN belum diisi</span>' !!}
+                                                </p>
+
+                                                <div class="d-flex justify-content-center flex-wrap mb-2">
+                                                    <div class="badge bg-primary text-truncate px-3 py-2"
+                                                        style="max-width: 100%; word-break: break-all;">
+                                                        {!! $siswa->user->email ?? '<span class="text-danger">Email belum diisi</span>' !!}
+                                                    </div>
+                                                </div>
+
                                                 <p class="text-muted mb-0">
                                                     Tahun Akademik:
                                                     {!! $siswa->tahunAkademik->periode ?? '<span class="text-danger">Tahun Akademik tidak tersedia</span>' !!}
@@ -67,8 +77,9 @@
                                         </div>
                                     </div>
 
+
                                     <!-- Detail Biodata Siswa -->
-                                    <div class="col-md-8">
+                                    <div class="col-12 col-md-12 col-lg-8">
                                         <div class="card shadow-sm">
                                             <div class="card-header border-bottom d-flex justify-content-between mb-3">
                                                 <ul class="nav nav-tabs card-header-tabs" id="profileTabs" role="tablist">
