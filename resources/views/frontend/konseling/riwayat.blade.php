@@ -50,7 +50,7 @@
                         @foreach ($konseling as $k)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $k->kategoriKonseling->nama_kategori }}</td>
+                                <td>{{ $k->kategoriKonseling->nama_kategori ?? 'Tidak Diketahui' }}</td>
                                 <td>{{ Str::limit($k->isi_konseling, 100) }}</td>
                                 <td>
                                     @switch($k->status_id)

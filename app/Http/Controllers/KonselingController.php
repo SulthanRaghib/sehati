@@ -362,7 +362,7 @@ class KonselingController extends Controller
         $konseling = Konseling::create([
             'judul' => $request->judul,
             'isi_konseling' => $request->isi_konseling,
-            'kategori_konseling' => $request->kategori_konseling,
+            'kategori_konseling_id' => $request->kategori_konseling,
             'siswa_id' => Auth::user()->userable->id,
             'status_id' => 1,
             'tanggal_konseling' => now(),
@@ -391,6 +391,7 @@ class KonselingController extends Controller
             ->get();
         $kategoriKonseling = KategoriKonseling::all();
 
+        // dd($konseling);
         return view('frontend.konseling.riwayat', compact('title', 'konseling', 'kategoriKonseling'));
     }
 
