@@ -20,15 +20,15 @@
     <div id="auth">
         <div class="container">
             <div class="row">
-                <div class="col-md-5 col-sm-12 mx-auto">
+                <div class="col-12 col-md-8 col-lg-5 mx-auto">
                     <div class="card pt-4">
                         <div class="card-body">
                             <div class="text-center mb-5">
                                 <img src="{{ url('mine/img/logo_tanpa_text_png.png') }}" height="48"
                                     class="mb-4" />
                                 <h3>Login</h3>
-                                <p class="mb-1">Sign in to your account to continue</p>
-                                <a href="{{ url('/') }}">Back to Home</a>
+                                <p class="mb-1">Silahkan login untuk melanjutkan</p>
+                                <a href="{{ url('/') }}">Kembali ke Halaman Utama</a>
                             </div>
                             <form action="{{ route('login') }}" method="POST">
                                 @csrf
