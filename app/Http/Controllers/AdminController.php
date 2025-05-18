@@ -558,13 +558,24 @@ class AdminController extends Controller
     }
 
     // SISWA =================================================================================
-    public function siswa()
+    public function siswa(Request $request)
     {
         $title = 'Data Siswa';
-        $siswa = Siswa::orderBy('created_at', 'desc')->get();
 
-        return view('dashboard.admin.siswa.index', compact('title', 'siswa'));
+        $kelasList = Kelas::orderBy('tingkat')->get(); // untuk opsi dropdown
+
+        $siswa = Siswa::with('kelas')
+            ->when($request->filled('kelas_id'), function ($query) use ($request) {
+                $query->where('kelas_id', $request->kelas_id);
+            })
+            ->orderBy('kelas_id', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('dashboard.admin.siswa.index', compact('title', 'siswa', 'kelasList'));
     }
+
+
 
     public function showSiswa($id)
     {

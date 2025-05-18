@@ -60,8 +60,33 @@
         <section class="section">
             <div class="card">
                 <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <p class="text-subtitle text-muted">Manage Data Siswa</p>
+                    <div class="d-flex justify-content-between align-items-center" style="gap: 10px">
+                        <div>
+                            <p class="text-subtitle text-muted">Manage Data Siswa</p>
+                            <form method="GET" action="{{ route('admin.siswa') }}" class="mb-4">
+                                <div class="row g-2 align-items-end">
+                                    <div class="col-md-8">
+                                        <label for="kelas_id" class="form-label">Filter Kelas</label>
+                                        <select name="kelas_id" id="kelas_id" class="form-select">
+                                            <option value="">-- Semua Kelas --</option>
+                                            @foreach ($kelasList as $kelas)
+                                                <option value="{{ $kelas->id }}"
+                                                    {{ request('kelas_id') == $kelas->id ? 'selected' : '' }}>
+                                                    {{ $kelas->tingkat }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="submit" class="btn btn-primary" style="width: 130px">
+                                            <i class="bi bi-funnel-fill"></i>
+                                            Terapkan
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
                         <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary">Add Siswa</a>
                     </div>
                 </div>

@@ -118,7 +118,7 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ \Carbon\Carbon::parse($k->tanggal_konseling)->translatedFormat('d F Y') }}
                                             </td>
-                                            <td>{{ $k->judul }}</td>
+                                            <td>{{ $k->kategoriKonseling->nama_kategori }}</td>
                                             <td>{{ $k->isi_konseling }}</td>
                                             <td>
                                                 @if ($k->status_id == 1)
@@ -167,17 +167,25 @@
                                                                             <td>{!! $k->siswa->nama ?? '<span class="text-danger">Tidak ada</span>' !!}</td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <th>Judul</th>
-                                                                            <td>{{ $k->judul }}</td>
+                                                                            <th>Topik Konseling</th>
+                                                                            <td>{{ $k->kategoriKonseling->nama_kategori }}
+                                                                            </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Pesan Konseling</th>
                                                                             <td>{{ $k->isi_konseling }}</td>
                                                                         </tr>
                                                                         <tr>
+                                                                            <th>Judul</th>
+                                                                            <td>{{ $k->judul }}</td>
+                                                                        </tr>
+                                                                        <tr>
                                                                             <th>Jawaban</th>
-                                                                            <td>
-                                                                                {!! $k->jawaban->isi_jawaban !!}</td>
+                                                                            <td>{!! $k->jawaban->isi_jawaban !!}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Dijawab Oleh</th>
+                                                                            <td>{{ $k->jawaban->guru->nama }}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Tanggal Jawaban</th>
@@ -230,18 +238,21 @@
                                                                             <td>{!! $k->siswa->nama ?? '<span class="text-danger">Tidak ada</span>' !!}</td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <th>Judul</th>
-                                                                            <td>{{ $k->judul }}</td>
+                                                                            <th>Topik Konseling</th>
+                                                                            <td>{{ $k->kategoriKonseling->nama_kategori }}
+                                                                            </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Pesan Konseling</th>
-                                                                            <td>
-                                                                                {{ $k->isi_konseling }}</td>
+                                                                            <td>{{ $k->isi_konseling }}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Jawaban</th>
-                                                                            <td>
-                                                                                {!! $k->jawaban->isi_jawaban !!}</td>
+                                                                            <td>{!! $k->jawaban->isi_jawaban !!}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Dijawab Oleh</th>
+                                                                            <td>{{ $k->jawaban->guru->nama }}</td>
                                                                         </tr>
                                                                         @php
                                                                             $rating = $k->jawaban->ratings ?? null;
