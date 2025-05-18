@@ -41,14 +41,6 @@
         .text-danger {
             color: red;
         }
-
-        .text-success {
-            color: green;
-        }
-
-        .text-warning {
-            color: orange;
-        }
     </style>
 </head>
 
@@ -56,52 +48,65 @@
     <h1 style="padding-bottom: 0px; margin-bottom: 0px">Riwayat Konseling</h1>
     {{-- Informasi filter --}}
     <div class="filter-info">
-        <p>
-            @php
-                $today = request()->get('today');
-                $bulan = request()->get('bulan');
-                $kelas = request()->get('kelas');
-                $kategori = request()->get('kategori');
-            @endphp
+        @php
+            $namaBulan = [
+                1 => 'Januari',
+                2 => 'Februari',
+                3 => 'Maret',
+                4 => 'April',
+                5 => 'Mei',
+                6 => 'Juni',
+                7 => 'Juli',
+                8 => 'Agustus',
+                9 => 'September',
+                10 => 'Oktober',
+                11 => 'November',
+                12 => 'Desember',
+            ];
 
-        <p>
-            @if ($today)
-                Hari ini |
-            @endif
+            $filters = [];
 
-            @php
-                $namaBulan = [
-                    1 => 'Januari',
-                    2 => 'Februari',
-                    3 => 'Maret',
-                    4 => 'April',
-                    5 => 'Mei',
-                    6 => 'Juni',
-                    7 => 'Juli',
-                    8 => 'Agustus',
-                    9 => 'September',
-                    10 => 'Oktober',
-                    11 => 'November',
-                    12 => 'Desember',
+            if (request()->get('today') == '1') {
+                $filters[] = 'Hari ini';
+            } elseif (request()->get('today') == '7') {
+                $filters[] = '7 Hari Terakhir';
+            }
+
+            if (request()->get('bulan')) {
+                $bulanInt = (int) request()->get('bulan');
+                $filters[] =
+                    'Bulan: ' .
+                    ($namaBulan[$bulanInt] ?? '-') .
+                    (request()->get('tahun') ? ' ' . request()->get('tahun') : '');
+            } elseif (request()->get('tahun')) {
+                $filters[] = 'Tahun: ' . request()->get('tahun');
+            }
+
+            if (request()->get('kelas')) {
+                $filters[] = 'Kelas: ' . ($konseling->first()->siswa->kelas->tingkat ?? '-');
+            }
+
+            if (request()->get('kategori')) {
+                $filters[] = 'Kategori: ' . ($konseling->first()->kategoriKonseling->nama_kategori ?? '-');
+            }
+
+            if (request()->get('status')) {
+                $statusMap = [
+                    '1' => 'Belum Dibalas',
+                    '2' => 'Sudah Dibalas',
+                    '3' => 'Selesai',
                 ];
-            @endphp
 
-            @if ($bulan)
-                Bulan: {{ $namaBulan[(int) $bulan] ?? '-' }}{{ $tahun ? ' ' . $tahun : '' }}
-            @elseif ($tahun)
-                Tahun: {{ $tahun }} |
-            @endif
+                $statusValues = explode(',', request()->get('status'));
+                $statusLabels = collect($statusValues)->map(fn($s) => $statusMap[$s] ?? $s)->implode(', ');
 
+                $filters[] = 'Status: ' . $statusLabels;
+            }
+        @endphp
 
-            @if ($kelas)
-                Kelas: {{ $konseling->first()->siswa->kelas->tingkat ?? '-' }}
-            @endif
-
-            @if ($kategori)
-                Kategori: {{ $konseling->first()->kategoriKonseling->nama_kategori ?? '-' }}
-            @endif
-        </p>
+        <p style="margin-bottom: 0px">Filter: {{ implode(' | ', $filters) }}</p>
     </div>
+    <p style="margin-top: 0px; padding-top: 0px">Tanggal Cetak: {{ now()->format('d-m-Y H:i:s') }}</p>
 
     <table>
         <thead>
@@ -138,14 +143,15 @@
 
                     <td>
                         @if ($item->jawaban && $item->jawaban->ratings)
-                            1/{{ $item->jawaban->ratings->rating ?? 'Belum ada Rating' }},
-                            {{ $item->jawaban->ratings->komentar ?? 'Tidak berkomentar' }}
+                            {{ $item->jawaban->ratings->rating }}/5,
+                            "{{ $item->jawaban->ratings->komentar ?? 'Tidak berkomentar' }}"
                         @elseif ($item->jawaban)
                             <span class="text-danger">Belum ada Rating dan Komentar</span>
                         @else
                             <span class="text-danger">Belum ada Jawaban</span>
                         @endif
                     </td>
+
 
                     <td>
                         @if ($item->status_id == '1')

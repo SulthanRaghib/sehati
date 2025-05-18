@@ -22,7 +22,7 @@ class KonselingExport implements FromCollection, WithHeadings, WithEvents, WithC
 
     public function startCell(): string
     {
-        return 'A3';
+        return 'A4'; // Data dimulai dari A4
     }
 
     public function collection()
@@ -38,6 +38,15 @@ class KonselingExport implements FromCollection, WithHeadings, WithEvents, WithC
             ->when($this->filters['bulan'] ?? null, fn($q) => $q->whereMonth('tanggal_konseling', $this->filters['bulan']))
             ->when($this->filters['tahun'] ?? null, fn($q) => $q->whereYear('tanggal_konseling', $this->filters['tahun']))
             ->when($this->filters['kelas'] ?? null, fn($q) => $q->whereHas('siswa', fn($q) => $q->where('kelas_id', $this->filters['kelas'])))
+            ->when($this->filters['status'] ?? null, function ($q) {
+                $status = explode(',', $this->filters['status']);
+                if (count($status) > 1) {
+                    $q->whereIn('status_id', $status);
+                } else {
+                    $q->where('status_id', $status[0]);
+                }
+            })
+
             ->when($this->filters['kategori'] ?? null, fn($q) => $q->where('kategori_konseling_id', $this->filters['kategori']))
             ->get()
             ->map(function ($item) {
@@ -46,16 +55,30 @@ class KonselingExport implements FromCollection, WithHeadings, WithEvents, WithC
                     'Nama Siswa' => $item->siswa->nama ?? 'N/A',
                     'Kelas' => $item->siswa->kelas->tingkat ?? 'N/A',
                     'Kategori Konseling' => $item->kategoriKonseling->nama_kategori ?? 'N/A',
-                    'Isi Jawaban' => strip_tags($item->jawaban->isi_jawaban ?? 'Belum ada jawaban'),
-                    'Penjawab' => $item->jawaban->guru->nama ?? 'N/A',
-                    'Rating dan Komentar' => '1/' . ($item->jawaban->ratings->rating ?? 'Belum ada Rating') . ', ' . ($item->jawaban->ratings->komentar ?? 'Tidak berkomentar'),
+                    'Isi Konseling' => strip_tags($item->isi_konseling ?? '-'),
+                    'Jawaban Guru' => strip_tags($item->jawaban->isi_jawaban ?? 'Belum ada jawaban'),
+                    'Penjawab' => $item->jawaban->guru->nama ?? 'Belum ada jawaban',
+                    'Rating dan Komentar' => $item->jawaban && $item->jawaban->ratings
+                        ? "⭐ " . $item->jawaban->ratings->rating . ' / 5, "' . $item->jawaban->ratings->komentar . '"'
+                        : 'Belum ada rating atau komentar',
+                    'Status Konseling' => $item->status->nama ?? 'Tidak diketahui',
                 ];
             });
     }
 
     public function headings(): array
     {
-        return ['Tanggal', 'Nama Siswa', 'Kelas', 'Kategori Konseling', 'Isi Jawaban', 'Penjawab', 'Rating dan Komentar'];
+        return [
+            'Tanggal',
+            'Nama Siswa',
+            'Kelas',
+            'Kategori Konseling',
+            'Isi Konseling',
+            'Jawaban Guru',
+            'Penjawab',
+            'Rating dan Komentar',
+            'Status Konseling',
+        ];
     }
 
     public function registerEvents(): array
@@ -63,7 +86,7 @@ class KonselingExport implements FromCollection, WithHeadings, WithEvents, WithC
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 // Judul utama
-                $event->sheet->mergeCells('A1:G1');
+                $event->sheet->mergeCells('A1:I1');
                 $event->sheet->setCellValue('A1', 'Riwayat Konseling');
                 $event->sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
                 $event->sheet->getStyle('A1')->getAlignment()->setHorizontal('center');
@@ -114,14 +137,50 @@ class KonselingExport implements FromCollection, WithHeadings, WithEvents, WithC
                     $infoFilter[] = 'Kategori: ' . ($kategori->nama_kategori ?? '-');
                 }
 
+                if ($this->filters['status'] ?? false) {
+                    $statusLabel = [
+                        '1' => 'Belum Dibalas',
+                        '2' => 'Sudah Dibalas',
+                        '3' => 'Selesai',
+                    ];
+
+                    $statusValues = explode(',', $this->filters['status']);
+                    $statusNames = collect($statusValues)
+                        ->map(fn($val) => $statusLabel[trim($val)] ?? 'Status Tidak Dikenal')
+                        ->implode(' & ');
+
+                    $infoFilter[] = 'Status: ' . $statusNames;
+                }
+
                 $filterText = implode(' | ', $infoFilter);
-                $event->sheet->mergeCells('A2:G2');
-                $event->sheet->setCellValue('A2', $filterText);
+                $event->sheet->mergeCells('A2:I2');
+                $event->sheet->setCellValue('A2', 'Filter: ' . $filterText);
                 $event->sheet->getStyle('A2')->getFont()->setItalic(true);
                 $event->sheet->getStyle('A2')->getAlignment()->setHorizontal('center');
+                // Set wrap text untuk kolom E (Isi Konseling), F (Jawaban Guru) dan H (Rating dan Komentar)
+                $event->sheet->getStyle('E4:E' . ($event->sheet->getHighestRow()))->getAlignment()->setWrapText(true);
+                $event->sheet->getStyle('F4:F' . ($event->sheet->getHighestRow()))->getAlignment()->setWrapText(true);
+                $event->sheet->getStyle('H4:H' . ($event->sheet->getHighestRow()))->getAlignment()->setWrapText(true);
+                // Set lebar kolom
+                $event->sheet->getColumnDimension('A')->setWidth(15);
+                $event->sheet->getColumnDimension('B')->setWidth(25);
+                $event->sheet->getColumnDimension('C')->setWidth(7);
+                $event->sheet->getColumnDimension('D')->setWidth(25);
+                $event->sheet->getColumnDimension('E')->setWidth(30);
+                $event->sheet->getColumnDimension('F')->setWidth(30);
+                $event->sheet->getColumnDimension('G')->setWidth(20);
+                $event->sheet->getColumnDimension('H')->setWidth(30);
+                $event->sheet->getColumnDimension('I')->setWidth(15);
+                // Set vertical align top untuk semua data mulai dari baris 4
+                $event->sheet->getStyle('A4:I' . ($event->sheet->getHighestRow()))->getAlignment()->setVertical('top');
 
-                // Bold header (baris 3)
-                $event->sheet->getStyle('A3:G3')->getFont()->setBold(true);
+                // Baris A3 = Tanggal Cetak
+                $event->sheet->mergeCells('A3:I3');
+                $event->sheet->setCellValue('A3', 'Tanggal Cetak: ' . now()->format('d-m-Y H:i:s'));
+                $event->sheet->getStyle('A3')->getAlignment()->setHorizontal('center');
+
+                // Bold header A4
+                $event->sheet->getStyle('A4:I4')->getFont()->setBold(true);
             },
         ];
     }

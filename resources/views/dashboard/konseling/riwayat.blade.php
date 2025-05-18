@@ -137,7 +137,7 @@
                                 <div class="col-lg-2 col-md-4">
                                     <label class="form-label">Status</label>
                                     <select name="status" class="form-select">
-                                        <option value="">Semua Status</option>
+                                        <option value="2,3">Semua Status</option>
                                         {{-- <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Belum
                                             Dijawab</option> --}}
                                         <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>Sudah
@@ -154,7 +154,7 @@
                                     <button type="submit" class="btn btn-primary d-flex" style="gap: 3px">
                                         <i class="bi bi-filter"></i> Filter
                                     </button>
-                                    <a href="{{ route('admin.konseling') }}" class="btn btn-outline-secondary d-flex"
+                                    <a href="{{ route('konseling.riwayat') }}" class="btn btn-outline-secondary d-flex"
                                         style="gap: 3px">
                                         <i class="bi bi-arrow-counterclockwise"></i> Reset
                                     </a>

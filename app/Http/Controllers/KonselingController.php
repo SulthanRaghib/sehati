@@ -239,6 +239,10 @@ class KonselingController extends Controller
             ->when($request->tahun, fn($q) => $q->whereYear('tanggal_konseling', (int) $request->tahun))
             ->when($request->kelas, fn($q) => $q->whereHas('siswa', fn($q) => $q->where('kelas_id', $request->kelas)))
             ->when($request->kategori, fn($q) => $q->where('kategori_konseling_id', $request->kategori))
+            ->when($request->status, function ($q) use ($request) {
+                $statusArray = explode(',', $request->status);
+                $q->whereIn('status_id', $statusArray);
+            })
             ->get();
 
         if ($konseling->isEmpty()) {
@@ -249,6 +253,7 @@ class KonselingController extends Controller
         $kategoriName = null;
         $bulanName = null;
         $tahunName = null;
+        $statusName = null;
 
         if ($request->kelas) {
             $kelasModel = Kelas::find($request->kelas);
@@ -268,8 +273,22 @@ class KonselingController extends Controller
             $tahunName = $request->tahun;
         }
 
+        if ($request->status) {
+            $statusLabel = [
+                '1' => 'belum-dibalas',
+                '2' => 'sudah-dibalas',
+                '3' => 'selesai',
+            ];
+
+            $statusValues = explode(',', $request->status);
+            $statusName = collect($statusValues)
+                ->map(fn($val) => $statusLabel[trim($val)] ?? 'lainnya')
+                ->implode('_');
+        }
+
         $tahun = $request->tahun ?? null;
 
+        // Penamaan file
         $timestamp = now()->format('Ymd_His');
         $filename = "{$timestamp}_konseling";
 
@@ -295,6 +314,10 @@ class KonselingController extends Controller
             $filename .= "_kategori-{$kategoriName}";
         }
 
+        if ($statusName) {
+            $filename .= "_status-{$statusName}";
+        }
+
         $filename .= ".pdf";
 
         $pdf = Pdf::loadView('dashboard.konseling.exports.konseling_pdf', compact('konseling', 'request', 'tahun'))
@@ -302,7 +325,6 @@ class KonselingController extends Controller
 
         return $pdf->download($filename);
     }
-
 
     public function downloadExcel(Request $request)
     {
@@ -318,16 +340,15 @@ class KonselingController extends Controller
             ->when($request->tahun, fn($q) => $q->whereYear('tanggal_konseling', (int) $request->tahun))
             ->when($request->kelas, fn($q) => $q->whereHas('siswa', fn($q) => $q->where('kelas_id', $request->kelas)))
             ->when($request->kategori, fn($q) => $q->where('kategori_konseling_id', $request->kategori))
+            ->when($request->status, function ($q) use ($request) {
+                $statusArray = explode(',', $request->status);
+                $q->whereIn('status_id', $statusArray);
+            })
             ->get();
 
         if ($konseling->isEmpty()) {
             return redirect()->back()->with('no-data', 'Data tidak ditemukan berdasarkan filter yang dipilih.');
         }
-
-        $kelasName = null;
-        $kategoriName = null;
-        $bulanName = null;
-        $tahunName = null;
 
         $bulanIndo = [
             1 => 'Januari',
@@ -344,9 +365,15 @@ class KonselingController extends Controller
             12 => 'Desember',
         ];
 
+        $kelasName = null;
+        $kategoriName = null;
+        $bulanName = null;
+        $tahunName = null;
+        $statusName = null;
+
         if ($request->kelas) {
             $kelasModel = Kelas::find($request->kelas);
-            $kelasName = $kelasModel ? "{$kelasModel->tingkat}" : null;
+            $kelasName = $kelasModel ? $kelasModel->tingkat : null;
         }
 
         if ($request->kategori) {
@@ -356,15 +383,27 @@ class KonselingController extends Controller
 
         if ($request->bulan !== null && $request->bulan !== '') {
             $bulan = (int) $request->bulan;
-            if ($bulan >= 1 && $bulan <= 12) {
-                $bulanName = $bulanIndo[$bulan];
-            }
+            $bulanName = $bulanIndo[$bulan] ?? null;
         }
 
         if ($request->tahun !== null && $request->tahun !== '') {
             $tahunName = (int) $request->tahun;
         }
 
+        if ($request->status) {
+            $statusLabel = [
+                '1' => 'belum-dibalas',
+                '2' => 'sudah-dibalas',
+                '3' => 'selesai',
+            ];
+
+            $statusValues = explode(',', $request->status);
+            $statusName = collect($statusValues)
+                ->map(fn($val) => $statusLabel[trim($val)] ?? 'lainnya')
+                ->implode('_');
+        }
+
+        // Penamaan file
         $timestamp = now()->format('Ymd_His');
         $filename = "{$timestamp}_konseling";
 
@@ -390,11 +429,14 @@ class KonselingController extends Controller
             $filename .= "_kategori-{$kategoriName}";
         }
 
+        if ($statusName) {
+            $filename .= "_status-{$statusName}";
+        }
+
         $filename .= ".xlsx";
 
         return Excel::download(new KonselingExport($request->all()), $filename);
     }
-
 
     // Siswa ==========================================================================
     public function siswaKonseling()
