@@ -38,7 +38,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Data Konseling Masuk</h3>
+                    <h3>Riwayat Data Konseling</h3>
 
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
@@ -64,10 +64,10 @@
                             data-toggle="modal" data-target="#konselingModal">Tambah Konseling</a> --}}
                     </div>
                     <div class="card shadow-sm rounded-4 mb-4">
-                        <form method="GET" action="{{ route('admin.konseling') }}" class="p-4">
+                        <form method="GET" action="{{ route('konseling.riwayat') }}" class="p-4">
                             <div class="row gy-3 gx-4 align-items-end">
 
-                                <div class="col-lg-4 col-md-4">
+                                <div class="col-lg-2 col-md-4">
                                     <label class="form-label">Kategori Konseling</label>
                                     <select name="kategori" class="form-select">
                                         <option value="">Semua Kategori</option>
@@ -134,6 +134,21 @@
                                     </select>
                                 </div>
 
+                                <div class="col-lg-2 col-md-4">
+                                    <label class="form-label">Status</label>
+                                    <select name="status" class="form-select">
+                                        <option value="">Semua Status</option>
+                                        {{-- <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Belum
+                                            Dijawab</option> --}}
+                                        <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>Sudah
+                                            Dibalas</option>
+                                        <option value="3" {{ request('status') == '3' ? 'selected' : '' }}>Selesai
+                                        </option>
+                                        {{-- <option value="2,3" {{ request('status') == '2,3' ? 'selected' : '' }}>Sudah
+                                            Dibalas & Selesai</option> --}}
+                                    </select>
+                                </div>
+
                                 {{-- button --}}
                                 <div class="col-12 d-flex flex-wrap justify-content-end mt-3" style="gap: 10px">
                                     <button type="submit" class="btn btn-primary d-flex" style="gap: 3px">
@@ -142,6 +157,14 @@
                                     <a href="{{ route('admin.konseling') }}" class="btn btn-outline-secondary d-flex"
                                         style="gap: 3px">
                                         <i class="bi bi-arrow-counterclockwise"></i> Reset
+                                    </a>
+                                    <a href="{{ route('admin.konseling.download.excel', request()->query()) }}"
+                                        class="btn btn-outline-success d-flex" style="gap: 3px">
+                                        <i class="bi bi-file-earmark-excel"></i> Download Excel
+                                    </a>
+                                    <a href="{{ route('admin.konseling.download.pdf', request()->query()) }}"
+                                        target="_blank" class="btn btn-outline-danger d-flex" style="gap: 3px">
+                                        <i class="bi bi-file-earmark-pdf"></i> Download PDF
                                     </a>
                                 </div>
                             </div>
@@ -201,8 +224,9 @@
                                                     <i class="bi bi-eye-fill"></i>
                                                 </button>
                                                 <!-- Modal Detail -->
-                                                <div class="modal fade" id="detailModal{{ $a->id }}" tabindex="-1"
-                                                    aria-labelledby="detailLabel{{ $a->id }}" aria-hidden="true">
+                                                <div class="modal fade" id="detailModal{{ $a->id }}"
+                                                    tabindex="-1" aria-labelledby="detailLabel{{ $a->id }}"
+                                                    aria-hidden="true">
                                                     <div class="modal-dialog modal-lg">
                                                         <div class="modal-content">
                                                             <div class="modal-header">

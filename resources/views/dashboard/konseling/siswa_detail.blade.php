@@ -116,7 +116,7 @@
                                     @foreach ($siswa->konseling as $k)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($k->created_at)->translatedFormat('d F Y') }}
+                                            <td>{{ \Carbon\Carbon::parse($k->tanggal_konseling)->translatedFormat('d F Y') }}
                                             </td>
                                             <td>{{ $k->judul }}</td>
                                             <td>{{ $k->isi_konseling }}</td>

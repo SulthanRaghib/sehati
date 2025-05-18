@@ -17,8 +17,15 @@
                 <li class="sidebar-title">Bimbingan Konseling</li>
                 <li class="sidebar-item {{ Route::is('admin.konseling*') ? 'active' : '' }}">
                     <a href="{{ route('admin.konseling') }}" class="sidebar-link" onclick="markAsRead()">
-                        <i data-feather="book" width="20"></i>
-                        <span style="color: black; font-weight:500">Konseling</span>
+                        <i data-feather="message-square" width="20"></i>
+                        <span style="color: black; font-weight:500">Konseling Masuk</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item {{ Route::is('konseling.riwayat*') ? 'active' : '' }}">
+                    <a href="{{ route('konseling.riwayat') }}" class="sidebar-link">
+                        <i data-feather="book-open" width="20"></i>
+                        <span style="color: black; font-weight:500">Riwayat Konseling</span>
                     </a>
                 </li>
 

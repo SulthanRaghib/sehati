@@ -24,6 +24,7 @@ class KonselingController extends Controller
     public function adminIndex(Request $request)
     {
         $title = 'Konseling';
+
         $konseling = Konseling::with('siswa', 'status', 'jawaban', 'kategoriKonseling')
             ->when($request->today, function ($query) use ($request) {
                 if ($request->today == '1') {
@@ -47,26 +48,21 @@ class KonselingController extends Controller
                 $query->where('kategori_konseling_id', $request->kategori);
             })
             ->when($request->filled('status'), function ($query) use ($request) {
-                // Ubah string "2,3" menjadi array [2, 3]
                 $statusArray = explode(',', $request->status);
-
-                // Pastikan hanya angka valid
                 $statusArray = array_filter($statusArray, fn($value) => is_numeric($value));
-
-                // Gunakan whereIn jika lebih dari satu, otherwise where biasa
-                if (count($statusArray) > 1) {
+                if (count($statusArray) > 0) {
                     $query->whereIn('status_id', $statusArray);
-                } elseif (count($statusArray) === 1) {
-                    $query->where('status_id', $statusArray[0]);
                 }
+            }, function ($query) {
+                // Jika status kosong, default ambil status_id = 1
+                $query->where('status_id', 1);
             })
-
             ->orderByRaw('
             CASE
                 WHEN EXISTS (SELECT 1 FROM jawabans WHERE jawabans.konseling_id = konselings.id) THEN 1
                 ELSE 0
             END ASC
-        ')
+            ')
             ->orderBy('tanggal_konseling', 'desc')
             ->get();
 
@@ -75,6 +71,59 @@ class KonselingController extends Controller
 
         return view('dashboard.konseling.index', compact('title', 'konseling', 'kelasList', 'kategoriList'));
     }
+
+
+    public function adminRiwayat(Request $request)
+    {
+        $title = 'Konseling';
+
+        $konseling = Konseling::with('siswa', 'status', 'jawaban', 'kategoriKonseling')
+            ->when($request->today, function ($query) use ($request) {
+                if ($request->today == '1') {
+                    $query->whereDate('tanggal_konseling', Carbon::today());
+                } elseif ($request->today == '7') {
+                    $query->whereDate('tanggal_konseling', '>=', Carbon::now()->subDays(7));
+                }
+            })
+            ->when($request->filled('bulan'), function ($query) use ($request) {
+                $query->whereMonth('tanggal_konseling', $request->bulan);
+            })
+            ->when($request->filled('tahun'), function ($query) use ($request) {
+                $query->whereYear('tanggal_konseling', $request->tahun);
+            })
+            ->when($request->filled('kelas'), function ($query) use ($request) {
+                $query->whereHas('siswa', function ($q) use ($request) {
+                    $q->where('kelas_id', $request->kelas);
+                });
+            })
+            ->when($request->filled('kategori'), function ($query) use ($request) {
+                $query->where('kategori_konseling_id', $request->kategori);
+            })
+            ->when($request->filled('status'), function ($query) use ($request) {
+                $statusArray = explode(',', $request->status);
+                $statusArray = array_filter($statusArray, fn($value) => is_numeric($value));
+                if (count($statusArray) > 0) {
+                    $query->whereIn('status_id', $statusArray);
+                }
+            }, function ($query) {
+                // Jika tidak ada filter status, ambil status_id 2 dan 3 sebagai default
+                $query->whereIn('status_id', [2, 3]);
+            })
+            ->orderByRaw('
+            CASE
+                WHEN EXISTS (SELECT 1 FROM jawabans WHERE jawabans.konseling_id = konselings.id) THEN 1
+                ELSE 0
+            END ASC
+            ')
+            ->orderBy('tanggal_konseling', 'desc')
+            ->get();
+
+        $kelasList = Kelas::all();
+        $kategoriList = KategoriKonseling::all();
+
+        return view('dashboard.konseling.riwayat', compact('title', 'konseling', 'kelasList', 'kategoriList'));
+    }
+
 
     public function siswaDetail($id)
     {

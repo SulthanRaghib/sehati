@@ -78,7 +78,8 @@
 
                                     <td class="fw-semibold">Tanggal Konseling</td>
                                     <td>:</td>
-                                    <td>{{ $konseling->created_at->translatedFormat('d F Y, H:i') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($konseling->tanggal_konseling)->translatedFormat('l, d F Y') }}
+                                    </td>
                                 </tr>
                             </table>
                         </div>
