@@ -95,46 +95,50 @@
                                                         data-bs-placement="top" title="Edit Tahun Akademik"><i
                                                             class="bi bi-pencil-square"></i></a>
 
-                                                    {{-- Tombol Delete atau Lock --}}
-                                                    @if (!$a->is_active && $a->siswa->isEmpty())
-                                                        <form action="{{ route('admin.tahunAkademik.destroy', $a->id) }}"
-                                                            method="POST" class="d-inline form-delete">
-                                                            @csrf
-                                                            @method('delete')
-                                                            <button type="button" class="btn btn-sm btn-danger btn-delete"
-                                                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                title="Hapus Tahun Akademik"><i
-                                                                    class="bi bi-trash"></i></button>
+                                                    @if (Auth::user()->role == 'admin' || Auth::user()->role == 'developer')
+                                                        {{-- Tombol Delete --}}
+                                                        @if (!$a->is_active && $a->siswa->isEmpty())
+                                                            <form
+                                                                action="{{ route('admin.tahunAkademik.destroy', $a->id) }}"
+                                                                method="POST" class="d-inline form-delete">
+                                                                @csrf
+                                                                @method('delete')
+                                                                <button type="button"
+                                                                    class="btn btn-sm btn-danger btn-delete"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    title="Hapus Tahun Akademik"><i
+                                                                        class="bi bi-trash"></i></button>
 
-                                                            <script>
-                                                                // Seleksi semua tombol hapus
-                                                                document.querySelectorAll('.btn-delete').forEach(button => {
-                                                                    button.addEventListener('click', function(e) {
-                                                                        e.preventDefault(); // Mencegah form langsung terkirim
+                                                                <script>
+                                                                    // Seleksi semua tombol hapus
+                                                                    document.querySelectorAll('.btn-delete').forEach(button => {
+                                                                        button.addEventListener('click', function(e) {
+                                                                            e.preventDefault(); // Mencegah form langsung terkirim
 
-                                                                        // Ambil form terdekat dari tombol
-                                                                        const form = this.closest('.form-delete');
+                                                                            // Ambil form terdekat dari tombol
+                                                                            const form = this.closest('.form-delete');
 
-                                                                        // Tampilkan SweetAlert
-                                                                        Swal.fire({
-                                                                            title: 'Apakah Anda yakin?',
-                                                                            text: "Data Tahun Akademik ini akan dihapus secara permanen!",
-                                                                            icon: 'warning',
-                                                                            showCancelButton: true,
-                                                                            confirmButtonColor: '#d33',
-                                                                            cancelButtonColor: '#3085d6',
-                                                                            confirmButtonText: 'Ya, Hapus!',
-                                                                            cancelButtonText: 'Batal'
-                                                                        }).then((result) => {
-                                                                            if (result.isConfirmed) {
-                                                                                // Submit form jika dikonfirmasi
-                                                                                form.submit();
-                                                                            }
+                                                                            // Tampilkan SweetAlert
+                                                                            Swal.fire({
+                                                                                title: 'Apakah Anda yakin?',
+                                                                                text: "Data Tahun Akademik ini akan dihapus secara permanen!",
+                                                                                icon: 'warning',
+                                                                                showCancelButton: true,
+                                                                                confirmButtonColor: '#d33',
+                                                                                cancelButtonColor: '#3085d6',
+                                                                                confirmButtonText: 'Ya, Hapus!',
+                                                                                cancelButtonText: 'Batal'
+                                                                            }).then((result) => {
+                                                                                if (result.isConfirmed) {
+                                                                                    // Submit form jika dikonfirmasi
+                                                                                    form.submit();
+                                                                                }
+                                                                            });
                                                                         });
                                                                     });
-                                                                });
-                                                            </script>
-                                                        </form>
+                                                                </script>
+                                                            </form>
+                                                        @endif
                                                     @endif
                                                 </div>
                                             </td>
