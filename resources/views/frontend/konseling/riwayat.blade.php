@@ -219,8 +219,8 @@
                                                         <p>{{ $k->judul }}</p>
 
                                                         <strong>Topik Konseling:</strong>
-                                                        <p>{{ $k->kategoriKonseling->nama_kategori }}
-                                                            ({{ strtolower($k->kategoriKonseling->contoh_kategori) }})
+                                                        <p>{{ $k->kategoriKonseling->nama_kategori ?? 'Tidak Diketahui' }}
+                                                            ({{ strtolower($k->kategoriKonseling->contoh_kategori ?? 'Tidak Diketahui') }})
                                                         </p>
 
                                                         <strong>Cerita Lengkap:</strong>

@@ -118,7 +118,8 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ \Carbon\Carbon::parse($k->tanggal_konseling)->translatedFormat('d F Y') }}
                                             </td>
-                                            <td>{{ $k->kategoriKonseling->nama_kategori }}</td>
+                                            <td>{{ $k->kategoriKonseling->nama_kategori ?? '<span class="text-danger">Tidak ada kategori</span>' }}
+                                            </td>
                                             <td>{{ $k->isi_konseling }}</td>
                                             <td>
                                                 @if ($k->status_id == 1)
@@ -168,7 +169,7 @@
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Topik Konseling</th>
-                                                                            <td>{{ $k->kategoriKonseling->nama_kategori }}
+                                                                            <td>{{ $k->kategoriKonseling->nama_kategori ?? '<span class="text-danger">Tidak ada</span>' }}
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
@@ -185,7 +186,8 @@
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Dijawab Oleh</th>
-                                                                            <td>{{ $k->jawaban->guru->nama }}</td>
+                                                                            <td>{{ $k->jawaban->guru->nama ?? 'Guru tidak diketahui' }}
+                                                                            </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Tanggal Jawaban</th>
@@ -239,7 +241,7 @@
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Topik Konseling</th>
-                                                                            <td>{{ $k->kategoriKonseling->nama_kategori }}
+                                                                            <td>{{ $k->kategoriKonseling->nama_kategori ?? '<span class="text-danger">Tidak ada</span>' }}
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
@@ -252,7 +254,8 @@
                                                                         </tr>
                                                                         <tr>
                                                                             <th>Dijawab Oleh</th>
-                                                                            <td>{{ $k->jawaban->guru->nama }}</td>
+                                                                            <td>{{ $k->jawaban->guru->nama ?? 'Guru tidak diketahui' }}
+                                                                            </td>
                                                                         </tr>
                                                                         @php
                                                                             $rating = $k->jawaban->ratings ?? null;

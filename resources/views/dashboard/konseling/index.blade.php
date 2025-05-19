@@ -170,7 +170,7 @@
                                 @foreach ($konseling as $a)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $a->kategoriKonseling->nama_kategori }}</td>
+                                        <td>{{ $a->kategoriKonseling->nama_kategori ?? '<span class="text-danger">Tidak ada kategori</span>' }}
                                         <td>{{ Str::limit($a->isi_konseling, 40, '...') }}</td>
                                         <td>{!! $a->siswa->nama ?? '<span class="text-danger">Tidak ada siswa</span>' !!}</td>
                                         <td>{!! $a->siswa->kelas->tingkat ?? '<span class="text-danger">Tidak ada kelas</span>' !!}</td>
@@ -305,7 +305,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Dijawab Oleh</th>
-                                                                        <td>{{ $a->jawaban->guru->nama }}</td>
+                                                                        <td>{{ $a->jawaban->guru->nama ?? 'Guru tidak diketahui' }}
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Tanggal Jawaban</th>
@@ -376,7 +376,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Dijawab Oleh</th>
-                                                                        <td>{{ $a->jawaban->guru->nama }}</td>
+                                                                        <td>{{ $a->jawaban->guru->nama ?? 'Guru tidak diketahui' }}
                                                                     </tr>
                                                                     @php
                                                                         $rating = $a->jawaban->ratings ?? null;
