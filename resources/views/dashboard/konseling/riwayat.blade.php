@@ -137,7 +137,9 @@
                                 <div class="col-lg-2 col-md-4">
                                     <label class="form-label">Status</label>
                                     <select name="status" class="form-select">
-                                        <option value="2,3">Semua Status</option>
+                                        {{-- <option value="2,3">Semua Status</option> --}}
+                                        <option value="2,3" {{ request('status') == '2,3' ? 'selected' : '' }}>Sudah
+                                            Dibalas & Selesai</option>
                                         {{-- <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Belum
                                             Dijawab</option> --}}
                                         <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>Sudah
