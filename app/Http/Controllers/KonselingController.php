@@ -210,7 +210,7 @@ class KonselingController extends Controller
             'tanggal_jawaban' => now(),
         ]);
 
-        return redirect()->route('admin.konseling')->with('success', 'Jawaban berhasil diperbarui');
+        return redirect()->route('konseling.riwayat')->with('success', 'Jawaban berhasil diperbarui');
     }
 
     public function adminDestroy($id)
