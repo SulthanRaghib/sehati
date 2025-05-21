@@ -75,7 +75,7 @@ class KonselingController extends Controller
 
     public function adminRiwayat(Request $request)
     {
-        $title = 'Konseling';
+        $title = 'Riwayat Konseling';
 
         $konseling = Konseling::with('siswa', 'status', 'jawaban', 'kategoriKonseling')
             ->when($request->today, function ($query) use ($request) {
@@ -239,8 +239,8 @@ class KonselingController extends Controller
             ->when($request->tahun, fn($q) => $q->whereYear('tanggal_konseling', (int) $request->tahun))
             ->when($request->kelas, fn($q) => $q->whereHas('siswa', fn($q) => $q->where('kelas_id', $request->kelas)))
             ->when($request->kategori, fn($q) => $q->where('kategori_konseling_id', $request->kategori))
-            ->when($request->status, function ($q) use ($request) {
-                $statusArray = explode(',', $request->status);
+            ->when($request->status ?? '2,3', function ($q) use ($request) {
+                $statusArray = explode(',', $request->status ?? '2,3');
                 $q->whereIn('status_id', $statusArray);
             })
             ->get();
@@ -340,8 +340,8 @@ class KonselingController extends Controller
             ->when($request->tahun, fn($q) => $q->whereYear('tanggal_konseling', (int) $request->tahun))
             ->when($request->kelas, fn($q) => $q->whereHas('siswa', fn($q) => $q->where('kelas_id', $request->kelas)))
             ->when($request->kategori, fn($q) => $q->where('kategori_konseling_id', $request->kategori))
-            ->when($request->status, function ($q) use ($request) {
-                $statusArray = explode(',', $request->status);
+            ->when($request->status ?? '2,3', function ($q) use ($request) {
+                $statusArray = explode(',', $request->status ?? '2,3');
                 $q->whereIn('status_id', $statusArray);
             })
             ->get();
@@ -434,8 +434,16 @@ class KonselingController extends Controller
         }
 
         $filename .= ".xlsx";
+        $filterDownload = [
+            'today' => $request->today,
+            'bulan' => $request->bulan,
+            'tahun' => $request->tahun,
+            'kelas' => $request->kelas,
+            'kategori' => $request->kategori,
+            'status' => $request->status ?? '2,3',
+        ];
 
-        return Excel::download(new KonselingExport($request->all()), $filename);
+        return Excel::download(new KonselingExport($filterDownload), $filename);
     }
 
     // Siswa ==========================================================================
