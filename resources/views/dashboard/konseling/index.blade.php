@@ -225,7 +225,8 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Topik Konseling</th>
-                                                                        <td>{{ $a->kategoriKonseling->nama_kategori }}</td>
+                                                                        <td>{{ $a->kategoriKonseling->nama_kategori ?? '<span class="text-danger">Tidak ada kategori</span>' }}
+                                                                        </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th>Judul</th>
