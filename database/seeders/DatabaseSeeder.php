@@ -24,9 +24,9 @@ class DatabaseSeeder extends Seeder
             GuruSeeder::class,
             SiswaSeeder::class,
             UserSeeder::class,
-            KonselingSeeder::class,
-            JawabanSeeder::class,
-            RatingSeeder::class,
+           // KonselingSeeder::class,
+           // JawabanSeeder::class,
+           // RatingSeeder::class,
             ArtikelKategoriSeeder::class,
             ArtikelSeeder::class,
         ]);
